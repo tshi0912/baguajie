@@ -1,0 +1,47 @@
+/* baguajie styled notice css */
+.ui-pnotify.baguajie {
+	font-family: Microsoft Yahei;
+	text-shadow: 2px 2px 3px black;
+	font-size: 12px;
+}
+.ui-pnotify.baguajie .ui-widget {
+    font-family: Microsoft Yahei;
+    font-size: 12px;
+}
+.ui-pnotify.baguajie .ui-pnotify-container {
+	border: 1px solid #eee;
+	opacity: 0.8;
+	background: url("../img/bg-black.png") repeat scroll 0 0 transparent;
+	border-radius: 4px;
+}
+.ui-pnotify.baguajie .ui-icon-close{
+	background-image: url("../img/glyphicons-halflings-white.png");
+	background-position: -312px 0;
+	height: 14px;
+    line-height: 14px;
+    vertical-align: text-top;
+    width: 14px;
+}
+.ui-pnotify.baguajie .ui-pnotify-title {
+	color: #fff;
+    font-weight: bold;
+    padding-left: 30px;
+    padding-right: 50px;
+}
+.ui-pnotify.baguajie .ui-pnotify-text {
+	padding-left: 50px;
+	color: #FFF;
+}
+.ui-pnotify.baguajie .ui-pnotify-closer {
+	position: absolute;
+	right: 10px;
+    top: 10px;
+}
+.ui-pnotify.baguajie .ui-pnotify-icon {
+	float: left;
+}
+.ui-pnotify.baguajie .picon {
+	margin: 3px;
+	width: 33px;
+	height: 33px;
+} 
