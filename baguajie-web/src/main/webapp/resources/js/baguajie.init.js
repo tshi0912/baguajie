@@ -1,5 +1,5 @@
 /* web context variable setup */
-var web_context = '/baguajie';
+var web_context = '/baguajie-web';
 
 
 /* init for jquery.pnotify */
