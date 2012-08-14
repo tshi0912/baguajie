@@ -12,6 +12,7 @@
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/baguajie-base.css" />" />
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/baguajie-theme.css" />" />
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/uploadify.css" />" />
+	<script type="text/javascript" src="<c:url value="/resources/js/ga.js" />" ></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/jquery.1.7.1.js" />" ></script>
 </head>
 <body>
