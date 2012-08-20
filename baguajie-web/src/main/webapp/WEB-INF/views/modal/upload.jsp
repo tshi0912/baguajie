@@ -92,6 +92,7 @@
 			var addr = $('#net-address').val();
 			if($.trim(addr)){
 				$('#spot-image').attr('src', addr);
+				$('#image-url-hid').val(addr);
 				$('#upload-image-modal').modal('hide');
 				$('#net-address').val('');
 			}
