@@ -588,7 +588,13 @@
 
       clearMenus()
       !isActive && $parent.toggleClass('open')
-
+      
+      // added by jim
+      if(!isActive){
+    	  $parent.trigger('dropdown-open');
+      }else{
+    	  $parant.trigger('dropdown-close');
+      }
       return false
     }
 

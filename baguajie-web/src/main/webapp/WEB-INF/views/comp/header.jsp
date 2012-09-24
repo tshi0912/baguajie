@@ -96,10 +96,7 @@
 									<b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">
-									<li><a href="#">修改密码</a></li>
-									<li><a href="#">修改头像</a></li>
-									<li><a href="#">个人信息</a></li>
-									<li><a href="#">关联微博</a></li>
+									<li><a href="<c:url value="/setting" />">账号设置</a></li>
 									<li class="divider"></li>
 									<li><a href="<c:url value="/signout" />">退出登录</a></li>
 								</ul>
@@ -138,6 +135,13 @@
 			$(this).css('width', web_width-padding+'px');
 		});
 	}
+	function noNeedAdjustWebWidth(noNeed){
+		if(noNeed != 'true'){
+			$(document).ready(function() {
+				$(window).resize(adjustWebWidth);
+			});
+		}
+	}
 	function setHeaderTab(tab){
 		$('ul.nav li').removeClass('active');
 		$('ul.nav li#nav-' + tab).addClass('active');
@@ -146,9 +150,7 @@
 		var city = $(this).attr('title').toLowerCase();
 		op.city_picker_geo_callback(city);
 	});
-	$(document).ready(function() {
-		$(window).resize(adjustWebWidth);
-	});
+	noNeedAdjustWebWidth('${param.noNeed}')
 	setHeaderTab('${param.tab}');
 	$('.brand').find('.icon-home').hide();
 	$('.brand').mouseenter(function(){

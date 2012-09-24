@@ -28,6 +28,9 @@
 .ml-45{
 	margin-left: 45px;
 }
+.ml-15{
+	margin-left: 15px;
+}
 .ml-10{
 	margin-left: 10px;
 }
@@ -127,6 +130,9 @@
 .ta-r{
 	text-align: right;
 }
+.dis-i{
+	display: inline;
+}
 .dis-b{
 	display: block;
 }
@@ -217,6 +223,15 @@
 .c-theme-link{
 	color: #0088CC
 }
+.lh-40{
+	line-height: 40px;
+}
+.lh-30{
+	line-height: 30px;
+}
+.lh-25{
+	line-height: 25px;
+}
 .lh-20{
 	line-height: 20px;
 }
@@ -261,6 +276,9 @@
 }
 .of-h{
 	overflow: hidden;
+}
+.of-v{
+	overflow: visible;
 }
 .clear{}
 .clear:before, .clear:after {

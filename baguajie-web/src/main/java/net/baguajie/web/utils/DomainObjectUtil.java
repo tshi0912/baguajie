@@ -2,7 +2,6 @@ package net.baguajie.web.utils;
 
 import net.baguajie.constants.ApplicationConfig;
 import net.baguajie.constants.Gender;
-import net.baguajie.domains.Activity;
 import net.baguajie.domains.Resource;
 import net.baguajie.vo.ActivityVo;
 
@@ -16,13 +15,13 @@ public class DomainObjectUtil {
 		if(gender==null) return "保密";
 		switch(gender){
 			case FEMALE:
-				sex = "八姐";
+				sex = "美女";
 				break;
 			case MALE:
-				sex = "八哥";
+				sex = "帅哥";
 				break;
 			default:
-				sex = "保密";
+				sex = "美女";
 				break;
 		}
 		return sex;

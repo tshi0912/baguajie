@@ -229,6 +229,12 @@ a.img img:hover, a.img img:active{
     color: #2C7ECF;
 }
 
+.city-picker a.active {
+    background-color: #E8F4FF;
+    border-color: #ACCCEF;
+    color: #2C7ECF;
+}
+
 .comp-container h5.dotline {
     border-top: 1px dotted #999999;
     clear: both;

@@ -181,6 +181,7 @@ public class User implements Serializable {
 		user.setEmail(vo.getEmail());
 		user.setPassword(vo.getPassword());
 		user.setCreatedAt(new Date());
+		user.setGender(Gender.UNKNOWN);
 		user.setCity(ApplicationConfig.defaultCityPinyin);
 		return user;
 	}
