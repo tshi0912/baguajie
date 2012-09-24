@@ -13,6 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bootstrap-responsive.css" />" />
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/baguajie-base.css" />" />
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/baguajie-theme.css" />" />
+	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/validationEngine.bootstrap.css" />" />
 	<script type="text/javascript" src="<c:url value="/resources/js/ga.js" />" ></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/jquery.1.7.1.js" />" ></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/baguajie.init.js" />" ></script>
@@ -42,28 +43,30 @@
 		    	<c:url value="/setting/basic" var="ub_url"/> 
 		    	<form:form id="basicInfoForm" action="${ub_url}" method="post" class="form-horizontal mt-20">
 		    		<div class="control-group" style="margin-bottom: 30px;">
-		    			<label class="control-label fs-18 lh-25 c-888" for="inputName">请叫我</label>
+		    			<label class="control-label fs-18 lh-25 c-888" for="name">请叫我</label>
 		    			<div class="controls fs-16 lh-18">
-							<input id="inputName" class="input-xlarge" type="text" name="name" 
-								value="${signInUser.name}" style="height: 25px;">
+							<input id="name" class="validate[required,minSize[2]] input-xlarge" type="text" name="name" 
+								data-prompt-position="centerRight:0,-4" value="${signInUser.name}" style="height: 25px;">
 						</div>
 		    		</div>
 		    		<div class="control-group" style="margin-bottom: 30px;">
-		    			<label class="control-label fs-18 lh-30 c-888" for="inputGender">我是</label>
+		    			<label class="control-label fs-18 lh-30 c-888" for="gender">我是</label>
 		    			<div class="controls fs-16 lh-18">
-		    				<input id="inputGender" type="hidden" name="gender" value="${signInUser.gender}">
+		    				<input id="gender" class="validate[required]" type="hidden" 
+		    					data-prompt-position="centerRight:0,-4" name="gender" value="${signInUser.gender}">
 		    				<div class="btn-group" data-toggle="buttons-radio" data-toggle-name="gender">
 		    					<button id="inputMale" class="btn btn-large btn-info fs-16" type="button" data-val="FEMALE">美女</button>
-		    					<button id="inputFemale" class="btn btn-large btn-info fs-16" type="button" data-val="MALE">帅哥</button>
+		    					<button id="gender_target" class="btn btn-large btn-info fs-16" type="button" data-val="MALE">帅哥</button>
 		    				</div>
 						</div>
 		    		</div>
 		    		<div class="control-group" style="margin-bottom: 30px;">
-		    			<label class="control-label fs-18 lh-30 c-888" for="inputCity">居住在</label>
+		    			<label class="control-label fs-18 lh-30 c-888" for="city">居住在</label>
 		    			<div class="controls fs-16 lh-18">
-		    				<input id="inputCity" type="hidden" name="city" placeholder="" value="${signInUser.city}">
+		    				<input id="city" class="validate[required]" type="hidden" 
+		    					data-prompt-position="centerRight:0,-4" name="city" placeholder="" value="${signInUser.city}">
 		    				<div class="btn-group">
-								<a id="city-btn" class="btn btn-large dropdown-toggle fs-16" data-toggle="dropdown" href="#">
+								<a id="city_target" class="btn btn-large dropdown-toggle fs-16" data-toggle="dropdown" href="#">
 									<strong>未知</strong>
 									<b class="caret"></b>
 								</a>
@@ -74,9 +77,9 @@
 						</div>
 		    		</div>
 		    		<div class="control-group" style="margin-bottom: 30px;">
-		    			<label class="control-label fs-18 lh-20 c-888" for="inputSummary">我想说</label>
+		    			<label class="control-label fs-18 lh-20 c-888" for="summary">我想说</label>
 		    			<div class="controls fs-16 lh-18">
-							<textarea id="inputSummary" class="input-xlarge" type="text" name="summary" rows="3" >${signInUser.summary}</textarea>
+							<textarea id="summary" class="input-xlarge" type="text" name="summary" rows="3" >${signInUser.summary}</textarea>
 						</div>
 		    		</div>
 		    		<div class="form-actions">
@@ -104,22 +107,22 @@
 		    		<div class="control-group" style="margin-bottom: 30px;">
 		    			<label class="control-label fs-18 lh-25 c-888" for="inputOldPwd">旧密码</label>
 		    			<div class="controls fs-16 lh-18">
-							<input id="inputOldPwd" class="input-xlarge" type="password" name="oldPwd" 
-								value="" style="height: 25px;">
+							<input id="oldPwd" autocomplete="off" class="validate[required] input-xlarge" type="password" name="oldPwd" 
+								data-prompt-position="centerRight:0,-4" value="" style="height: 25px;">
 						</div>
 		    		</div>
 		    		<div class="control-group" style="margin-bottom: 30px;">
 		    			<label class="control-label fs-18 lh-25 c-888" for="inputNewPwd">新密码</label>
 		    			<div class="controls fs-16 lh-18">
-							<input id="inputNewPwd" class="input-xlarge" type="password" name="newPwd" 
-								value="" style="height: 25px;">
+							<input id="newPwd" autocomplete="off" class="validate[required,minSize[6],maxSize[30]] input-xlarge" type="password" name="newPwd" 
+								data-prompt-position="centerRight:0,-4" value="" style="height: 25px;">
 						</div>
 		    		</div>
 		    		<div class="control-group" style="margin-bottom: 30px;">
 		    			<label class="control-label fs-18 lh-25 c-888" for="inputNewPwdRe">确认新密码</label>
 		    			<div class="controls fs-16 lh-18">
-							<input id="inputNewPwdRe" class="input-xlarge" type="password" name="newPwdRe" 
-								value="" style="height: 25px;">
+							<input id="newPwdRe" autocomplete="off" class="validate[required,equals[newPwd]] input-xlarge" type="password" name="newPwdRe" 
+								data-prompt-position="centerRight:0,-4" value="" style="height: 25px;">
 						</div>
 		    		</div>
 		    		<div class="form-actions">
@@ -165,8 +168,11 @@
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui-1.8.18.custom.min.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.scrollTo.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.form.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/languages/zh-cn/jquery.validationEngine.lang.js" />" ></script>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.validationEngine.js" />" ></script>
 <script type="text/javascript">
 	$(function(){
+		/*
 		$('#basicInfoForm').ajaxForm({ 
 	        dataType:  'json', 
 	        beforeSubmit: function(formData, jqForm, options){
@@ -181,7 +187,81 @@
           		$('#basicInfoForm .form-actions button').button('reset')
           	}
 	    });
-		$('#changePwdForm').ajaxForm({ 
+		*/
+		function attachValidationForBasicInfoForm(){
+			$('#basicInfoForm').validationEngine({
+				prettySelect: true,
+				useSuffix: '_target',
+				promptPosition: 'centerRight',
+				autoPositionUpdate: true,
+				ajaxFormValidation: true,
+				ajaxFormValidationMethod: 'post',
+				ajaxFormValidationURL: '<c:url value="/setting/basic/validate" />',
+				onBeforeAjaxFormValidation: function(form, options){
+					$(form).find('.form-actions button').button('loading');
+					$('#basicInfoForm .icon-ok').hide();
+				},
+				onAjaxFormComplete: function(status, form, errors, options){
+					$('#basicInfoForm .form-actions button').button('reset')
+					if(status == true){
+						form.validationEngine('detach');
+						form.ajaxSubmit({
+					        dataType:  'json', 
+					        beforeSubmit: function(formData, jqForm, options){
+					        	$('#basicInfoForm .form-actions button').button('loading');
+					        	$('#basicInfoForm .icon-ok').hide();
+					        },
+					        success:  function(data){
+					        	if(!data || data.resultCode != 'SUCCESS' ) return;
+					        	$('#basicInfoForm .icon-ok').css('display', 'inline-block');
+					        },
+					        complete: function(jqXHR, textStatus){
+				          		$('#basicInfoForm .form-actions button').button('reset');
+				          		attachValidationForBasicInfoForm();
+				          	}
+					    });
+					}
+				}
+			});
+		}
+		function attachValidationForChangPwdForm(){
+			$('#changePwdForm').validationEngine({
+				autoPositionUpdate: true,
+				ajaxFormValidation: true,
+				ajaxFormValidationMethod: 'post',
+				ajaxFormValidationURL: '<c:url value="/setting/changepwd/validate" />',
+				onBeforeAjaxFormValidation: function(form, options){
+					$(form).find('.form-actions button').button('loading');
+					$('#changePwdForm .icon-ok').hide();
+				},
+				onAjaxFormComplete: function(status, form, errors, options){
+					$('#changePwdForm .form-actions button').button('reset')
+					if(status == true){
+						form.validationEngine('detach');
+						form.ajaxSubmit({
+					        dataType:  'json', 
+					        beforeSubmit: function(formData, jqForm, options){
+					        	$('#changePwdForm .form-actions button').button('loading');
+					        	$('#changePwdForm .icon-ok').hide();
+					        },
+					        success:  function(data){
+					        	if(!data || data.resultCode != 'SUCCESS' ) return;
+					        	form.clearForm();
+					        	$('#changePwdForm .icon-ok').css('display', 'inline-block');
+					        },
+					        complete: function(jqXHR, textStatus){
+				          		$('#changePwdForm .form-actions button').button('reset');
+				          		attachValidationForChangPwdForm();
+				          	}
+					    });
+					}
+				}
+			});
+		};
+		attachValidationForBasicInfoForm();
+		attachValidationForChangPwdForm();
+		/*
+		$('#changePwdForm').ajaxForm({
 	        dataType:  'json', 
 	        beforeSubmit: function(formData, jqForm, options){
 	        	$('#changePwdForm .form-actions button').button('loading');
@@ -195,6 +275,7 @@
           		$('#changePwdForm .form-actions button').button('reset')
           	}
 	    });
+		*/
 		$('div.btn-group[data-toggle-name=*]').each(function(){
 		    var group   = $(this);
 		    var form    = group.parents('form').eq(0);
@@ -210,19 +291,19 @@
 		    	}
 		    });
 		});
-		var city = $('#inputCity').val();
+		var city = $('#city').val();
 		if($.trim(city)){
 			var targetCityElem = $('#setting-city-picker a[title='+city+']').addClass('active');
-			$('#city-btn strong').text(targetCityElem.text());
+			$('#city_target strong').text(targetCityElem.text());
 		}else{
-			$('#city-btn strong').text('-请选择-');
+			$('#city_target strong').text('-请选择-');
 		}
 		$('#setting-city-picker').bind('city-click', function(e, pinyin, label){
-			$('#inputCity').val(pinyin);
-			$('#inputCity').parent().find('.btn-group strong').text(label);
+			$('#city').val(pinyin);
+			$('#city').parent().find('.btn-group strong').text(label);
 		});
 		$('#setting-city-picker').parent().bind('dropdown-open', function(e){
-			var pinyin = $('#inputCity').val();
+			var pinyin = $('#city').val();
 			$('#setting-city-picker').trigger('city-open', [pinyin]);
 		});
 	});

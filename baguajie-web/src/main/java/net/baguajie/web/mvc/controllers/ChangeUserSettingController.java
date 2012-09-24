@@ -10,6 +10,7 @@ import net.baguajie.domains.User;
 import net.baguajie.repositories.UserRepository;
 import net.baguajie.vo.AjaxResult;
 import net.baguajie.vo.BindingErrors;
+import net.baguajie.vo.ValidationEngineError;
 import net.baguajie.vo.formbean.UserBasicInfoFormBean;
 import net.baguajie.vo.formbean.UserPwdChangeFormBean;
 import net.baguajie.web.utils.SessionUtil;
@@ -72,6 +73,26 @@ public class ChangeUserSettingController {
 		userRepository.save(signInUser);
 		return new AjaxResult(AjaxResultCode.SUCCESS);
 	}
+	
+	@RequestMapping(value = "/setting/basic/validate", method = RequestMethod.POST)
+	public @ResponseBody
+	Object[] validateSubmitBasic(@Valid UserBasicInfoFormBean formBean,
+			BindingResult result, ModelAndView mav, HttpSession session) {
+		String name = formBean.getName();
+		User signInUser = sessionUtil.getSignInUser(session);
+		if(!signInUser.getName().equals(name)){
+			User user = userRepository.getByName(name);
+			if(user != null){
+				result.addError(new FieldError("formBean", "name", "这个昵称太抢手了,换一个吧"));
+			}
+		}
+		if (result.hasErrors()) {
+			return ValidationEngineError.normalize(ValidationEngineError
+					.from(result));
+		} else {
+			return new ValidationEngineError[]{};
+		}
+	}
 
 	@RequestMapping(value = "/setting/changepwd", method = RequestMethod.POST)
 	public @ResponseBody
@@ -92,5 +113,22 @@ public class ChangeUserSettingController {
 		signInUser.setPassword(formBean.getNewPwd());
 		userRepository.save(signInUser);
 		return new AjaxResult(AjaxResultCode.SUCCESS);
+	}
+
+	@RequestMapping(value = "/setting/changepwd/validate", method = RequestMethod.POST)
+	public @ResponseBody
+	Object[] validateChangePwd(@Valid UserPwdChangeFormBean formBean,
+			BindingResult result, ModelAndView mav, HttpSession session) {
+		User signInUser = sessionUtil.getSignInUser(session);
+		if (formBean.getOldPwd() != null
+				&& !formBean.getOldPwd().equals(signInUser.getPassword())) {
+			result.addError(new FieldError("formBean", "oldPwd", "密码不正确"));
+		}
+		if (result.hasErrors()) {
+			return ValidationEngineError.normalize(ValidationEngineError
+					.from(result));
+		} else {
+			return new ValidationEngineError[]{};
+		}
 	}
 }
