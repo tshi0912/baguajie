@@ -41,7 +41,7 @@
 	    <div class="tab-content p-20 of-v">
 		    <div id="basic-info" class="tab-pane active fade in">
 		    	<c:url value="/setting/basic" var="ub_url"/> 
-		    	<form:form id="basicInfoForm" action="${ub_url}" method="post" class="form-horizontal mt-20">
+		    	<form:form id="basicInfoForm" action="${ub_url}" method="post" class="form-horizontal mt-20 mb-0">
 		    		<div class="control-group" style="margin-bottom: 30px;">
 		    			<label class="control-label fs-18 lh-25 c-888" for="name">请叫我</label>
 		    			<div class="controls fs-16 lh-18">
@@ -82,7 +82,7 @@
 							<textarea id="summary" class="input-xlarge" type="text" name="summary" rows="3" >${signInUser.summary}</textarea>
 						</div>
 		    		</div>
-		    		<div class="form-actions">
+		    		<div class="form-actions" style="margin-bottom: 0px;">
 		    			<div class="dis-i">
 						    <button type="submit" class="btn btn-large btn-primary" data-loading-text="更新中...">保存修改</button>
 					    	<i class="icon-ok ml-10 dis-n"></i>
@@ -92,8 +92,8 @@
 		    </div>
 		    <div id="change-avatar" class="tab-pane fade">
 		    	<c:url value="/setting/avatar" var="ua_url"/> 
-		    	<form:form id="avatarForm" action="${ua_url}" method="post" class="form-horizontal mt-20">
-		    		<div class="form-actions">
+		    	<form:form id="avatarForm" action="${ua_url}" method="post" class="form-horizontal mt-20 mb-0">
+		    		<div class="form-actions" style="margin-bottom: 0px;">
 		    			<div class="dis-i">
 						    <button type="submit" class="btn btn-large btn-primary" data-loading-text="更新中...">保存修改</button>
 					    	<i class="icon-ok ml-10 dis-n"></i>
@@ -103,7 +103,7 @@
 		    </div>
 		    <div id="change-pwd" class="tab-pane fade">
 		    	<c:url value="/setting/changepwd" var="cp_url"/> 
-		    	<form:form id="changePwdForm" action="${cp_url}" method="post" class="form-horizontal mt-20">
+		    	<form:form id="changePwdForm" action="${cp_url}" method="post" class="form-horizontal mt-20 mb-0">
 		    		<div class="control-group" style="margin-bottom: 30px;">
 		    			<label class="control-label fs-18 lh-25 c-888" for="inputOldPwd">旧密码</label>
 		    			<div class="controls fs-16 lh-18">
@@ -125,7 +125,7 @@
 								data-prompt-position="centerRight:0,-4" value="" style="height: 25px;">
 						</div>
 		    		</div>
-		    		<div class="form-actions">
+		    		<div class="form-actions" style="margin-bottom: 0px;">
 		    			<div class="dis-i">
 						    <button type="submit" class="btn btn-large btn-primary" data-loading-text="更新中...">保存修改</button>
 					    	<i class="icon-ok ml-10 dis-n"></i>
@@ -135,29 +135,45 @@
 		    </div>
 		    <div id="binding-weibo" class="tab-pane fade">
 		    	<c:url value="/setting/binding" var="bw_url"/> 
-		    	<form:form id="bindingForm" action="${bw_url}" method="post" class="form-horizontal mt-20">
-		    		<div class="control-group" style="margin-bottom: 30px;">
-		    			<label class="control-label fs-18 lh-25 c-888" for="inputName">新浪微博</label>
+		    	<form:form id="bindingForm" action="${bw_url}" method="post" class="form-horizontal mt-10">
+		    		<div class="control-group" style="margin-bottom: 20px;">
+		    			<!-- <label class="control-label fs-18 lh-25 c-888" for="inputName">新浪微博</label>-->
 		    			<div class="controls fs-16 lh-18">
-							<button class="btn btn-large btn-danger" data-toggle="button" type="button">绑定新浪微博</button>
+							<!-- <button class="btn btn-large btn-danger" data-toggle="button" type="button">绑定新浪微博</button>-->
+							<a class="btn-3rd weibo" href="/oauth/weibo/signup/">
+								<div class="logo_wrapper"><span class="logo"></span></div>
+								<span>绑定微博帐号</span>
+							</a>
 						</div>
 		    		</div>
-		    		<div class="control-group" style="margin-bottom: 30px;">
-		    			<label class="control-label fs-18 lh-25 c-888" for="inputName">人人网</label>
+		    		<div class="control-group" style="margin-bottom: 20px;">
+		    			<!-- <label class="control-label fs-18 lh-25 c-888" for="inputName">腾讯QQ</label>  -->
 		    			<div class="controls fs-16 lh-18">
-							<button class="btn btn-large btn-info" data-toggle="button" type="button">绑定人人网</button>
+							<!-- <button class="btn btn-large btn-info" data-toggle="button" type="button">绑定人人网</button> -->
+							<a class="btn-3rd qq" href="/oauth/weibo/signup/">
+								<div class="logo_wrapper"><span class="logo"></span></div>
+								<span>绑定QQ帐号</span>
+							</a>
 						</div>
 		    		</div>
-		    		<div class="control-group" style="margin-bottom: 30px;">
-		    			<label class="control-label fs-18 lh-25 c-888" for="inputName">豆瓣</label>
+		    		<div class="control-group" style="margin-bottom: 20px;">
+		    			<!-- <label class="control-label fs-18 lh-25 c-888" for="inputName">豆瓣</label> -->
 		    			<div class="controls fs-16 lh-18">
-							<button class="btn btn-large btn-success" data-toggle="button" type="button">绑定豆瓣</button>
+							<!-- <button class="btn btn-large btn-success" data-toggle="button" type="button">绑定豆瓣</button>-->
+							<a class="btn-3rd douban" href="/oauth/weibo/signup/">
+								<div class="logo_wrapper"><span class="logo"></span></div>
+								<span>绑定豆瓣帐号</span>
+							</a>
 						</div>
 		    		</div>
-		    		<div class="control-group" style="margin-bottom: 30px;">
-		    			<label class="control-label fs-18 lh-25 c-888" for="inputName">腾讯微博</label>
+		    		<div class="control-group">
+		    			<!-- <label class="control-label fs-18 lh-25 c-888" for="inputName">腾讯微博</label> -->
 		    			<div class="controls fs-16 lh-18">
-							<button class="btn btn-large btn-primary" data-toggle="button" type="button">绑定腾讯微博</button>
+							<!-- <button class="btn btn-large btn-primary" data-toggle="button" type="button">绑定腾讯微博</button> -->
+							<a class="btn-3rd renren" href="/oauth/weibo/signup/">
+								<div class="logo_wrapper"><span class="logo"></span></div>
+								<span>绑定人人帐号</span>
+							</a>
 						</div>
 		    		</div>
 		    	</form:form>

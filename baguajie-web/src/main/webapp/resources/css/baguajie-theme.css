@@ -545,3 +545,60 @@ input, textarea, select {
 .repeat .cmts .cmt.last{
 	border-bottom: none;
 }
+
+/*** for 3rd party btn style***/
+
+.btn-3rd {
+    background: url("../img/btn-3rd-signup.png") no-repeat scroll left top transparent;
+    display: block;
+    height: 51px;
+    width: 210px;
+    outline: 0 none;
+    text-decoration: none;
+}
+.btn-3rd > span {
+    color: #FFFFFF;
+    float: left;
+    font-size: 15px;
+    font-weight: 500;
+    margin-left: 40px;
+    margin-top: 7px;
+    min-height: 20px;
+    padding: 8px 12px;
+}
+a.weibo{
+	background-position: left top;
+}
+a.weibo:hover{
+	background-position: left -51px;
+}
+a.weibo:active{
+	background-position: left -102px;
+}
+a.douban {
+    background-position: -210px top;
+}
+a.douban:hover {
+    background-position: -210px -51px;
+}
+a.douban:active {
+    background-position: -210px -102px;
+}
+a.renren {
+    background-position: -420px top;
+}
+a.renren:hover {
+    background-position: -420px -51px;
+}
+a.renren:active {
+    background-position: -420px -102px;
+}
+a.qq {
+    background-position: -630px top;
+}
+a.qq:hover {
+    background-position: -630px -51px;
+}
+a.qq:active {
+    background-position: -630px -102px;
+}
