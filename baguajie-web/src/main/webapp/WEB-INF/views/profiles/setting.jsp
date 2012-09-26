@@ -125,6 +125,9 @@
 				                    <span>选择照片</span>
 				                    <input id="avatarInput" type="file" name="imageFile" multiple>
 			                	</span>
+			                	<div class="p-8 convo lh-16 loading-box dis-n" style="">
+									<a class="bg-h-loading pl-85 c-888" href=""></a>
+								</div>
 		                		<span class="alert alert-error dis-n mb-0"></span>
 							</div>
 		                </div>
@@ -309,6 +312,7 @@
 		$('#avatarUploadForm').ajaxForm({
 			dataType:  'json', 
 	        beforeSubmit: function(formData, jqForm, options){
+	        	$('#avatarUploadForm .loading-box').show();
 	        	$('#avatarUploadForm .alert-error').hide();
 	        },
 			success: function(data) {
@@ -328,6 +332,9 @@
 						updateJcrop(data.resultData, $('#avatarContainer img'));
 					}
 				}
+			},
+			complete: function(){
+				$('#avatarUploadForm .loading-box').hide();
 			}
 		});
 		function updatePreview(c){
