@@ -46,7 +46,7 @@ public class DomainObjectUtil {
 			Gender gender){
 		StringBuilder url = new StringBuilder();
 		if(res!=null) {
-			url.append(WebImageUtil.getImageUrl(res.getId()));
+			url.append(WebImageUtil.getAvatarUrl(res.getResId()));
 		}else{
 			if(gender==null){
 				url.append(ApplicationConfig.base)

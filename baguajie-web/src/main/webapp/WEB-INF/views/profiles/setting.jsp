@@ -14,6 +14,8 @@
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/baguajie-base.css" />" />
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/baguajie-theme.css" />" />
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/validationEngine.bootstrap.css" />" />
+	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jquery.Jcrop.css" />" />
+	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/jquery.fileupload-ui.css" />" />
 	<script type="text/javascript" src="<c:url value="/resources/js/ga.js" />" ></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/jquery.1.7.1.js" />" ></script>
 	<script type="text/javascript" src="<c:url value="/resources/js/baguajie.init.js" />" ></script>
@@ -91,8 +93,50 @@
 		    	</form:form>
 		    </div>
 		    <div id="change-avatar" class="tab-pane fade">
+		    	<form id="avatarUploadForm" class="form-horizontal" action="<c:url value="/avatar/upload"/>" method="POST" enctype="multipart/form-data">
+					<div class="control-group" style="margin-bottom: 30px;">
+						<div class="controls fs-14 lh-18">
+							<div class="clear mb-10">
+								<div id="avatarContainer" class="f-l">
+									<img id="avatarImg" 
+										src="<c:choose><c:when test="${not empty signInUser.avatarOrg}"><c:url value="/images/avatars/${signInUser.avatarOrg.resId}" /></c:when>
+												<c:otherwise>http://placehold.it/350&text=Upload+Avatar</c:otherwise></c:choose>"></div>
+								<div id="avatarPreview" class="ml-10 f-l">
+									<div class="mb-10" style="width:100px;height:100px;overflow:hidden;">
+										<img id="preview100" class="jcrop-preview" alt="Preview" 
+											src="<c:choose><c:when test="${not empty signInUser.avatarOrg}"><c:url value="/images/avatars/${signInUser.avatarOrg.resId}" /></c:when>
+												<c:otherwise>http://placehold.it/100&text=Upload+Avatar</c:otherwise></c:choose>">
+									</div>
+									<div class="mb-10" style="width:60px;height:60px;overflow:hidden;">
+										<img id="preview60" class="jcrop-preview" alt="Preview" 
+											src="<c:choose><c:when test="${not empty signInUser.avatarOrg}"><c:url value="/images/avatars/${signInUser.avatarOrg.resId}" /></c:when>
+												<c:otherwise>http://placehold.it/60&text=Upload+Avatar</c:otherwise></c:choose>">
+									</div>
+									<div class="" style="width:30px;height:30px;overflow:hidden;">
+										<img id="preview30" class="jcrop-preview" alt="Preview" 
+											src="<c:choose><c:when test="${not empty signInUser.avatarOrg}"><c:url value="/images/avatars/${signInUser.avatarOrg.resId}" /></c:when>
+												<c:otherwise>http://placehold.it/30&text=Upload+Avatar</c:otherwise></c:choose>">
+									</div>
+								</div>
+							</div>
+							<div class="row-fluid">
+								<span class="btn btn-large btn-success fileinput-button">
+				                    <i class="icon-plus icon-white"></i>
+				                    <span>选择照片</span>
+				                    <input id="avatarInput" type="file" name="imageFile" multiple>
+			                	</span>
+		                		<span class="alert alert-error dis-n mb-0"></span>
+							</div>
+		                </div>
+					</div>
+			    </form>
 		    	<c:url value="/setting/avatar" var="ua_url"/> 
-		    	<form:form id="avatarForm" action="${ua_url}" method="post" class="form-horizontal mt-20 mb-0">
+		    	<form:form id="avatarChangeForm" action="${ua_url}" method="post" class="form-horizontal mt-20 mb-0">
+		    		<input type="hidden" id="imageUrl" name="imageUrl" />
+	    			<input type="hidden" id="x" name="x" />
+					<input type="hidden" id="y" name="y" />
+					<input type="hidden" id="w" name="w" />
+					<input type="hidden" id="h" name="h" />
 		    		<div class="form-actions" style="margin-bottom: 0px;">
 		    			<div class="dis-i">
 						    <button type="submit" class="btn btn-large btn-primary" data-loading-text="更新中...">保存修改</button>
@@ -186,24 +230,9 @@
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.form.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/languages/zh-cn/jquery.validationEngine.lang.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.validationEngine.js" />" ></script>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.Jcrop.js" />" ></script>
 <script type="text/javascript">
 	$(function(){
-		/*
-		$('#basicInfoForm').ajaxForm({ 
-	        dataType:  'json', 
-	        beforeSubmit: function(formData, jqForm, options){
-	        	$('#basicInfoForm .form-actions button').button('loading');
-	        	$('#basicInfoForm .icon-ok').hide();
-	        },
-	        success:  function(data){
-	        	if(!data || data.resultCode != 'SUCCESS' ) return;
-	        	$('#basicInfoForm .icon-ok').css('display', 'inline-block');
-	        },
-	        complete: function(jqXHR, textStatus){
-          		$('#basicInfoForm .form-actions button').button('reset')
-          	}
-	    });
-		*/
 		function attachValidationForBasicInfoForm(){
 			$('#basicInfoForm').validationEngine({
 				prettySelect: true,
@@ -276,22 +305,129 @@
 		};
 		attachValidationForBasicInfoForm();
 		attachValidationForChangPwdForm();
-		/*
-		$('#changePwdForm').ajaxForm({
+		var jcrop_api, boundx, boundy;;
+		$('#avatarUploadForm').ajaxForm({
+			dataType:  'json', 
+	        beforeSubmit: function(formData, jqForm, options){
+	        	$('#avatarUploadForm .alert-error').hide();
+	        },
+			success: function(data) {
+				if(data && data.resultCode == 'EXCEPTION' ){
+					$('#avatarUploadForm').find(".alert-error").text(data.exceptionMsg);
+					$('#avatarUploadForm').find(".alert-error").css('display','inline-block');
+				}else{
+					$('#preview100').attr('src', data.resultData);
+					$('#preview60').attr('src', data.resultData);
+					$('#preview30').attr('src', data.resultData);
+					$('#imageUrl').val(data.resultData);
+					if(jcrop_api == null){
+						var $pic = $('<img src="'+data.resultData+'" />');
+						$("#avatarContainer").html($pic);
+						setupJcrop($pic);
+					}else{
+						updateJcrop(data.resultData, $('#avatarContainer img'));
+					}
+				}
+			}
+		});
+		function updatePreview(c){
+			if (parseInt(c.w) > 0)
+			{
+			   $('#x').val(c.x);
+		       $('#y').val(c.y);
+		       $('#w').val(c.w);
+		       $('#h').val(c.h);
+				// preview100
+				var rx = 100 / c.w;
+				var ry = 100 / c.h;
+				$('#preview100').css({
+					width: Math.round(rx * boundx) + 'px',
+					height: Math.round(ry * boundy) + 'px',
+					marginLeft: '-' + Math.round(rx * c.x) + 'px',
+					marginTop: '-' + Math.round(ry * c.y) + 'px'
+				});
+				// preview60
+				rx = 60 / c.w;
+				ry = 60 / c.h;
+				$('#preview60').css({
+					width: Math.round(rx * boundx) + 'px',
+					height: Math.round(ry * boundy) + 'px',
+					marginLeft: '-' + Math.round(rx * c.x) + 'px',
+					marginTop: '-' + Math.round(ry * c.y) + 'px'
+				});
+				// preview30
+				rx = 30 / c.w;
+				ry = 30 / c.h;
+				$('#preview30').css({
+					width: Math.round(rx * boundx) + 'px',
+					height: Math.round(ry * boundy) + 'px',
+					marginLeft: '-' + Math.round(rx * c.x) + 'px',
+					marginTop: '-' + Math.round(ry * c.y) + 'px'
+				});
+			} 
+		}
+		var avatarSrc = $('#avatarContainer img').attr('src');
+		function setupJcrop($pic){
+			var imgW, imgH, p1 = {}, p2 = {};
+			$pic.Jcrop({
+				aspectRatio: 1,
+				onChange: updatePreview,
+				onSelect: updatePreview,
+				minSize:[192,192]
+			},
+			function(){
+				var bounds = this.getBounds();
+				boundx = bounds[0];
+				boundy = bounds[1]; 
+				imgW = $pic.width();
+				imgH = $pic.height();
+				p1.x = Math.floor((imgW-192)/2);
+				p1.y = Math.floor((imgH-192)/2);
+				p2.x = Math.floor((imgW+192)/2);
+				p2.x = Math.floor((imgH+192)/2);
+				jcrop_api = this;
+				jcrop_api.setSelect([p1.x,p1.y,p2.x,p2.y]);
+			});
+		}
+		function updateJcrop(imgSrc, $pic)
+		{
+			var imgW, imgH, p1 = {}, p2 = {};
+			if(!jcrop_api) return;
+			jcrop_api.setImage(imgSrc, function(){
+				var bounds = this.getBounds();
+				boundx = bounds[0];
+				boundy = bounds[1]; 
+				imgW = $pic.width();
+				imgH = $pic.height();
+				p1.x = Math.floor((imgW-192)/2);
+				p1.y = Math.floor((imgH-192)/2);
+				p2.x = Math.floor((imgW+192)/2);
+				p2.x = Math.floor((imgH+192)/2);
+				jcrop_api = this;
+				jcrop_api.setSelect([p1.x,p1.y,p2.x,p2.y]);
+			});
+		}
+		if($.trim(avatarSrc) && avatarSrc.indexOf('/images/avatars')!=-1){
+			setupJcrop($('#avatarContainer img'));
+		}
+		$('#avatarChangeForm').ajaxForm({
 	        dataType:  'json', 
 	        beforeSubmit: function(formData, jqForm, options){
-	        	$('#changePwdForm .form-actions button').button('loading');
-	        	$('#changePwdForm .icon-ok').hide();
+	        	$('#avatarChangeForm .form-actions button').button('loading');
+	        	$('#avatarChangeForm .icon-ok').hide();
 	        },
 	        success:  function(data){
 	        	if(!data || data.resultCode != 'SUCCESS' ) return;
-	        	$('#changePwdForm .icon-ok').css('display', 'inline-block');
+	        	$('#avatarChangeForm').clearForm();
+	        	$('#avatarChangeForm .icon-ok').css('display', 'inline-block');
 	        },
 	        complete: function(jqXHR, textStatus){
-          		$('#changePwdForm .form-actions button').button('reset')
+          		$('#avatarChangeForm .form-actions button').button('reset');
           	}
 	    });
-		*/
+		$('#avatarInput').change(function(){
+			$("#avatarUploadForm").submit();
+		});
 		$('div.btn-group[data-toggle-name=*]').each(function(){
 		    var group   = $(this);
 		    var form    = group.parents('form').eq(0);

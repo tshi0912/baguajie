@@ -36,6 +36,7 @@ public class User implements Serializable {
 	private Date birthDay;
 	private String summary;
 	private Resource avatar;
+	private Resource avatarOrg;
 	// follow-ship statistic
 	private int fansCount;
 	private int followCount;
@@ -101,6 +102,12 @@ public class User implements Serializable {
 	}
 	public void setAvatar(Resource avatar) {
 		this.avatar = avatar;
+	}
+	public Resource getAvatarOrg() {
+		return avatarOrg;
+	}
+	public void setAvatarOrg(Resource avatarOrg) {
+		this.avatarOrg = avatarOrg;
 	}
 	public int getFansCount() {
 		return fansCount;

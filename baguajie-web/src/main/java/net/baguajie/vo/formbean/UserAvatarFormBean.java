@@ -10,45 +10,44 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class UserAvatarFormBean implements Serializable {
 
 	@NotEmpty
-	private String imageURI;
+	private String imageUrl;
 	@NotNull
-	private Integer viewHeigth;
+	private Integer w;
 	@NotNull
-	private Integer viewWidth;
+	private Integer h;
 	@NotNull
-	private Integer[] topLeft;
+	private Integer x;
 	@NotNull
-	private Integer[] bottomRight;
+	private Integer y;
 	
-	public String getImageURI() {
-		return imageURI;
+	public String getImageUrl() {
+		return imageUrl;
 	}
-	public void setImageURI(String imageURI) {
-		this.imageURI = imageURI;
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
-	public Integer getViewHeigth() {
-		return viewHeigth;
+	public Integer getW() {
+		return w;
 	}
-	public void setViewHeigth(Integer viewHeigth) {
-		this.viewHeigth = viewHeigth;
+	public void setW(Integer w) {
+		this.w = w;
 	}
-	public Integer getViewWidth() {
-		return viewWidth;
+	public Integer getH() {
+		return h;
 	}
-	public void setViewWidth(Integer viewWidth) {
-		this.viewWidth = viewWidth;
+	public void setH(Integer h) {
+		this.h = h;
 	}
-	public Integer[] getTopLeft() {
-		return topLeft;
+	public Integer getX() {
+		return x;
 	}
-	public void setTopLeft(Integer[] topLeft) {
-		this.topLeft = topLeft;
+	public void setX(Integer x) {
+		this.x = x;
 	}
-	public Integer[] getBottomRight() {
-		return bottomRight;
+	public Integer getY() {
+		return y;
 	}
-	public void setBottomRight(Integer[] bottomRight) {
-		this.bottomRight = bottomRight;
+	public void setY(Integer y) {
+		this.y = y;
 	}
-	
 }

@@ -31,7 +31,26 @@ public class ViewImageController {
 	ServletContext context;
 	
 	@RequestMapping(value="/spots/{id}", method=RequestMethod.GET)
-	public void view(@PathVariable String id,
+	public void viewSpot(@PathVariable String id,
+			Model model, HttpServletRequest request, 
+			HttpServletResponse response,
+			HttpSession session){
+		try {
+			Resource resource = resourceRepository.getByResId(id);
+			if (resource != null) {
+				String mime = context.getMimeType(
+						"mock." + resource.getExt());
+				response.setContentType(mime != null ? mime : "image/jpeg");
+			}
+			ServletOutputStream os = response.getOutputStream();
+			imageService.get(id, os);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@RequestMapping(value="/avatars/{id}", method=RequestMethod.GET)
+	public void viewAvatar(@PathVariable String id,
 			Model model, HttpServletRequest request, 
 			HttpServletResponse response,
 			HttpSession session){

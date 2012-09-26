@@ -31,13 +31,22 @@ public class WebImageUtil implements ApplicationContextAware {
 	
 	public WebImageUtil(){
 //		System.setProperty("http.proxyHost", ApplicationConfig.httpProxyHost);
-//		System.setProperty("http.proxyPort", ApplicationConfig.httpProxyPort);
+//		System.setProperty("http.proxyPort", ApplicationConfig.httpProxyPort + "");
 	}
 	
 	public static String getImageUrl(String resId){
 		return new StringBuilder()
 			.append(ApplicationConfig.base)
 			.append(ApplicationConfig.imageRefer)
+			.append("/")
+			.append(resId)
+			.toString();
+	}
+	
+	public static String getAvatarUrl(String resId){
+		return new StringBuilder()
+			.append(ApplicationConfig.base)
+			.append(ApplicationConfig.avatarRefer)
 			.append("/")
 			.append(resId)
 			.toString();

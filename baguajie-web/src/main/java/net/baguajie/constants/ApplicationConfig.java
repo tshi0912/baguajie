@@ -9,6 +9,8 @@ public class ApplicationConfig {
 			"/resources/spot";
 	public static String imageRefer = 
 			"/images/spots";
+	public static String avatarRefer = 
+			"/images/avatars";
 	public static String staticRefer = 
 			"/resources";
 	public static int pinImageWidth = 192;
