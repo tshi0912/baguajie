@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://baguajie.net/functions" prefix="f" %>
 <div class="navbar navbar-fixed-top">
 		<div class="navbar-inner">
 			<div class="container content-wrapper">
@@ -53,7 +54,7 @@
 								</ul>
 							</li>
 							<li class="divider-vertical"></li>
-							<li><a href="<c:url value="/signin" />">登录</a></li>
+							<li><a href="#sign-in-modal" data-toggle="modal">登录</a></li>
 							<li><a href="<c:url value="/signup" />">注册</a></li>
 						</ul> 
 					</c:when>
@@ -111,6 +112,9 @@
 		<li><input name="signin-ts" type="hidden" value="${requestScope.signin_ts}"/></li>
 	</ul>	
 </div>
+<c:import url="/WEB-INF/views/modal/sign.in.jsp"/>
+<script type="text/javascript" src="<c:url value="/resources/languages/zh-cn/jquery.validationEngine.lang.js" />" ></script>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.validationEngine.js" />" ></script>
 <script type="text/javascript">
 	function adjustWebWidth(){
 		var web_width = $(window).width()-50;

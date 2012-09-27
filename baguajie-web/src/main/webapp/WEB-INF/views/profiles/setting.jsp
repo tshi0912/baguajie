@@ -231,8 +231,6 @@
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui-1.8.18.custom.min.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.scrollTo.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.form.js" />"></script>
-<script type="text/javascript" src="<c:url value="/resources/languages/zh-cn/jquery.validationEngine.lang.js" />" ></script>
-<script type="text/javascript" src="<c:url value="/resources/js/jquery.validationEngine.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.Jcrop.js" />" ></script>
 <script type="text/javascript">
 	$(function(){

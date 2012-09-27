@@ -100,7 +100,8 @@ a.img img:hover, a.img img:active{
     font-size: 16px;
 }
 
-.sign-in input[type="text"]{
+.sign-in input[type="text"],
+.sign-in input[type="password"]{
 	height: 24px;
 }
 

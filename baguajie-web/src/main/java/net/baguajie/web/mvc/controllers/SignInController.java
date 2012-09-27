@@ -16,6 +16,7 @@ import net.baguajie.repositories.UserPreferenceRepository;
 import net.baguajie.repositories.UserRepository;
 import net.baguajie.vo.AjaxResult;
 import net.baguajie.vo.SignInCredentialVo;
+import net.baguajie.vo.ValidationEngineError;
 import net.baguajie.web.utils.AjaxUtil;
 import net.baguajie.web.utils.SessionUtil;
 
@@ -31,7 +32,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class SignInController {
-	
+
 	@Autowired
 	UserRepository userPepository;
 	@Autowired
@@ -40,65 +41,99 @@ public class SignInController {
 	SessionUtil sessionUtil;
 	@Autowired
 	AjaxUtil ajaxUtil;
-	
-	@RequestMapping(value="/signin", method=RequestMethod.GET)
-	public String signIn(HttpSession session){
-		if(session.getAttribute(ApplicationConstants.SESSION_SIGNIN_USER)!=null){
+
+	@RequestMapping(value = "/signin", method = RequestMethod.GET)
+	public String signIn(HttpSession session) {
+		if (session.getAttribute(ApplicationConstants.SESSION_SIGNIN_USER) != null) {
 			return "redirect:/";
 		}
 		return "sign.in";
 	}
-	
-	
-	@RequestMapping(value="/checksignin", method=RequestMethod.GET)
-	public @ResponseBody AjaxResult checkSignIn(HttpServletRequest request, 
-			ModelAndView mav, HttpSession session){
-		if(!ajaxUtil.isAjaxRequest(request)){
+
+	@RequestMapping(value = "/checksignin", method = RequestMethod.GET)
+	public @ResponseBody
+	AjaxResult checkSignIn(HttpServletRequest request, ModelAndView mav,
+			HttpSession session) {
+		if (!ajaxUtil.isAjaxRequest(request)) {
 			throw new ResourceNotFoundException();
 		}
-		if(sessionUtil.getSignInUser(session)!=null){
+		if (sessionUtil.getSignInUser(session) != null) {
 			Calendar c = Calendar.getInstance();
 			c.setTimeZone(TimeZone.getTimeZone("UTC"));
 			return new AjaxResult(AjaxResultCode.SUCCESS, c.getTimeInMillis());
-		}else{
+		} else {
 			return new AjaxResult(AjaxResultCode.NEED_SIGNIN);
 		}
 	}
-	
-	@RequestMapping(value="/signin", method=RequestMethod.POST)
-	public String signIn(@Valid SignInCredentialVo signInCredentialVo, 
-			BindingResult result,
-			Model model, HttpSession session){
+
+	@RequestMapping(value = "/signin/validate", method = RequestMethod.POST)
+	public @ResponseBody
+	Object[] validateSignIn(@Valid SignInCredentialVo signInCredentialVo,
+			BindingResult result, Model model, HttpSession session) {
 		User existed = null;
-		if(!result.hasFieldErrors("signInName")){
-			existed = userPepository
-					.getByEmail(signInCredentialVo.getSignInName());
-			if(existed == null){
-				result.addError(new FieldError("signInCredentialVo", "signInName", 
-						"注册邮箱不存在"));
-			}else{
-				if(!signInCredentialVo.getSignInPassword()
-						.equals(existed.getPassword())){
-					result.addError(new FieldError("signInCredentialVo", "signInPassword", 
-							"密码不正确"));
+		if (!result.hasFieldErrors("signInName")) {
+			existed = userPepository.getByEmail(signInCredentialVo
+					.getSignInName());
+			if (existed == null) {
+				result.addError(new FieldError("signInCredentialVo",
+						"signInName", "注册邮箱不存在"));
+			} else {
+				if (!signInCredentialVo.getSignInPassword().equals(
+						existed.getPassword())) {
+					result.addError(new FieldError("signInCredentialVo",
+							"signInPassword", "密码不正确"));
 				}
 			}
 		}
-		
-		if(result.hasErrors()){
+		if (result.hasErrors()) {
+			return ValidationEngineError.normalize(ValidationEngineError
+					.from(result));
+		}else{
+			if (existed != null) {
+				session.setAttribute(ApplicationConstants.SESSION_SIGNIN_USER,
+						existed);
+				UserPreference up = userPreferenceRepository.getByUser(existed);
+				if (up != null) {
+					sessionUtil.setSignInUserPrefer(up, session);
+				}
+			}
+			return new ValidationEngineError[]{};
+		}
+	}
+
+	@RequestMapping(value = "/signin", method = RequestMethod.POST)
+	public String signIn(@Valid SignInCredentialVo signInCredentialVo,
+			BindingResult result, Model model, HttpSession session) {
+		User existed = null;
+		if (!result.hasFieldErrors("signInName")) {
+			existed = userPepository.getByEmail(signInCredentialVo
+					.getSignInName());
+			if (existed == null) {
+				result.addError(new FieldError("signInCredentialVo",
+						"signInName", "注册邮箱不存在"));
+			} else {
+				if (!signInCredentialVo.getSignInPassword().equals(
+						existed.getPassword())) {
+					result.addError(new FieldError("signInCredentialVo",
+							"signInPassword", "密码不正确"));
+				}
+			}
+		}
+
+		if (result.hasErrors()) {
 			return "sign.in";
 		}
-		
-		if(existed!=null){
-			session.setAttribute(
-					ApplicationConstants.SESSION_SIGNIN_USER, existed);
+
+		if (existed != null) {
+			session.setAttribute(ApplicationConstants.SESSION_SIGNIN_USER,
+					existed);
 			UserPreference up = userPreferenceRepository.getByUser(existed);
-			if(up!=null){
+			if (up != null) {
 				sessionUtil.setSignInUserPrefer(up, session);
 			}
 		}
-		
+
 		return "redirect:/";
 	}
-	
+
 }
