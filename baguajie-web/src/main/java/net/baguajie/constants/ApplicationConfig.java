@@ -14,7 +14,7 @@ public class ApplicationConfig {
 	public static String staticRefer = 
 			"/resources";
 	public static int pinImageWidth = 192;
-	public static String httpProxyHost = "proxy.statestr.com";
+	public static String httpProxyHost = "127.0.0.1";
 	public static int httpProxyPort = 80;
 	public static String defaultCityPinyin = "quanguo";
 	public static String defaultBy = "web";
