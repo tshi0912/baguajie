@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <div id="sign-in-modal" class="modal hide fade" 
-		style="width: 450px;">
+		style="width: 460px;">
 	<form id="signInForm" class="mb-0 fs-14 lh-16 sign-in" action="<c:url value="/signin" />" method="post">
 	<div class="modal-header">
 		<a class="close" data-dismiss="modal">×</a>

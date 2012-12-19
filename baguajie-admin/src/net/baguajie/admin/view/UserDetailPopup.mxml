@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   close="onClose(event);"
+			   title="用户详细信息">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.CloseEvent;
+			import mx.managers.PopUpManager;
+			import net.baguajie.admin.model.UserDetailModel;
+			import net.baguajie.admin.vo.UserVo;
+
+			[Bindable]
+			private var model:UserDetailModel=UserDetailModel.getInstance();
+
+			private function onClose(event:CloseEvent):void
+			{
+				PopUpManager.removePopUp(this);
+			}
+			
+			private function okBtn_clickHandler(event:MouseEvent):void
+			{
+				model.update();
+			}
+			
+			protected function validCheck_changeHandler(event:Event):void
+			{
+				if(model.user)
+				{
+					model.user.status =	validCheck.selected? UserVo.VALID : UserVo.INVALID;
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:HorizontalLayout gap="10"
+							paddingLeft="5"
+							paddingTop="5"
+							paddingBottom="5"
+							paddingRight="5"/>
+	</s:layout>
+	<mx:Form width="300"
+			 verticalGap="10"
+			 horizontalGap="10">
+		<mx:FormItem width="100%"
+					 label="标识符">
+			<s:TextInput id="idInput"
+						 width="100%"
+						 enabled="false"
+						 text="{model.user.id}"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%"
+					 label="昵称">
+			<s:TextInput id="nameInput"
+						 width="100%"
+						 enabled="false"
+						 text="{model.user.name}"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%"
+					 label="邮箱">
+			<s:TextInput id="emailInput"
+						 width="100%"
+						 enabled="false"
+						 text="{model.user.email}"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%"
+					 label="注册日期">
+			<s:TextInput id="createdAtInput"
+						 width="100%"
+						 enabled="false"
+						 text="{model.user.createdAt}"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%"
+					 label="有效">
+			<s:CheckBox id="validCheck"
+						width="100%"
+					    change="validCheck_changeHandler(event);"
+						selected="{model.user.status == UserVo.VALID}"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%">
+			<s:HGroup width="100%">
+				<s:Button id="okBtn" label="确定" click="okBtn_clickHandler(event);"/>
+			</s:HGroup>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

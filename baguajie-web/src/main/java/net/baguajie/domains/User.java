@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import net.baguajie.constants.ApplicationConfig;
 import net.baguajie.constants.Gender;
+import net.baguajie.constants.UserStatus;
 import net.baguajie.vo.SignUpUserVo;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -48,6 +49,7 @@ public class User implements Serializable {
 	@NotNull
 	private Date createdAt;
 	private Date updatedAt;
+	private UserStatus status;
 	
 	public String getId() {
 		return id;
@@ -157,6 +159,12 @@ public class User implements Serializable {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+	public UserStatus getStatus() {
+		return status;
+	}
+	public void setStatus(UserStatus status) {
+		this.status = status;
+	}
 	
 	@Override
 	public int hashCode() {
@@ -189,6 +197,7 @@ public class User implements Serializable {
 		user.setPassword(vo.getPassword());
 		user.setCreatedAt(new Date());
 		user.setGender(Gender.UNKNOWN);
+		user.setStatus(UserStatus.VALID);
 		user.setCity(ApplicationConfig.defaultCityPinyin);
 		return user;
 	}

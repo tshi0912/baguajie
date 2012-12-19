@@ -1,0 +1,21 @@
+/* CSS file */
+.menuBarStyle {
+	fontFamily: "Verdana, Arial, Helvetica, sans-serif";
+	fontSize: 12;
+	fontWeight:	bold;
+	color: #FFFFFF;			
+	textRollOverColor: #003589;
+	disabledColor: #003589;
+	fontStyle: normal;
+	textAlign: left;
+	cornerRadius: 0;
+	paddingTop: 0;
+	paddingLeft: 5;
+	paddingRight: 5;
+	paddingBottom: 0;
+	kerning: true;
+	upSkin: Embed(source="assets/menuBar_selectedSkin.gif");
+	overSkin: Embed(source="assets/menuBar_blankSkin.png");
+	downSkin: Embed(source="assets/menuBar_selectedSkin.gif");
+	disabledSkin: Embed(source="assets/menuBar_blankSkin.png");
+}

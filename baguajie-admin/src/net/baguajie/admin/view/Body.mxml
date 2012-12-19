@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="100%"
+		 height="100%" xmlns:view="net.baguajie.admin.view.*">
+	<fx:Declarations>
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import net.baguajie.admin.model.AdminModel;
+
+			[Bindable]
+			private var model:AdminModel=AdminModel.getInstance();
+		]]>
+	</fx:Script>
+	<fx:Binding source="bodyStack" destination="model.bodyStack"/>
+	<mx:ViewStack id="bodyStack"
+				  width="100%"
+				  height="100%"
+				  paddingTop="5"
+				  paddingLeft="5"
+				  paddingRight="5"
+				  paddingBottom="5"
+				  selectedIndex="0">
+		<view:SpotView />
+		<view:UserView />
+	</mx:ViewStack>
+</s:Group>

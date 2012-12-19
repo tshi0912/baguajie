@@ -11,34 +11,16 @@ public interface SpotRepository extends
 	
 	//search api......................................................
 	
-	@Query("{ '$where': 'function() { return (?0 ? this.city== ?0 : true) && " +
+	@Query("{ '$where': 'function() { return this.status != \"INVALID\" && (?0 ? this.city== ?0 : true) && " +
 			" (?1 ? this.category== ?1 : true) && (?2 ? (this.summary? this.summary.indexOf(?2)!=-1 : false) : true); } ' }")
 	Page<Spot> search(String city, String category,
 			String summaryLike, Pageable pageable);
 	
-	@Query("{ '$where': 'function() { return this.lngLat && (?0 ? this.city== ?0 : true) && " +
+	@Query("{ '$where': 'function() { return this.status != \"INVALID\" && this.lngLat && (?0 ? this.city== ?0 : true) && " +
 			" (?1 ? this.category== ?1 : true) && (?2 ? (this.summary? this.summary.indexOf(?2)!=-1 : false) : true); } ' }")
 	Page<Spot> searchMarker(String city, String category,
 			String summaryLike, Pageable pageable);
 	
-	Page<Spot> findByCityAndCategoryAndSummaryLike(String city, String category,
-			String summaryLike, Pageable pageable);
-	
-	Page<Spot> findByCityAndCategory(String city, String category,
-			Pageable pageable);
-	
-	Page<Spot> findByCityAndSummaryLike(String city, String summaryLike,
-			Pageable pageable);
-	
-	Page<Spot> findByCategoryAndSummaryLike(String category, String summaryLike,
-			Pageable pageable);
-	
-	Page<Spot> findByCity(String city, Pageable pageable);
-	
-	Page<Spot> findByCategory(String category, Pageable pageable);
-	
-	Page<Spot> findBySummaryLike(String summaryLike, Pageable pageable);
-
 	//..............................................................
 	
 	@Query("{ 'createdBy': {'$ref': 'user', '$id': { '$oid': ?0 } } , 'category' : ?1 }")
@@ -51,4 +33,6 @@ public interface SpotRepository extends
 	@Query("{'lngLat' : { '$nearSphere' : [ ?0 , ?1] , '$maxDistance' : ?2 } }")
 	Page<Spot> findByLngLatNear(Double lng, Double lat, Double distance,
 			Pageable pageable);
+	
+	Page<Spot> findByCity(String city, Pageable pageable);
 }

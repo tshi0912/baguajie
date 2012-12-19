@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   close="onClose(event);"
+			   title="采集详细信息">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.CloseEvent;
+			import mx.managers.PopUpManager;
+			
+			import net.baguajie.admin.model.SpotDetailModel;
+			import net.baguajie.admin.vo.SpotVo;
+
+			[Bindable]
+			private var model:SpotDetailModel=SpotDetailModel.getInstance();
+
+			private function onClose(event:CloseEvent):void
+			{
+				PopUpManager.removePopUp(this);
+			}
+			
+			private function okBtn_clickHandler(event:MouseEvent):void
+			{
+				model.update();
+			}
+
+			protected function validCheck_changeHandler(event:Event):void
+			{
+				if(model.spot)
+				{
+					model.spot.status =	validCheck.selected? SpotVo.VALID : SpotVo.INVALID;
+				}
+			}
+
+		]]>
+	</fx:Script>
+	<s:layout>
+		<s:HorizontalLayout gap="10"
+							paddingLeft="10"
+							paddingTop="10"
+							paddingBottom="10"
+							paddingRight="10"/>
+	</s:layout>
+	<mx:Canvas backgroundColor="#cccccc"
+			   horizontalScrollPolicy="off"
+			   verticalScrollPolicy="off"
+			   maxHeight="300">
+		<mx:Image id="image"
+				  width="{model.imageWidth}"
+				  height="{model.imageHeight}"
+				  source="{model.imageUrl}"/>
+	</mx:Canvas>
+	<mx:Form width="300"
+			 paddingTop="0"
+			 paddingRight="0"
+			 paddingBottom="0"
+			 paddingLeft="0"
+			 verticalGap="10"
+			 horizontalGap="10">
+		<mx:FormItem width="100%"
+					 label="标识符">
+			<s:TextInput id="idInput"
+						 width="100%"
+						 enabled="false"
+						 text="{model.spot.id}"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%"
+					 label="名称">
+			<s:TextInput id="nameInput"
+						 width="100%"
+						 enabled="false"
+						 text="{model.spot.name}"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%"
+					 label="摘要">
+			<s:TextArea id="summaryArea"
+						width="100%"
+						enabled="false"
+						height="110"
+						text="{model.spot.summary}"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%"
+					 label="采集者">
+			<s:TextInput id="createdByInput"
+						 width="100%"
+						 enabled="false"
+						 text="{model.spot.createdBy.name}"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%"
+					 label="采集日期">
+			<s:TextInput id="createdAtInput"
+						 width="100%"
+						 enabled="false"
+						 text="{model.spot.createdAt}"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%"
+					 label="有效">
+			<s:CheckBox id="validCheck"
+						width="100%"
+					    change="validCheck_changeHandler(event)"
+						selected="{model.spot.status == SpotVo.VALID}"/>
+		</mx:FormItem>
+		<mx:FormItem width="100%">
+			<s:HGroup width="100%">
+				<s:Button id="okBtn" label="确定" click="okBtn_clickHandler(event);"/>
+			</s:HGroup>
+		</mx:FormItem>
+	</mx:Form>
+</s:TitleWindow>

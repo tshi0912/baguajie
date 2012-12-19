@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  width="100%">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Script>
+		<![CDATA[
+			import net.baguajie.admin.model.AdminModel;
+			
+			[Bindable]
+			private var adminModel:AdminModel = AdminModel.getInstance();
+		]]>
+	</fx:Script>
+	<mx:HBox width="100%" 
+			 height="21"
+			 backgroundAlpha="1" 
+			 backgroundColor="#003589">
+		<mx:LinkBar id="menuBar" height="100%"
+					dataProvider="{adminModel.bodyStack}"
+					linkButtonStyleName="menuBarStyle"
+					horizontalGap="0"
+					separatorWidth="0"
+					paddingTop="0"
+					paddingBottom="0"
+					paddingLeft="0"
+					paddingRight="0">
+		</mx:LinkBar>
+	</mx:HBox>
+</s:HGroup>

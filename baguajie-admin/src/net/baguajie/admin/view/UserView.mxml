@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:fx="http://ns.adobe.com/mxml/2009"
+		 xmlns:s="library://ns.adobe.com/flex/spark"
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 width="100%"
+		 height="100%"
+		 label="用户管理"
+		 creationComplete="onCreationComplete();">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+
+	<fx:Script>
+		<![CDATA[
+			import net.baguajie.admin.model.UserDetailModel;
+			import net.baguajie.admin.model.UserModel;
+			import net.baguajie.admin.vo.UserVo;
+
+			[Bindable]
+			private var model:UserModel=UserModel.getInstance();
+
+			protected function userADG_doubleClickHandler(event:MouseEvent):void
+			{
+				var selectedUser:UserVo=userADG.selectedItem as UserVo;
+				UserDetailModel.getInstance().showPopup(selectedUser, this);
+			}
+
+			private function nextBtn_clickHandler():void
+			{
+				model.current--;
+				model.getUsers();
+			}
+
+			private function onCreationComplete():void
+			{
+				model.getUsers();
+			}
+
+			private function prevBtn_clickHandler():void
+			{
+				model.current++;
+				model.getUsers();
+			}
+		]]>
+	</fx:Script>
+	<mx:AdvancedDataGrid id="userADG"
+						 width="100%"
+						 height="100%"
+						 sortExpertMode="true"
+						 dataProvider="{model.users}"
+						 doubleClickEnabled="true"
+						 doubleClick="userADG_doubleClickHandler(event)">
+		<mx:columns>
+
+			<mx:AdvancedDataGridColumn dataField="id"
+									   headerText="标识符"/>
+			<mx:AdvancedDataGridColumn dataField="name"
+									   headerText="昵称"/>
+			<mx:AdvancedDataGridColumn dataField="email"
+									   headerText="邮箱"/>
+			<mx:AdvancedDataGridColumn dataField="gender"
+									   headerText="性别"/>
+			<mx:AdvancedDataGridColumn dataField="createdAt"
+									   headerText="注册时间"/>
+		</mx:columns>
+	</mx:AdvancedDataGrid>
+	<mx:HBox width="100%"
+			 horizontalAlign="right"
+			 verticalAlign="middle">
+		<mx:LinkButton id="prevBtn"
+					   label="&lt;"
+					   enabled="{model.current &gt; 1}"
+					   click="prevBtn_clickHandler();"/>
+		<s:Label paddingTop="4"
+				 text="{model.current + '/' + model.total}"/>
+		<mx:LinkButton id="nextBtn"
+					   label="&gt;"
+					   enabled="{model.current &lt; model.total}"
+					   click="nextBtn_clickHandler();"/>
+	</mx:HBox>
+</mx:VBox>

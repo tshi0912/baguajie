@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+import net.baguajie.constants.SpotStatus;
 import net.baguajie.vo.SpotCreationVo;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -46,6 +47,7 @@ public class Spot implements Serializable {
 	private int forwardedCount;
 	private int commentedCount;
 	private int sharedCount;
+	private SpotStatus status;
 	
 	public String getId() {
 		return id;
@@ -137,6 +139,12 @@ public class Spot implements Serializable {
 	public void setSharedCount(int sharedCount) {
 		this.sharedCount = sharedCount;
 	}
+	public SpotStatus getStatus() {
+		return status;
+	}
+	public void setStatus(SpotStatus status) {
+		this.status = status;
+	}
 	
 	@Override
 	public int hashCode() {
@@ -172,6 +180,7 @@ public class Spot implements Serializable {
 		spot.setCreatedBy(signInUser);
 		spot.setCategory(vo.getCategory());
 		spot.setCity(vo.getCity());
+		spot.setStatus(SpotStatus.VALID);
 		return spot;
 	}
 }

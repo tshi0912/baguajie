@@ -61,6 +61,7 @@
 		<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 		<bean class="org.springframework.data.mongodb.core.mapping.event.LoggingEventListener"/>
 		<import resource="applicationContext-mvc.xml" />
+		<import resource="applicationContext-flex.xml" />
 	</beans>
 	
 </beans>

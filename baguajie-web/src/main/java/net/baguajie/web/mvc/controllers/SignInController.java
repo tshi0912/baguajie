@@ -9,6 +9,7 @@ import javax.validation.Valid;
 
 import net.baguajie.constants.AjaxResultCode;
 import net.baguajie.constants.ApplicationConstants;
+import net.baguajie.constants.UserStatus;
 import net.baguajie.domains.User;
 import net.baguajie.domains.UserPreference;
 import net.baguajie.exceptions.ResourceNotFoundException;
@@ -83,6 +84,10 @@ public class SignInController {
 					result.addError(new FieldError("signInCredentialVo",
 							"signInPassword", "密码不正确"));
 				}
+				if(existed.getStatus() == UserStatus.INVALID){
+					result.addError(new FieldError("signInCredentialVo",
+							"signInName", "账号暂时不能登陆"));
+				}
 			}
 		}
 		if (result.hasErrors()) {
@@ -117,6 +122,10 @@ public class SignInController {
 					result.addError(new FieldError("signInCredentialVo",
 							"signInPassword", "密码不正确"));
 				}
+				if(existed.getStatus() == UserStatus.INVALID){
+					result.addError(new FieldError("signInCredentialVo",
+							"signInName", "账号暂时不能登陆"));
+				}
 			}
 		}
 
@@ -135,5 +144,4 @@ public class SignInController {
 
 		return "redirect:/";
 	}
-
 }

@@ -111,23 +111,6 @@ public class SearchSpotsController {
 		}
 		
 		Iterable<Spot> spots = null;
-//		if(StringUtils.hasText(city) && StringUtils.hasText(category) && StringUtils.hasText(summaryLike) ){
-//			spots = spotRepository.findByCityAndCategoryAndSummaryLike(city, category, summaryLike, pageable);
-//		}else if(StringUtils.hasText(city) && StringUtils.hasText(category) && !StringUtils.hasText(summaryLike)){
-//			spots = spotRepository.findByCityAndCategory(city, category, pageable);
-//		}else if(StringUtils.hasText(city) && !StringUtils.hasText(category) && StringUtils.hasText(summaryLike)){
-//			spots = spotRepository.findByCityAndSummaryLike(city, summaryLike, pageable);
-//		}else if(!StringUtils.hasText(city) && StringUtils.hasText(category) && StringUtils.hasText(summaryLike)){
-//			spots = spotRepository.findByCategoryAndSummaryLike(category, summaryLike, pageable);
-//		}else if(!StringUtils.hasText(city) && !StringUtils.hasText(category) && StringUtils.hasText(summaryLike)){
-//			spots = spotRepository.findBySummaryLike(summaryLike, pageable);
-//		}else if(!StringUtils.hasText(city) && StringUtils.hasText(category) && !StringUtils.hasText(summaryLike)){
-//			spots = spotRepository.findByCategory(category, pageable);
-//		}else if(StringUtils.hasText(city) && !StringUtils.hasText(category) && !StringUtils.hasText(summaryLike)){
-//			spots = spotRepository.findByCity(city, pageable);
-//		}else{
-//			spots = spotRepository.findAll(pageable);
-//		}
 		if(!isMarker){
 			spots = spotRepository.search(StringUtils.trimWhitespace(city), 
 					StringUtils.trimWhitespace(category), 
