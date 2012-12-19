@@ -109,7 +109,7 @@
 			 <groupId>org.springframework.flex</groupId>
 			 <artifactId>spring-flex-core</artifactId>
 			 <version>1.5.0.RELEASE</version>
-		</dependency> 
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>

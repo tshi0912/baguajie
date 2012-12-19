@@ -123,9 +123,7 @@ public class Activity implements Serializable {
 	public String toString() {
 		return new ToStringBuilder(this)
 				.append(owner)
-				.append(":")
 				.append(type)
-				.append(":")
 				.append(content)
 				.toString();
 	}

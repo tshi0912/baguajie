@@ -49,6 +49,7 @@ public class User implements Serializable {
 	@NotNull
 	private Date createdAt;
 	private Date updatedAt;
+	@NotNull
 	private UserStatus status;
 	
 	public String getId() {

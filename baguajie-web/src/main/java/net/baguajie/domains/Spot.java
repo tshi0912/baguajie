@@ -47,6 +47,7 @@ public class Spot implements Serializable {
 	private int forwardedCount;
 	private int commentedCount;
 	private int sharedCount;
+	@NotNull
 	private SpotStatus status;
 	
 	public String getId() {

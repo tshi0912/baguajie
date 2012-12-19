@@ -105,8 +105,8 @@ public class Comment implements Serializable {
 	public String toString() {
 		return new ToStringBuilder(this)
 				.append(act)
-				.append("<--")
 				.append(createdBy)
+				.append(createdAt)
 				.toString();
 	}
 	
