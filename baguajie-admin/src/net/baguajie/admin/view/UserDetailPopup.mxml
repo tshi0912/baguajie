@@ -18,14 +18,6 @@
 			[Bindable]
 			private var model:UserDetailModel=UserDetailModel.getInstance();
 
-			protected function validCheck_changeHandler(event:Event):void
-			{
-				if (model.user)
-				{
-					model.user.status=validCheck.selected ? UserVo.VALID : UserVo.INVALID;
-				}
-			}
-
 			private function okBtn_clickHandler(event:MouseEvent):void
 			{
 				model.update();
@@ -36,6 +28,14 @@
 				if(model.user)
 				{
 					model.user.role = roleCombo.selectedItem;
+				}
+			}
+			
+			private function statusCombo_changeHandler(event:Event):void
+			{
+				if(model.user)
+				{
+					model.user.status = statusCombo.selectedItem;
 				}
 			}
 
@@ -104,11 +104,12 @@
 					    selectedIndex="{model.roleIdx}"/>
 		</mx:FormItem>
 		<mx:FormItem width="100%"
-					 label="有效">
-			<s:CheckBox id="validCheck"
+					 label="状态">
+			<s:ComboBox id="statusCombo"
 						width="100%"
-						change="validCheck_changeHandler(event);"
-						selected="{model.user.status == UserVo.VALID}"/>
+						change="statusCombo_changeHandler(event);"
+						dataProvider="{model.status}"
+						selectedIndex="{model.statusIdx}"/>
 		</mx:FormItem>
 		<mx:FormItem width="100%">
 			<s:HGroup width="100%">

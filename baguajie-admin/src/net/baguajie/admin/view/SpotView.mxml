@@ -12,6 +12,9 @@
 
 	<fx:Script>
 		<![CDATA[
+			import mx.controls.Alert;
+			
+			import net.baguajie.admin.model.AdminModel;
 			import net.baguajie.admin.model.SpotDetailModel;
 			import net.baguajie.admin.model.SpotModel;
 			import net.baguajie.admin.vo.SpotVo;

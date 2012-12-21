@@ -60,7 +60,7 @@
 			factory-class="net.baguajie.repositories.AtomicOperationsRepositoryFactoryBean"/>
 		<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
 		<bean class="org.springframework.data.mongodb.core.mapping.event.LoggingEventListener"/>
-		<!--import resource="applicationContext-flex.xml" /-->
+		<import resource="applicationContext-flex.xml" />
 		<import resource="applicationContext-mvc.xml" />
 	</beans>
 	

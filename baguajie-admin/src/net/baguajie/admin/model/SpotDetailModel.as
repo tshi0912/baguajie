@@ -1,9 +1,7 @@
 package net.baguajie.admin.model
 {
 	import com.adobe.cairngorm.model.ModelLocator;
-	
 	import flash.display.DisplayObject;
-	
 	import mx.collections.ArrayCollection;
 	import mx.containers.ViewStack;
 	import mx.controls.LinkBar;
@@ -12,7 +10,7 @@ package net.baguajie.admin.model
 	import mx.events.CloseEvent;
 	import mx.managers.PopUpManager;
 	import mx.utils.ObjectUtil;
-	
+	import mx.utils.URLUtil;
 	import net.baguajie.admin.controller.SimpleROInvoker;
 	import net.baguajie.admin.controller.SimpleROToken;
 	import net.baguajie.admin.event.SimpleROEvent;
@@ -20,7 +18,6 @@ package net.baguajie.admin.model
 	import net.baguajie.admin.view.SpotDetailPopup;
 	import net.baguajie.admin.view.UserDetailPopup;
 	import net.baguajie.admin.vo.SpotVo;
-	
 	import spark.components.Application;
 
 	[Bindable]
@@ -46,6 +43,8 @@ package net.baguajie.admin.model
 		public var imageHeight:int;
 		public var imageUrl:String;
 		public var imageWidth:int=190;
+		public var status:ArrayCollection=new ArrayCollection([SpotVo.VALID, SpotVo.INVALID]);
+		public var statusIdx:int=-1;
 		private var _orgSpot:SpotVo;
 		private var _spot:SpotVo;
 
@@ -74,12 +73,13 @@ package net.baguajie.admin.model
 		{
 			_spot=ObjectUtil.copy(value) as SpotVo;
 			_orgSpot=ObjectUtil.copy(_spot) as SpotVo;
+			statusIdx=spot.status ? status.getItemIndex(spot.status) : -1;
 			if (_spot.image && spot.image.orgSize && spot.image.orgSize.length == 2)
 			{
 				var w:int=_spot.image.orgSize[1];
 				var h:int=_spot.image.orgSize[0];
 				imageHeight=h * 190 / w;
-				imageUrl=AdminModel.getInstance().baseUrl + "/images/spots/" + _spot.image.resId;
+				imageUrl=AdminModel.getInstance().baseUrl + '/images/spots/' + _spot.image.resId;
 			}
 		}
 

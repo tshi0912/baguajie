@@ -9,6 +9,18 @@
 			   minWidth="400"
 			   minHeight="300"
 			   currentState="login">
+	<fx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.events.BrowserChangeEvent;
+			import mx.events.FlexEvent;
+			import mx.managers.BrowserManager;
+			import mx.managers.IBrowserManager;
+			
+			import net.baguajie.admin.model.AdminModel;
+			
+		]]>
+	</fx:Script>
 	<fx:Declarations>
 		<service:Services id="services"/>
 		<controller:AppController id="controller"/>

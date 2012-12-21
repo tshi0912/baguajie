@@ -1,9 +1,7 @@
 package net.baguajie.admin.model
 {
 	import com.adobe.cairngorm.model.ModelLocator;
-	
 	import flash.display.DisplayObject;
-	
 	import mx.collections.ArrayCollection;
 	import mx.containers.ViewStack;
 	import mx.controls.LinkBar;
@@ -11,14 +9,13 @@ package net.baguajie.admin.model
 	import mx.events.CloseEvent;
 	import mx.managers.PopUpManager;
 	import mx.utils.ObjectUtil;
-	
+	import mx.utils.URLUtil;
 	import net.baguajie.admin.controller.SimpleROInvoker;
 	import net.baguajie.admin.controller.SimpleROToken;
 	import net.baguajie.admin.event.SimpleROEvent;
 	import net.baguajie.admin.util.ObjectCopyUtil;
 	import net.baguajie.admin.view.UserDetailPopup;
 	import net.baguajie.admin.vo.UserVo;
-	
 	import spark.components.Application;
 
 	[Bindable]
@@ -46,6 +43,8 @@ package net.baguajie.admin.model
 		public var imageWidth:int=190;
 		public var roleIdx:int=-1;
 		public var roles:ArrayCollection=new ArrayCollection(["USER", "ADMIN"]);
+		public var status:ArrayCollection=new ArrayCollection([UserVo.VALID, UserVo.INVALID]);
+		public var statusIdx:int=-1;
 		private var _orgUser:UserVo;
 		private var _user:UserVo;
 
@@ -87,20 +86,14 @@ package net.baguajie.admin.model
 		{
 			_user=ObjectUtil.copy(value) as UserVo;
 			_orgUser=ObjectUtil.copy(value) as UserVo;
-			if(user.role)
-			{
-				roleIdx = roles.getItemIndex(user.role);
-			}
-			else
-			{
-				roleIdx = -1;
-			}
+			roleIdx=user.role ? roles.getItemIndex(user.role) : -1;
+			statusIdx=user.status ? status.getItemIndex(user.status) : -1;
 			if (user.avatar && user.avatar.orgSize && user.avatar.orgSize.length == 2)
 			{
 				var w:int=_user.avatar.orgSize[1];
 				var h:int=_user.avatar.orgSize[0];
 				imageHeight=h * 190 / w;
-				imageUrl=AdminModel.getInstance().baseUrl + "/images/avatars/" + _user.avatar.resId;
+				imageUrl=AdminModel.getInstance().baseUrl + '/images/avatars/' + _user.avatar.resId;
 			}
 			else
 			{

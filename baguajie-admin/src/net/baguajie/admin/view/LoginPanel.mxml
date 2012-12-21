@@ -2,7 +2,7 @@
 <s:Panel xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
-		 width="200"
+		 width="250"
 		 title="请登陆">
 	<s:layout>
 		<s:VerticalLayout/>
@@ -12,16 +12,22 @@
 		<![CDATA[
 			import com.adobe.cairngorm.view.ViewLocator;
 			
+			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.utils.URLUtil;
+			
 			import net.baguajie.admin.model.AdminModel;
 			import net.baguajie.admin.viewhelper.AdminHelper;
 			import net.baguajie.admin.viewhelper.ViewHelperDelegator;
 			protected function signInBtn_clickHandler(event:MouseEvent):void
 			{
-				if(nameInput.text && pwdInput.text)
-				{
-					AdminModel.getInstance().signIn(nameInput.text, pwdInput.text);
-				}
+//				if(nameInput.text && pwdInput.text)
+//				{
+//					AdminModel.getInstance().signIn(nameInput.text, pwdInput.text);
+//				}
+				ViewHelperDelegator.getAdminHelper().toDefaultState();
 			}
+
 		]]>
 	</fx:Script>
 

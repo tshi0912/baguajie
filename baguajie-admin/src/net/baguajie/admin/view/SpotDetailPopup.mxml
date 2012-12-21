@@ -27,15 +27,14 @@
 			{
 				model.update();
 			}
-
-			protected function validCheck_changeHandler(event:Event):void
+			
+			private function statusCombo_changeHandler(event:Event):void
 			{
 				if(model.spot)
 				{
-					model.spot.status =	validCheck.selected? SpotVo.VALID : SpotVo.INVALID;
+					model.spot.status = statusCombo.selectedItem;
 				}
 			}
-
 		]]>
 	</fx:Script>
 	<s:layout>
@@ -98,11 +97,12 @@
 						 text="{model.spot.createdAt}"/>
 		</mx:FormItem>
 		<mx:FormItem width="100%"
-					 label="有效">
-			<s:CheckBox id="validCheck"
+					 label="状态">
+			<s:ComboBox id="statusCombo"
 						width="100%"
-					    change="validCheck_changeHandler(event)"
-						selected="{model.spot.status == SpotVo.VALID}"/>
+						change="statusCombo_changeHandler(event);"
+						dataProvider="{model.status}"
+						selectedIndex="{model.statusIdx}"/>
 		</mx:FormItem>
 		<mx:FormItem width="100%">
 			<s:HGroup width="100%">
