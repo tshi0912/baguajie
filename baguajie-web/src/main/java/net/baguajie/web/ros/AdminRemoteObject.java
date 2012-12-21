@@ -1,10 +1,9 @@
 package net.baguajie.web.ros;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import net.baguajie.constants.ApplicationConfig;
+import net.baguajie.constants.Role;
 import net.baguajie.constants.SpotStatus;
 import net.baguajie.constants.UserStatus;
 import net.baguajie.domains.Spot;
@@ -31,6 +30,32 @@ public class AdminRemoteObject {
 	private SpotRepository spotRepository;
 	@Autowired
 	private UserRepository userRepository;
+	
+	@RemotingInclude
+	public ROResult signIn(String name, String pwd){
+		ROResult result = new ROResult();
+		try {
+			User existed = null;
+			if(name != null && pwd != null){
+				existed = userRepository.getByName(name);
+			}else{
+				throw new RuntimeException("用户名或密码不能为空");
+			}
+			if(existed==null){
+				throw new RuntimeException("用户\""+name+"\"不存在");
+			}else if(!pwd.equals(existed.getPassword())){
+				throw new RuntimeException("登陆密码错误");
+			}else if(Role.ADMIN != existed.getRole()){
+				throw new RuntimeException("该用户无此权限");
+			}
+			result.setResult(existed);
+		} catch (Exception e) {
+			result.setErrorCode(new ErrorCode(ErrorCode.BUSINESS_ERROR,
+					ErrorCode.ERROR, e.getMessage()));
+			result.addErrorMsg(e.getMessage());
+		}
+		return result;
+	}
 
 	@RemotingInclude
 	public ROResult getSpotsAtPage(int no) {
@@ -89,18 +114,19 @@ public class AdminRemoteObject {
 	}
 	
 	@RemotingInclude
-	public ROResult updateUserStatus(String id, UserStatus status)
+	public ROResult updateUser(User u)
 	{
 		ROResult result = new ROResult();
 		try {
-			User user = userRepository.findOne(id);
+			User user = userRepository.findOne(u.getId());
 			if(user != null){
-				user.setStatus(status);
+				user.setStatus(u.getStatus());
+				user.setRole(u.getRole());
 				user.setUpdatedAt(new Date());
 				userRepository.save(user);
 				result.setResult(user);
 			}else{
-				throw new RuntimeException("Could not find user with id \"" + id + "\"");
+				throw new RuntimeException("Could not find user with id \"" + u.getId() + "\"");
 			}
 		} catch (Exception e) {
 			result.setErrorCode(new ErrorCode(ErrorCode.BUSINESS_ERROR,

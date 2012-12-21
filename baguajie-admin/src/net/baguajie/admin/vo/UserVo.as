@@ -12,6 +12,8 @@ package net.baguajie.admin.vo
 		public var email:String;
 		public var gender:String;
 		public var status:String;
+		public var avatar:ResourceVo;
+		public var role:String;
 		public var createdAt:Date;
 	}
 }

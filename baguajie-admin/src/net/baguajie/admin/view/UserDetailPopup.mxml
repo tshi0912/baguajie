@@ -11,39 +11,60 @@
 		<![CDATA[
 			import mx.events.CloseEvent;
 			import mx.managers.PopUpManager;
+			
 			import net.baguajie.admin.model.UserDetailModel;
 			import net.baguajie.admin.vo.UserVo;
 
 			[Bindable]
 			private var model:UserDetailModel=UserDetailModel.getInstance();
 
-			private function onClose(event:CloseEvent):void
+			protected function validCheck_changeHandler(event:Event):void
 			{
-				PopUpManager.removePopUp(this);
+				if (model.user)
+				{
+					model.user.status=validCheck.selected ? UserVo.VALID : UserVo.INVALID;
+				}
 			}
-			
+
 			private function okBtn_clickHandler(event:MouseEvent):void
 			{
 				model.update();
 			}
 			
-			protected function validCheck_changeHandler(event:Event):void
+			private function roleCombo_changeHandler(event:Event):void
 			{
 				if(model.user)
 				{
-					model.user.status =	validCheck.selected? UserVo.VALID : UserVo.INVALID;
+					model.user.role = roleCombo.selectedItem;
 				}
+			}
+
+			private function onClose(event:CloseEvent):void
+			{
+				PopUpManager.removePopUp(this);
 			}
 		]]>
 	</fx:Script>
 	<s:layout>
 		<s:HorizontalLayout gap="10"
-							paddingLeft="5"
-							paddingTop="5"
-							paddingBottom="5"
-							paddingRight="5"/>
+							paddingLeft="10"
+							paddingTop="10"
+							paddingBottom="10"
+							paddingRight="10"/>
 	</s:layout>
-	<mx:Form width="300"
+	<mx:Canvas backgroundColor="#cccccc"
+			   horizontalScrollPolicy="off"
+			   verticalScrollPolicy="off">
+		<mx:Image id="image"
+				  width="{model.imageWidth}"
+				  height="{model.imageHeight}"
+				  source="{model.imageUrl}"/>
+	</mx:Canvas>
+	<mx:Form width="250"
+			 paddingTop="0"
+			 paddingRight="0"
+			 paddingBottom="0"
+			 paddingLeft="0"
 			 verticalGap="10"
 			 horizontalGap="10">
 		<mx:FormItem width="100%"
@@ -75,15 +96,25 @@
 						 text="{model.user.createdAt}"/>
 		</mx:FormItem>
 		<mx:FormItem width="100%"
+					 label="用户组">
+			<s:ComboBox id="roleCombo"
+						width="100%"
+					    change="roleCombo_changeHandler(event);"
+					    dataProvider="{model.roles}"
+					    selectedItem="{model.user.role}" />
+		</mx:FormItem>
+		<mx:FormItem width="100%"
 					 label="有效">
 			<s:CheckBox id="validCheck"
 						width="100%"
-					    change="validCheck_changeHandler(event);"
+						change="validCheck_changeHandler(event);"
 						selected="{model.user.status == UserVo.VALID}"/>
 		</mx:FormItem>
 		<mx:FormItem width="100%">
 			<s:HGroup width="100%">
-				<s:Button id="okBtn" label="确定" click="okBtn_clickHandler(event);"/>
+				<s:Button id="okBtn"
+						  label="确定"
+						  click="okBtn_clickHandler(event);"/>
 			</s:HGroup>
 		</mx:FormItem>
 	</mx:Form>

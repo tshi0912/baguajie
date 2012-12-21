@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 
 import net.baguajie.constants.ApplicationConfig;
 import net.baguajie.constants.Gender;
+import net.baguajie.constants.Role;
 import net.baguajie.constants.UserStatus;
 import net.baguajie.vo.SignUpUserVo;
 
@@ -51,6 +52,7 @@ public class User implements Serializable {
 	private Date updatedAt;
 	@NotNull
 	private UserStatus status;
+	private Role role;
 	
 	public String getId() {
 		return id;
@@ -165,6 +167,12 @@ public class User implements Serializable {
 	}
 	public void setStatus(UserStatus status) {
 		this.status = status;
+	}
+	public Role getRole() {
+		return role;
+	}
+	public void setRole(Role role) {
+		this.role = role;
 	}
 	
 	@Override

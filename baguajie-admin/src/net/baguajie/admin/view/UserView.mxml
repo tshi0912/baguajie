@@ -41,6 +41,11 @@
 				model.current++;
 				model.getUsers();
 			}
+			
+			private function avatar_labelFunction(item:Object, adg:AdvancedDataGridColumn):String
+			{
+				return item && item.hasOwnProperty("avatar") && item.avatar ? "有的" : ""; 
+			}
 		]]>
 	</fx:Script>
 	<mx:AdvancedDataGrid id="userADG"
@@ -60,6 +65,8 @@
 									   headerText="邮箱"/>
 			<mx:AdvancedDataGridColumn dataField="gender"
 									   headerText="性别"/>
+			<mx:AdvancedDataGridColumn headerText="头像"
+									   labelFunction="avatar_labelFunction"/>
 			<mx:AdvancedDataGridColumn dataField="createdAt"
 									   headerText="注册时间"/>
 		</mx:columns>

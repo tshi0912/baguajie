@@ -48,7 +48,6 @@ package net.baguajie.admin.model
 		public var imageWidth:int=190;
 		private var _orgSpot:SpotVo;
 		private var _spot:SpotVo;
-		private var _urlBase:String="http://localhost:8080/baguajie-web";
 
 		private var view:SpotDetailPopup;
 
@@ -80,7 +79,7 @@ package net.baguajie.admin.model
 				var w:int=_spot.image.orgSize[1];
 				var h:int=_spot.image.orgSize[0];
 				imageHeight=h * 190 / w;
-				imageUrl=_urlBase + "/images/spots/" + _spot.image.resId;
+				imageUrl=AdminModel.getInstance().baseUrl + "/images/spots/" + _spot.image.resId;
 			}
 		}
 

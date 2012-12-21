@@ -5,6 +5,7 @@ package net.baguajie.admin.controller
 	import mx.collections.ArrayCollection;
 	
 	import net.baguajie.admin.event.SimpleROEvent;
+	import net.baguajie.admin.vo.UserVo;
 
 	public class SimpleROInvoker
 	{
@@ -12,8 +13,14 @@ package net.baguajie.admin.controller
 		private static const GET_USERS_AT_PAGE:String="getUsersAtPage";
 		private static const GET_SPOST_BY_ID:String="getSpotById";
 		private static const UPDATE_SPOT_STATUS:String = "updateSpotStatus";
-		private static const UPDATE_USER_STATUS:String = "updateUserStatus";
+		private static const UPDATE_USER:String = "updateUser";
+		private static const SIGN_IN:String = "signIn";
 
+		public static function signIn(name:String, pwd:String):SimpleROToken
+		{
+			return newSimpleRO(SIGN_IN, arguments);
+		}
+		
 		public static function getSpotsAtPage(page:int):SimpleROToken
 		{
 			return newSimpleRO(GET_SPOTS_AT_PAGE, arguments);
@@ -29,9 +36,9 @@ package net.baguajie.admin.controller
 			return newSimpleRO(GET_USERS_AT_PAGE, arguments);
 		}
 		
-		public static function updateUserStatus(id:String, status:String):SimpleROToken
+		public static function updateUser(user:UserVo):SimpleROToken
 		{
-			return newSimpleRO(UPDATE_USER_STATUS, arguments);
+			return newSimpleRO(UPDATE_USER, arguments);
 		}
 
 		private static function newSimpleRO(methodName:String, arguments:Array):SimpleROToken

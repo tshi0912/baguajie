@@ -3,6 +3,11 @@
 						  xmlns:s="library://ns.adobe.com/flex/spark"
 						  xmlns:mx="library://ns.adobe.com/flex/mx"
 						  xmlns:cairngorm="com.adobe.cairngorm.business.*">
+	<fx:Script>
+		<![CDATA[
+			import net.baguajie.admin.model.AdminModel;
+		]]>
+	</fx:Script>
 	<fx:Declarations>
 		<s:RemoteObject id="adminRO"
 						destination="adminRO"
@@ -13,7 +18,7 @@
 				<s:ChannelSet>
 					<s:channels>
 						<s:AMFChannel id="myAmf"
-									   uri="http://localhost:8080/baguajie-web/messagebroker/amf"/>
+									   uri="{AdminModel.getInstance().baseUrl + '/messagebroker/amf'}"/>
 					</s:channels>
 				</s:ChannelSet>
 			</s:channelSet>

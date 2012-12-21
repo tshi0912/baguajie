@@ -12,11 +12,15 @@
 		<![CDATA[
 			import com.adobe.cairngorm.view.ViewLocator;
 			
+			import net.baguajie.admin.model.AdminModel;
 			import net.baguajie.admin.viewhelper.AdminHelper;
 			import net.baguajie.admin.viewhelper.ViewHelperDelegator;
 			protected function signInBtn_clickHandler(event:MouseEvent):void
 			{
-				ViewHelperDelegator.getAdminHelper().toDefaultState();
+				if(nameInput.text && pwdInput.text)
+				{
+					AdminModel.getInstance().signIn(nameInput.text, pwdInput.text);
+				}
 			}
 		]]>
 	</fx:Script>
@@ -28,10 +32,10 @@
 			 horizontalGap="10"
 			 verticalGap="10">
 		<mx:FormItem label="账号" width="100%">
-			<s:TextInput width="100%" />
+			<s:TextInput id="nameInput" width="100%" />
 		</mx:FormItem>
 		<mx:FormItem label="密码" width="100%">
-			<s:TextInput width="100%" displayAsPassword="true" />
+			<s:TextInput id="pwdInput" width="100%" displayAsPassword="true" />
 		</mx:FormItem>
 		<mx:FormItem width="100%">
 			<s:Button id="signInBtn" label="登陆" click="signInBtn_clickHandler(event)" />
