@@ -31,7 +31,7 @@ package net.baguajie.admin.model
 				throw new Error("Only one ModelLocator instance should be instantiated");
 		}
 		
-		public var baseUrl:String = "http://127.0.0.1:8080/baguajie-web";
+		public var baseUrl:String = "http://baguajie-admin.cloudfoundry.com";
 		public var bodyStack:ViewStack;
 		public var menuBar:LinkBar;
 		public var signInUser:UserVo;

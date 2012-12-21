@@ -33,7 +33,7 @@
 
 			private function nextBtn_clickHandler():void
 			{
-				model.current--;
+				model.current++;
 				model.getSpots();
 			}
 
@@ -44,7 +44,7 @@
 
 			private function prevBtn_clickHandler():void
 			{
-				model.current++;
+				model.current--;
 				model.getSpots();
 			}
 		]]>

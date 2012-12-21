@@ -1,7 +1,9 @@
 package net.baguajie.admin.model
 {
 	import com.adobe.cairngorm.model.ModelLocator;
+	
 	import flash.display.DisplayObject;
+	
 	import mx.collections.ArrayCollection;
 	import mx.containers.ViewStack;
 	import mx.controls.LinkBar;
@@ -9,12 +11,14 @@ package net.baguajie.admin.model
 	import mx.events.CloseEvent;
 	import mx.managers.PopUpManager;
 	import mx.utils.ObjectUtil;
+	
 	import net.baguajie.admin.controller.SimpleROInvoker;
 	import net.baguajie.admin.controller.SimpleROToken;
 	import net.baguajie.admin.event.SimpleROEvent;
 	import net.baguajie.admin.util.ObjectCopyUtil;
 	import net.baguajie.admin.view.UserDetailPopup;
 	import net.baguajie.admin.vo.UserVo;
+	
 	import spark.components.Application;
 
 	[Bindable]
@@ -40,6 +44,7 @@ package net.baguajie.admin.model
 		public var imageHeight:int;
 		public var imageUrl:String;
 		public var imageWidth:int=190;
+		public var roleIdx:int=-1;
 		public var roles:ArrayCollection=new ArrayCollection(["USER", "ADMIN"]);
 		private var _orgUser:UserVo;
 		private var _user:UserVo;
@@ -82,6 +87,14 @@ package net.baguajie.admin.model
 		{
 			_user=ObjectUtil.copy(value) as UserVo;
 			_orgUser=ObjectUtil.copy(value) as UserVo;
+			if(user.role)
+			{
+				roleIdx = roles.getItemIndex(user.role);
+			}
+			else
+			{
+				roleIdx = -1;
+			}
 			if (user.avatar && user.avatar.orgSize && user.avatar.orgSize.length == 2)
 			{
 				var w:int=_user.avatar.orgSize[1];

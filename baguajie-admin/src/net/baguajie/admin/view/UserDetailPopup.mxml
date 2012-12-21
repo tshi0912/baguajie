@@ -101,7 +101,7 @@
 						width="100%"
 					    change="roleCombo_changeHandler(event);"
 					    dataProvider="{model.roles}"
-					    selectedItem="{model.user.role}" />
+					    selectedIndex="{model.roleIdx}"/>
 		</mx:FormItem>
 		<mx:FormItem width="100%"
 					 label="有效">
