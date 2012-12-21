@@ -47,6 +47,9 @@ package net.baguajie.admin.model
 			browserManager.init();
 			var base:String = browserManager.base;
 			var idx:int = base.indexOf("/admin");
+			if(idx==-1){
+				idx = base.lastIndexOf("/");
+			}
 			baseUrl = base.substring(0, idx);
 		}
 		
