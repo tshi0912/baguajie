@@ -10,6 +10,7 @@ package net.baguajie.admin.model
 	import net.baguajie.admin.controller.SimpleROToken;
 	import net.baguajie.admin.event.SimpleROEvent;
 	import net.baguajie.admin.vo.ErrorCodeVo;
+	import net.baguajie.admin.vo.PageVo;
 	import net.baguajie.admin.vo.ResourceVo;
 	import net.baguajie.admin.vo.SpotVo;
 	import net.baguajie.admin.vo.UserVo;
@@ -44,11 +45,13 @@ package net.baguajie.admin.model
 			token.resultHandler=getUsersAtPageCompleteHandler;
 		}
 		
-		private function getUsersAtPageCompleteHandler(users:ArrayCollection):void
+		private function getUsersAtPageCompleteHandler(page:PageVo):void
 		{
-			if (users && users.length != 0)
+			if (page && page.content && page.content is ArrayCollection)
 			{
-				this.users.source = users.source;
+				this.users.source = page.content.source;
+				current = page.number+1;
+				total = page.totalPages;
 			}
 			else
 			{

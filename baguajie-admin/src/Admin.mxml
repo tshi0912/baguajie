@@ -14,7 +14,7 @@
 		<controller:AppController id="controller"/>
 		<viewhelper:AdminHelper id="adminHelper"/>
 	</fx:Declarations>
-	<fx:Style source="styles.css" />
+	<fx:Style source="styles.css"/>
 	<s:states>
 		<s:State name="default"/>
 		<s:State name="login"/>
@@ -25,27 +25,22 @@
 						  paddingBottom="0"
 						  paddingRight="0"/>
 	</s:layout>
-	<s:Group width="100%"
-			 height="100%"
-			 visible="false"
-			 includeInLayout="false"
-			 visible.login="true"
-			 includeInLayout.login="true">
-		<s:layout>
-			<s:VerticalLayout horizontalAlign="center"
-							  verticalAlign="middle"/>
-		</s:layout>
-		<view:LoginPanel/>
-	</s:Group>
-	<s:Group width="100%"
-			 height="100%"
-			 visible.login="false"
-			 includeInLayout.login="false">
-		<s:layout>
-			<s:VerticalLayout gap="0" />
-		</s:layout>
-		<view:Header/>
-		<view:Menu />
-		<view:Body />
-	</s:Group>
+	<mx:ViewStack width="100%"
+				  height="100%"
+				  selectedIndex.default="1"
+				  selectedIndex.login="0">
+		<mx:VBox width="100%"
+				 height="100%"
+				 horizontalAlign="center"
+				 verticalAlign="middle">
+			<view:LoginPanel/>
+		</mx:VBox>
+		<mx:VBox width="100%"
+				 height="100%"
+				 verticalGap="0">
+			<view:Header/>
+			<view:Menu/>
+			<view:Body/>
+		</mx:VBox>
+	</mx:ViewStack>
 </s:Application>

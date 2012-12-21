@@ -10,6 +10,7 @@ import net.baguajie.domains.Spot;
 import net.baguajie.domains.User;
 import net.baguajie.repositories.SpotRepository;
 import net.baguajie.repositories.UserRepository;
+import net.baguajie.vo.PageVo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -65,7 +66,7 @@ public class AdminRemoteObject {
 					ApplicationConfig.masonryPageSize, new Sort(new Order(
 							Direction.DESC, "createdAt")));
 			Page<Spot> page = spotRepository.findAll(pageable);
-			result.setResult(page.getContent());
+			result.setResult(PageVo.from(page));
 		} catch (Exception e) {
 			result.setErrorCode(new ErrorCode(ErrorCode.BUSINESS_ERROR,
 					ErrorCode.ERROR, e.getMessage()));
@@ -82,7 +83,7 @@ public class AdminRemoteObject {
 					ApplicationConfig.masonryPageSize, new Sort(new Order(
 							Direction.DESC, "createdAt")));
 			Page<User> page = userRepository.findAll(pageable);
-			result.setResult(page.getContent());
+			result.setResult(PageVo.from(page));
 		} catch (Exception e) {
 			result.setErrorCode(new ErrorCode(ErrorCode.BUSINESS_ERROR,
 					ErrorCode.ERROR, e.getMessage()));
