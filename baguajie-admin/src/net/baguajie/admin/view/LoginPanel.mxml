@@ -21,11 +21,10 @@
 			import net.baguajie.admin.viewhelper.ViewHelperDelegator;
 			protected function signInBtn_clickHandler(event:MouseEvent):void
 			{
-//				if(nameInput.text && pwdInput.text)
-//				{
-//					AdminModel.getInstance().signIn(nameInput.text, pwdInput.text);
-//				}
-				ViewHelperDelegator.getAdminHelper().toDefaultState();
+				if(nameInput.text && pwdInput.text)
+				{
+					AdminModel.getInstance().signIn(nameInput.text, pwdInput.text);
+				}
 			}
 
 		]]>
