@@ -2,6 +2,7 @@
 <mx:VBox xmlns:fx="http://ns.adobe.com/mxml/2009"
 		 xmlns:s="library://ns.adobe.com/flex/spark"
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:comp="net.baguajie.admin.comp.*"
 		 width="100%"
 		 height="100%"
 		 label="采集管理"
@@ -13,6 +14,8 @@
 	<fx:Script>
 		<![CDATA[
 			import mx.controls.Alert;
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
 			
 			import net.baguajie.admin.model.AdminModel;
 			import net.baguajie.admin.model.SpotDetailModel;
@@ -21,6 +24,12 @@
 
 			[Bindable]
 			private var model:SpotModel=SpotModel.getInstance();
+
+			protected function pageBar_changeHandler(event:IndexChangedEvent):void
+			{
+				model.current=event.newIndex;
+				model.getSpots();
+			}
 
 			protected function spotADG_doubleClickHandler(event:MouseEvent):void
 			{
@@ -50,6 +59,12 @@
 				model.current--;
 				model.getSpots();
 			}
+			
+			private function sizeDropdown_changeHandler(event:Event):void
+			{
+				model.sizePerPage = sizeDropdown.selectedItem;
+				model.getSpots();
+			}
 		]]>
 	</fx:Script>
 	<mx:AdvancedDataGrid id="spotADG"
@@ -77,15 +92,16 @@
 	<mx:HBox width="100%"
 			 horizontalAlign="right"
 			 verticalAlign="middle">
-		<mx:LinkButton id="prevBtn"
-					   label="&lt;"
-					   enabled="{model.current &gt; 1}"
-					   click="prevBtn_clickHandler();"/>
-		<s:Label paddingTop="4"
-				 text="{model.current + '/' + model.total}"/>
-		<mx:LinkButton id="nextBtn"
-					   label="&gt;"
-					   enabled="{model.current &lt; model.total}"
-					   click="nextBtn_clickHandler();"/>
+		<mx:Label text="每页"/>
+		<s:DropDownList id="sizeDropdown"
+						width="60"
+						selectedItem="{model.sizePerPage}"
+					    change="sizeDropdown_changeHandler(event);"
+						dataProvider="{AdminModel.getInstance().pageSizes}"/>
+		<mx:Spacer width="100%"/>
+		<comp:PageBar totalPages="{model.total}"
+					  currentPage="{model.current}"
+					  hiddenIfDisabled="true"
+					  change="pageBar_changeHandler(event)"/>
 	</mx:HBox>
 </mx:VBox>

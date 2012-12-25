@@ -21,7 +21,7 @@ package net.baguajie.admin.controller
 			return newSimpleRO(SIGN_IN, arguments);
 		}
 		
-		public static function getSpotsAtPage(page:int):SimpleROToken
+		public static function getSpotsAtPage(page:int, size:int):SimpleROToken
 		{
 			return newSimpleRO(GET_SPOTS_AT_PAGE, arguments);
 		}
@@ -31,8 +31,8 @@ package net.baguajie.admin.controller
 			return newSimpleRO(UPDATE_SPOT_STATUS, arguments);
 		}
 		
-		public static function getUsersAtPage(page:int):SimpleROToken
-		{
+		public static function getUsersAtPage(page:int, size:int):SimpleROToken
+		{ 
 			return newSimpleRO(GET_USERS_AT_PAGE, arguments);
 		}
 		

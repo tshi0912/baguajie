@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009"
+		  xmlns:s="library://ns.adobe.com/flex/spark"
+		  xmlns:mx="library://ns.adobe.com/flex/mx"
+		  xmlns:comp="net.baguajie.admin.comp.*">
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<fx:Metadata>
+		[Event(name="change", type="mx.events.IndexChangedEvent")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
+			import mx.utils.StringUtil;
+			
+			import net.baguajie.admin.skin.PageBtnSkin;
+			
+			import spark.components.Button;
+			import spark.components.Label;
+
+			[Bindable]
+			private var _btnWidth:int=24;
+			private var _currentPage:int;
+			private var _enlaceScope:int=3;
+			[Bindable]
+			private var _hiddenIfDisabled:Boolean=false;
+			private var _totalPages:int;
+
+			[Bindable]
+			public function get currentPage():int
+			{
+				return _currentPage;
+			}
+
+			public function set currentPage(value:int):void
+			{
+				value = Math.min(Math.max(value, 1), totalPages);
+				if (_currentPage != value)
+				{
+					var oldIndex:int=_currentPage;
+					_currentPage=value;
+					invalidateProperties();
+					dispatchEvent(new IndexChangedEvent(IndexChangedEvent.CHANGE, 
+						false, false, this, oldIndex, _currentPage));
+				}
+			}
+
+			[Bindable]
+			public function get enlaceScope():int
+			{
+				return _enlaceScope;
+			}
+
+			public function set enlaceScope(value:int):void
+			{
+				if (_enlaceScope != value)
+				{
+					_enlaceScope=value;
+					invalidateProperties();
+				}
+			}
+
+			public function set hiddenIfDisabled(value:Boolean):void
+			{
+				if (_hiddenIfDisabled != value)
+				{
+					_hiddenIfDisabled=value;
+				}
+			}
+
+			[Bindable]
+			public function get totalPages():int
+			{
+				return _totalPages;
+			}
+
+			public function set totalPages(value:int):void
+			{
+				value = Math.max(value, 1);
+				if (_totalPages != value)
+				{
+					_totalPages=value;
+					invalidateProperties();
+				}
+			}
+
+			override protected function commitProperties():void
+			{
+				super.commitProperties();
+				createNumBtns();
+			}
+
+			private function abbrBtnClickHandler(event:MouseEvent):void
+			{
+				var name:String=event.target.name as String;
+				var eles:Array=name.split("_");
+				var idx:Number=parseFloat(eles[1]);
+				if (idx)
+				{
+					currentPage=idx;
+				}
+			}
+
+			private function createNumBtns():void
+			{
+				numBtnBar.removeAllElements();
+				var leftScope:int=Math.max(Math.min(_currentPage - 1, _enlaceScope), 0);
+				var rightScope:int=Math.max(Math.min(_totalPages - _currentPage, _enlaceScope), 0);
+				var btn:PageButton;
+				var i:int=0;
+				if (_currentPage - leftScope > 1)
+				{
+					var prefix:PageButton=new PageButton();
+					prefix.width=_btnWidth;
+					prefix.name="prefix_" + (_currentPage - leftScope - 1);
+					prefix.label="...";
+					prefix.setStyle("skinClass", net.baguajie.admin.skin.PageBtnSkin);
+					prefix.addEventListener(MouseEvent.CLICK, abbrBtnClickHandler);
+					numBtnBar.addElement(prefix);
+				}
+				for (i=0; i < leftScope; i++)
+				{
+					btn=new PageButton();
+					btn.label=_currentPage - (leftScope - i) + "";
+					btn.width=_btnWidth;
+					btn.setStyle("skinClass", net.baguajie.admin.skin.PageBtnSkin);
+					btn.addEventListener(MouseEvent.CLICK, numBtnClickHandler);
+					numBtnBar.addElement(btn);
+				}
+				btn=new PageButton();
+				btn.label=_currentPage + "";
+				btn.width=_btnWidth;
+				btn.selected=true;
+				btn.setStyle("skinClass", net.baguajie.admin.skin.PageBtnSkin);
+				btn.addEventListener(MouseEvent.CLICK, numBtnClickHandler);
+				numBtnBar.addElement(btn);
+				for (i=1; i <= rightScope; i++)
+				{
+					btn=new PageButton();
+					btn.label=_currentPage + i + "";
+					btn.width=_btnWidth;
+					btn.setStyle("skinClass", net.baguajie.admin.skin.PageBtnSkin);
+					btn.addEventListener(MouseEvent.CLICK, numBtnClickHandler);
+					numBtnBar.addElement(btn);
+				}
+				if (rightScope + _currentPage < _totalPages)
+				{
+					var suffix:PageButton=new PageButton();
+					suffix.width=_btnWidth;
+					suffix.name="suffix_" + (rightScope + _currentPage + 1);
+					suffix.label="...";
+					suffix.setStyle("skinClass", net.baguajie.admin.skin.PageBtnSkin);
+					suffix.addEventListener(MouseEvent.CLICK, abbrBtnClickHandler);
+					numBtnBar.addElement(suffix);
+				}
+			}
+
+			private function endBtnClickHandler(event:MouseEvent):void
+			{
+				currentPage=totalPages;
+			}
+
+			private function frontBtnClickHandler(event:MouseEvent):void
+			{
+				currentPage=1;
+			}
+
+			private function nextBtnClickHandler(event:MouseEvent):void
+			{
+				currentPage++;
+			}
+
+			private function numBtnClickHandler(event:MouseEvent):void
+			{
+				var idx:Number=parseFloat(event.target.label);
+				if (idx)
+				{
+					currentPage=idx;
+				}
+			}
+
+			private function numInputValueCommitHandler(event:FlexEvent):void
+			{
+				if(StringUtil.trim(event.target.text).length!=0)
+				{
+					var num:Number=parseFloat(event.target.text);
+					num=num ? num : 1;
+					num=Math.min(num, totalPages);
+					currentPage=num;
+					if(num!=parseFloat(event.target.text))
+					{
+						event.target.text = num+"";
+					}
+				}
+			}
+
+			private function preBtnClickHandler(event:MouseEvent):void
+			{
+				currentPage--;
+			}
+		]]>
+	</fx:Script>
+
+	<comp:PageButton id="frontBtn"
+					 label="&lt;&lt;"
+					 width="{_btnWidth}"
+					 enabled="{currentPage &gt; 1}"
+					 click="frontBtnClickHandler(event);"
+					 visible="{frontBtn.enabled || !_hiddenIfDisabled}"
+					 includeInLayout="{frontBtn.enabled || !_hiddenIfDisabled}"
+					 skinClass="net.baguajie.admin.skin.PageBtnSkin"/>
+	<comp:PageButton id="preBtn"
+					 label="&lt;"
+					 width="{_btnWidth}"
+					 enabled="{currentPage &gt; 1}"
+					 click="preBtnClickHandler(event);"
+					 visible="{preBtn.enabled || !_hiddenIfDisabled}"
+					 includeInLayout="{preBtn.enabled || !_hiddenIfDisabled}"
+					 skinClass="net.baguajie.admin.skin.PageBtnSkin"/>
+	<s:HGroup id="numBtnBar"
+			  width="100%">
+
+	</s:HGroup>
+	<comp:PageButton id="nextBtn"
+					 label="&gt;"
+					 width="{_btnWidth}"
+					 enabled="{currentPage &lt; totalPages}"
+					 click="nextBtnClickHandler(event);"
+					 visible="{nextBtn.enabled || !_hiddenIfDisabled}"
+					 includeInLayout="{nextBtn.enabled || !_hiddenIfDisabled}"
+					 skinClass="net.baguajie.admin.skin.PageBtnSkin"/>
+	<comp:PageButton id="endBtn"
+					 label="&gt;&gt;"
+					 width="{_btnWidth}"
+					 enabled="{currentPage &lt; totalPages}"
+					 click="endBtnClickHandler(event)"
+					 visible="{endBtn.enabled || !_hiddenIfDisabled}"
+					 includeInLayout="{endBtn.enabled || !_hiddenIfDisabled}"
+					 skinClass="net.baguajie.admin.skin.PageBtnSkin"/>
+	<s:HGroup verticalAlign="middle"
+			  paddingTop="0"
+			  paddingLeft="0"
+			  paddingBottom="0"
+			  paddingRight="0"
+			  gap="2">
+		<mx:Label text="到第"/>
+		<s:TextInput width="{_btnWidth}"
+					 height="{_btnWidth-4}"
+					 borderColor="#cccccc"
+					 restrict="0-9"
+					 valueCommit="numInputValueCommitHandler(event);"
+					 id="numInput"/>
+		<mx:Label text="{'页 / 共' + totalPages+'页'}"/>
+	</s:HGroup>
+</s:HGroup>

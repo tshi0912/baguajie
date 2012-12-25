@@ -9,6 +9,7 @@ package net.baguajie.admin.model
 	import net.baguajie.admin.controller.SimpleROInvoker;
 	import net.baguajie.admin.controller.SimpleROToken;
 	import net.baguajie.admin.event.SimpleROEvent;
+	import net.baguajie.admin.util.Constants;
 	import net.baguajie.admin.vo.ErrorCodeVo;
 	import net.baguajie.admin.vo.PageVo;
 	import net.baguajie.admin.vo.ResourceVo;
@@ -38,10 +39,11 @@ package net.baguajie.admin.model
 		public var current:int=1;
 		public var users:ArrayCollection=new ArrayCollection();
 		public var total:int=1;
+		public var sizePerPage:int = Constants.PAGE_SIZE_25;
 		
 		public function getUsers():void
 		{
-			var token:SimpleROToken=SimpleROInvoker.getUsersAtPage(current-1);
+			var token:SimpleROToken=SimpleROInvoker.getUsersAtPage(current-1, sizePerPage);
 			token.resultHandler=getUsersAtPageCompleteHandler;
 		}
 		

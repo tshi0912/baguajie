@@ -19,3 +19,11 @@
 	downSkin: Embed(source="assets/menuBar_selectedSkin.gif");
 	disabledSkin: Embed(source="assets/menuBar_blankSkin.png");
 }
+
+.pageBtn {
+	fontSize: 12;
+	paddingTop: 0;
+	paddingLeft: 0;
+	paddingRight: 0;
+	paddingBottom: 0;
+}

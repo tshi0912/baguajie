@@ -31,22 +31,22 @@ public class AdminRemoteObject {
 	private SpotRepository spotRepository;
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@RemotingInclude
-	public ROResult signIn(String name, String pwd){
+	public ROResult signIn(String name, String pwd) {
 		ROResult result = new ROResult();
 		try {
 			User existed = null;
-			if(name != null && pwd != null){
+			if (name != null && pwd != null) {
 				existed = userRepository.getByName(name);
-			}else{
+			} else {
 				throw new RuntimeException("用户名或密码不能为空");
 			}
-			if(existed==null){
-				throw new RuntimeException("用户\""+name+"\"不存在");
-			}else if(!pwd.equals(existed.getPassword())){
+			if (existed == null) {
+				throw new RuntimeException("用户\"" + name + "\"不存在");
+			} else if (!pwd.equals(existed.getPassword())) {
 				throw new RuntimeException("登陆密码错误");
-			}else if(Role.ADMIN != existed.getRole()){
+			} else if (Role.ADMIN != existed.getRole()) {
 				throw new RuntimeException("该用户无此权限");
 			}
 			result.setResult(existed);
@@ -59,12 +59,11 @@ public class AdminRemoteObject {
 	}
 
 	@RemotingInclude
-	public ROResult getSpotsAtPage(int no) {
+	public ROResult getSpotsAtPage(int at, int size) {
 		ROResult result = new ROResult();
 		try {
-			Pageable pageable = new PageRequest(Math.max(no, 0),
-					ApplicationConfig.masonryPageSize, new Sort(new Order(
-							Direction.DESC, "createdAt")));
+			Pageable pageable = new PageRequest(Math.max(at, 0), size,
+					new Sort(new Order(Direction.DESC, "createdAt")));
 			Page<Spot> page = spotRepository.findAll(pageable);
 			result.setResult(PageVo.from(page));
 		} catch (Exception e) {
@@ -76,12 +75,11 @@ public class AdminRemoteObject {
 	}
 
 	@RemotingInclude
-	public ROResult getUsersAtPage(int no) {
+	public ROResult getUsersAtPage(int at, int size) {
 		ROResult result = new ROResult();
 		try {
-			Pageable pageable = new PageRequest(Math.max(no, 0),
-					ApplicationConfig.masonryPageSize, new Sort(new Order(
-							Direction.DESC, "createdAt")));
+			Pageable pageable = new PageRequest(Math.max(at, 0), size,
+					new Sort(new Order(Direction.DESC, "createdAt")));
 			Page<User> page = userRepository.findAll(pageable);
 			result.setResult(PageVo.from(page));
 		} catch (Exception e) {
@@ -91,20 +89,20 @@ public class AdminRemoteObject {
 		}
 		return result;
 	}
-	
+
 	@RemotingInclude
-	public ROResult updateSpotStatus(String id, SpotStatus status)
-	{
+	public ROResult updateSpotStatus(String id, SpotStatus status) {
 		ROResult result = new ROResult();
 		try {
 			Spot spot = spotRepository.findOne(id);
-			if(spot != null){
+			if (spot != null) {
 				spot.setStatus(status);
 				spot.setUpdatedAt(new Date());
 				spotRepository.save(spot);
 				result.setResult(spot);
-			}else{
-				throw new RuntimeException("Could not find spot with id \"" + id + "\"");
+			} else {
+				throw new RuntimeException("Could not find spot with id \""
+						+ id + "\"");
 			}
 		} catch (Exception e) {
 			result.setErrorCode(new ErrorCode(ErrorCode.BUSINESS_ERROR,
@@ -113,21 +111,21 @@ public class AdminRemoteObject {
 		}
 		return result;
 	}
-	
+
 	@RemotingInclude
-	public ROResult updateUser(User u)
-	{
+	public ROResult updateUser(User u) {
 		ROResult result = new ROResult();
 		try {
 			User user = userRepository.findOne(u.getId());
-			if(user != null){
+			if (user != null) {
 				user.setStatus(u.getStatus());
 				user.setRole(u.getRole());
 				user.setUpdatedAt(new Date());
 				userRepository.save(user);
 				result.setResult(user);
-			}else{
-				throw new RuntimeException("Could not find user with id \"" + u.getId() + "\"");
+			} else {
+				throw new RuntimeException("Could not find user with id \""
+						+ u.getId() + "\"");
 			}
 		} catch (Exception e) {
 			result.setErrorCode(new ErrorCode(ErrorCode.BUSINESS_ERROR,
