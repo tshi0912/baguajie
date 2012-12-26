@@ -8,7 +8,13 @@
 	</fx:Declarations>
 	<fx:Script>
 		<![CDATA[
+			import net.baguajie.admin.model.AdminModel;
 			import net.baguajie.admin.viewhelper.ViewHelperDelegator;
+			import net.baguajie.admin.vo.UserVo;
+
+			[Bindable]
+			private var model:AdminModel=AdminModel.getInstance();
+
 			private function signOut():void
 			{
 				ViewHelperDelegator.getAdminHelper().toLoginState();
@@ -21,14 +27,22 @@
 			 paddingRight="10"
 			 paddingBottom="10"
 			 backgroundColor="#003589">
-		<s:Label text="八卦街管理控制台 "
-				 fontSize="22"
-				 color="#ffffff"
-				 fontWeight="bold"/>
+		<mx:Label text="八卦街管理控制台 "
+				  fontSize="22"
+				  color="#ffffff"
+				  fontWeight="bold"/>
 		<mx:Spacer width="100%"/>
-		<mx:LinkButton height="21"
-					   label="退出登陆"
-					   color="#ffffff"
-					   click="signOut()"/>
+		<mx:HBox horizontalGap="0">
+			<mx:Label text="{model.signInUser.name}"
+					  color="#ffffff"/>
+			<mx:Label text="{model.signInUser.role==UserVo.ADMIN?'(管理员)':'(普通用户)'}"
+					  color="#ffffff"/>
+			<mx:Label text="  | "
+					  color="#ffffff"/>
+			<mx:LinkButton height="21"
+						   label="退出登陆"
+						   color="#ffffff"
+						   click="signOut()"/>
+		</mx:HBox>
 	</mx:HBox>
 </s:HGroup>

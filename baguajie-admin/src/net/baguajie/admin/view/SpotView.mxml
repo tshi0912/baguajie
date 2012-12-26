@@ -18,6 +18,7 @@
 			import mx.events.IndexChangedEvent;
 			
 			import net.baguajie.admin.model.AdminModel;
+			import net.baguajie.admin.model.CommentsDetailModel;
 			import net.baguajie.admin.model.SpotDetailModel;
 			import net.baguajie.admin.model.SpotModel;
 			import net.baguajie.admin.vo.SpotVo;
@@ -59,10 +60,15 @@
 				model.current--;
 				model.getSpots();
 			}
-			
+
+			public function showComments(spot:SpotVo):void
+			{
+				CommentsDetailModel.getInstance().showPopup(spot, this);
+			}
+
 			private function sizeDropdown_changeHandler(event:Event):void
 			{
-				model.sizePerPage = sizeDropdown.selectedItem;
+				model.sizePerPage=sizeDropdown.selectedItem;
 				model.getSpots();
 			}
 		]]>
@@ -87,6 +93,21 @@
 									   labelFunction="createdBy_lableFunction"/>
 			<mx:AdvancedDataGridColumn dataField="createdAt"
 									   headerText="采集时间"/>
+			<mx:AdvancedDataGridColumn headerText="评论数">
+				<mx:itemRenderer>
+					<fx:Component>
+						<mx:LinkButton label="{data.commentedCount+' 条'}"
+									   enabled="{data.commentedCount &gt; 0}"
+									   click="outerDocument.showComments(data as SpotVo);">
+							<fx:Script>
+								<![CDATA[
+									import net.baguajie.admin.vo.SpotVo;
+								]]>
+							</fx:Script>
+						</mx:LinkButton>
+					</fx:Component>
+				</mx:itemRenderer>
+			</mx:AdvancedDataGridColumn>
 		</mx:columns>
 	</mx:AdvancedDataGrid>
 	<mx:HBox width="100%"
@@ -96,7 +117,7 @@
 		<s:DropDownList id="sizeDropdown"
 						width="60"
 						selectedItem="{model.sizePerPage}"
-					    change="sizeDropdown_changeHandler(event);"
+						change="sizeDropdown_changeHandler(event);"
 						dataProvider="{AdminModel.getInstance().pageSizes}"/>
 		<mx:Spacer width="100%"/>
 		<comp:PageBar totalPages="{model.total}"

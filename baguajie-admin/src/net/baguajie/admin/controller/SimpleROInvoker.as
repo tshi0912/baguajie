@@ -13,8 +13,10 @@ package net.baguajie.admin.controller
 		private static const GET_USERS_AT_PAGE:String="getUsersAtPage";
 		private static const GET_SPOST_BY_ID:String="getSpotById";
 		private static const UPDATE_SPOT_STATUS:String = "updateSpotStatus";
+		private static const UPDATE_COMMENT_STATUS:String = "updateCommentStatus";
 		private static const UPDATE_USER:String = "updateUser";
 		private static const SIGN_IN:String = "signIn";
+		private static const GET_COMMENTS:String = "getComments";
 
 		public static function signIn(name:String, pwd:String):SimpleROToken
 		{
@@ -39,6 +41,16 @@ package net.baguajie.admin.controller
 		public static function updateUser(user:UserVo):SimpleROToken
 		{
 			return newSimpleRO(UPDATE_USER, arguments);
+		}
+		
+		public static function updateCommentStatus(commentId:String, status:String):SimpleROToken
+		{
+			return newSimpleRO(UPDATE_COMMENT_STATUS, arguments);
+		}
+		
+		public static function getComments(spotId:String, createdById:String):SimpleROToken
+		{
+			return newSimpleRO(GET_COMMENTS, arguments);
 		}
 
 		private static function newSimpleRO(methodName:String, arguments:Array):SimpleROToken

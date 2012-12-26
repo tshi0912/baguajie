@@ -10,20 +10,12 @@ package net.baguajie.admin.model
 	import net.baguajie.admin.controller.SimpleROToken;
 	import net.baguajie.admin.event.SimpleROEvent;
 	import net.baguajie.admin.util.Constants;
-	import net.baguajie.admin.vo.ErrorCodeVo;
 	import net.baguajie.admin.vo.PageVo;
-	import net.baguajie.admin.vo.ResourceVo;
-	import net.baguajie.admin.vo.SpotVo;
-	import net.baguajie.admin.vo.UserVo;
 
 	[Bindable]
 	public class SpotModel implements ModelLocator
 	{
 		private static var model:SpotModel;
-		private var user:UserVo;
-		private var res:ResourceVo;
-		private var spot:SpotVo;
-		private var errorCode:ErrorCodeVo;
 
 		public static function getInstance():SpotModel
 		{

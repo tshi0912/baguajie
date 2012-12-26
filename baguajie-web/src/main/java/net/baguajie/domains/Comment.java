@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
+import net.baguajie.constants.CommentStatus;
 import net.baguajie.vo.CommentFormBean;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -31,7 +32,7 @@ public class Comment implements Serializable {
 	private User createdBy;
 	@NotNull
 	private Date createdAt;
-	private int status; // 0 for normal; 1 for disabled
+	private CommentStatus status;
 	private int agreeCount;
 	private int disagreeCount;
 	
@@ -65,10 +66,10 @@ public class Comment implements Serializable {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	public int getStatus() {
+	public CommentStatus getStatus() {
 		return status;
 	}
-	public void setStatus(int status) {
+	public void setStatus(CommentStatus status) {
 		this.status = status;
 	}
 	public int getAgreeCount() {
@@ -119,7 +120,7 @@ public class Comment implements Serializable {
 		cmt.setCreatedAt(new Date());
 		cmt.setDisagreeCount(0);
 		cmt.setAgreeCount(0);
-		cmt.setStatus(0);
+		cmt.setStatus(CommentStatus.VALID);
 		return cmt;
 	}
 	

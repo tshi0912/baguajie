@@ -1,13 +1,18 @@
 package net.baguajie.web.ros;
 
 import java.util.Date;
+import java.util.List;
 
-import net.baguajie.constants.ApplicationConfig;
+import net.baguajie.constants.ActivityType;
+import net.baguajie.constants.CommentStatus;
 import net.baguajie.constants.Role;
 import net.baguajie.constants.SpotStatus;
-import net.baguajie.constants.UserStatus;
+import net.baguajie.domains.Activity;
+import net.baguajie.domains.Comment;
 import net.baguajie.domains.Spot;
 import net.baguajie.domains.User;
+import net.baguajie.repositories.ActivityRepository;
+import net.baguajie.repositories.CommentRepository;
 import net.baguajie.repositories.SpotRepository;
 import net.baguajie.repositories.UserRepository;
 import net.baguajie.vo.PageVo;
@@ -31,7 +36,11 @@ public class AdminRemoteObject {
 	private SpotRepository spotRepository;
 	@Autowired
 	private UserRepository userRepository;
-
+	@Autowired
+	private CommentRepository commentRepository;
+	@Autowired
+	private ActivityRepository activityRepository;
+	
 	@RemotingInclude
 	public ROResult signIn(String name, String pwd) {
 		ROResult result = new ROResult();
@@ -46,9 +55,10 @@ public class AdminRemoteObject {
 				throw new RuntimeException("用户\"" + name + "\"不存在");
 			} else if (!pwd.equals(existed.getPassword())) {
 				throw new RuntimeException("登陆密码错误");
-			} else if (Role.ADMIN != existed.getRole()) {
-				throw new RuntimeException("该用户无此权限");
 			}
+//			else if (Role.ADMIN != existed.getRole()) {
+//				throw new RuntimeException("该用户无此权限");
+//			}
 			result.setResult(existed);
 		} catch (Exception e) {
 			result.setErrorCode(new ErrorCode(ErrorCode.BUSINESS_ERROR,
@@ -127,6 +137,46 @@ public class AdminRemoteObject {
 				throw new RuntimeException("Could not find user with id \""
 						+ u.getId() + "\"");
 			}
+		} catch (Exception e) {
+			result.setErrorCode(new ErrorCode(ErrorCode.BUSINESS_ERROR,
+					ErrorCode.ERROR, e.getMessage()));
+			result.addErrorMsg(e.getMessage());
+		}
+		return result;
+	}
+	
+	@RemotingInclude
+	public ROResult getComments(String spotId, String createdById) {
+		ROResult result = new ROResult();
+		try {
+			Activity act = activityRepository.getByOwnerAndTargetSpotAndType(
+					createdById, spotId, ActivityType.SPOT.name());
+			if(act == null)
+			{
+				throw new RuntimeException("Could not find the relative activity.");
+			}
+			List<Comment> comments = commentRepository.findByAct(act.getId());
+			result.setResult(comments);
+		} catch (Exception e) {
+			result.setErrorCode(new ErrorCode(ErrorCode.BUSINESS_ERROR,
+					ErrorCode.ERROR, e.getMessage()));
+			result.addErrorMsg(e.getMessage());
+		}
+		return result;
+	}
+	
+	@RemotingInclude
+	public ROResult updateCommentStatus(String commentId, CommentStatus status) {
+		ROResult result = new ROResult();
+		try {
+			Comment comment = commentRepository.findOne(commentId);
+			if(comment==null)
+			{
+				throw new RuntimeException("Could not find the comment with id \""+comment + "\"");
+			}
+			comment.setStatus(status);
+			commentRepository.save(comment);
+			result.setResult(comment);
 		} catch (Exception e) {
 			result.setErrorCode(new ErrorCode(ErrorCode.BUSINESS_ERROR,
 					ErrorCode.ERROR, e.getMessage()));

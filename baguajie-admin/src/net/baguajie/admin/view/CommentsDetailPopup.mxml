@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   title="评论列表"
+			   maxHeight="600"
+			   maxWidth="800"
+			   close="onClose(event);">
+	<fx:Script>
+		<![CDATA[
+			import mx.events.CloseEvent;
+			import mx.managers.PopUpManager;
+			import net.baguajie.admin.model.CommentsDetailModel;
+			import net.baguajie.admin.vo.CommentVo;
+
+			[Bindable]
+			private var model:CommentsDetailModel=CommentsDetailModel.getInstance();
+
+			public function status_changeHandler(status:String, item:CommentVo):void
+			{
+				item.status=status;
+				model.updateStatus(item);
+			}
+
+			private function createdBy_lableFunction(item:Object, adgc:AdvancedDataGridColumn):String
+			{
+				var field:Object=item && item.hasOwnProperty("createdBy") ? item.createdBy : null;
+				return field && field.hasOwnProperty("name") ? field.name : "";
+			}
+
+			private function onClose(event:CloseEvent):void
+			{
+				PopUpManager.removePopUp(this);
+			}
+		]]>
+	</fx:Script>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:layout>
+		<s:VerticalLayout horizontalAlign="center"
+						  verticalAlign="middle"
+						  gap="10"
+						  paddingLeft="10"
+						  paddingTop="10"
+						  paddingBottom="10"
+						  paddingRight="10"/>
+	</s:layout>
+	<mx:AdvancedDataGrid width="100%"
+						 height="100%"
+						 sortExpertMode="true"
+						 dataProvider="{model.comments}">
+		<mx:columns>
+			<mx:AdvancedDataGridColumn dataField="content"
+									   headerText="内容"/>
+			<mx:AdvancedDataGridColumn width="120"
+									   headerText="状态">
+				<mx:itemRenderer>
+					<fx:Component>
+						<mx:HBox width="100%"
+								 paddingLeft="8"
+								 paddingRight="8"
+								 horizontalScrollPolicy="off"
+								 verticalScrollPolicy="off"
+								 height="100%">
+							<fx:Script>
+								<![CDATA[
+									import net.baguajie.admin.model.AdminModel;
+									import net.baguajie.admin.model.CommentsDetailModel;
+									import net.baguajie.admin.vo.CommentVo;
+									import net.baguajie.admin.vo.UserVo;
+								]]>
+							</fx:Script>
+							<s:DropDownList width="100%"
+											selectedItem="{data.status}"
+										    enabled="{AdminModel.getInstance().signInUser.role == UserVo.ADMIN}"
+											change="outerDocument.status_changeHandler(event.target.selectedItem as String, data as CommentVo);"
+											dataProvider="{CommentsDetailModel.getInstance().status}"/>
+						</mx:HBox>
+					</fx:Component>
+				</mx:itemRenderer>
+			</mx:AdvancedDataGridColumn>
+			<mx:AdvancedDataGridColumn dataField="createdBy"
+									   headerText="评论者"
+									   labelFunction="createdBy_lableFunction"/>
+			<mx:AdvancedDataGridColumn dataField="createdAt"
+									   headerText="评论时间"/>
+		</mx:columns>
+	</mx:AdvancedDataGrid>
+</s:TitleWindow>

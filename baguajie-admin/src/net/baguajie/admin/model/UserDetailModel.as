@@ -42,7 +42,7 @@ package net.baguajie.admin.model
 		public var imageUrl:String;
 		public var imageWidth:int=190;
 		public var roleIdx:int=-1;
-		public var roles:ArrayCollection=new ArrayCollection(["USER", "ADMIN"]);
+		public var roles:ArrayCollection=new ArrayCollection([UserVo.USER, UserVo.ADMIN]);
 		public var status:ArrayCollection=new ArrayCollection([UserVo.VALID, UserVo.INVALID]);
 		public var statusIdx:int=-1;
 		private var _orgUser:UserVo;

@@ -1,6 +1,7 @@
 package net.baguajie.admin.model
 {
 	import com.adobe.cairngorm.model.ModelLocator;
+	
 	import mx.collections.ArrayCollection;
 	import mx.containers.ViewStack;
 	import mx.controls.Alert;
@@ -8,10 +9,15 @@ package net.baguajie.admin.model
 	import mx.managers.BrowserManager;
 	import mx.managers.IBrowserManager;
 	import mx.utils.URLUtil;
+	
 	import net.baguajie.admin.controller.SimpleROInvoker;
 	import net.baguajie.admin.controller.SimpleROToken;
 	import net.baguajie.admin.util.Constants;
 	import net.baguajie.admin.viewhelper.ViewHelperDelegator;
+	import net.baguajie.admin.vo.CommentVo;
+	import net.baguajie.admin.vo.ErrorCodeVo;
+	import net.baguajie.admin.vo.ResourceVo;
+	import net.baguajie.admin.vo.SpotVo;
 	import net.baguajie.admin.vo.UserVo;
 
 	[Bindable]
@@ -35,6 +41,12 @@ package net.baguajie.admin.model
 				throw new Error("Only one ModelLocator instance should be instantiated");
 		}
 
+		private var user:UserVo;
+		private var res:ResourceVo;
+		private var spot:SpotVo;
+		private var errorCode:ErrorCodeVo;
+		private var comment:CommentVo;
+		
 		public var baseUrl:String;
 		public var bodyStack:ViewStack;
 		public var menuBar:LinkBar;

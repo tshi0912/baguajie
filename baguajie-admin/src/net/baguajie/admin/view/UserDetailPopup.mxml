@@ -11,7 +11,7 @@
 		<![CDATA[
 			import mx.events.CloseEvent;
 			import mx.managers.PopUpManager;
-			
+			import net.baguajie.admin.model.AdminModel;
 			import net.baguajie.admin.model.UserDetailModel;
 			import net.baguajie.admin.vo.UserVo;
 
@@ -22,26 +22,26 @@
 			{
 				model.update();
 			}
-			
-			private function roleCombo_changeHandler(event:Event):void
-			{
-				if(model.user)
-				{
-					model.user.role = roleCombo.selectedItem;
-				}
-			}
-			
-			private function statusCombo_changeHandler(event:Event):void
-			{
-				if(model.user)
-				{
-					model.user.status = statusCombo.selectedItem;
-				}
-			}
 
 			private function onClose(event:CloseEvent):void
 			{
 				PopUpManager.removePopUp(this);
+			}
+
+			private function roleCombo_changeHandler(event:Event):void
+			{
+				if (model.user)
+				{
+					model.user.role=roleCombo.selectedItem;
+				}
+			}
+
+			private function statusCombo_changeHandler(event:Event):void
+			{
+				if (model.user)
+				{
+					model.user.status=statusCombo.selectedItem;
+				}
 			}
 		]]>
 	</fx:Script>
@@ -99,19 +99,23 @@
 					 label="用户组">
 			<s:ComboBox id="roleCombo"
 						width="100%"
-					    change="roleCombo_changeHandler(event);"
-					    dataProvider="{model.roles}"
-					    selectedIndex="{model.roleIdx}"/>
+						enabled="{AdminModel.getInstance().signInUser.role == UserVo.ADMIN}"
+						change="roleCombo_changeHandler(event);"
+						dataProvider="{model.roles}"
+						selectedIndex="{model.roleIdx}"/>
 		</mx:FormItem>
 		<mx:FormItem width="100%"
 					 label="状态">
 			<s:ComboBox id="statusCombo"
 						width="100%"
+						enabled="{AdminModel.getInstance().signInUser.role == UserVo.ADMIN}"
 						change="statusCombo_changeHandler(event);"
 						dataProvider="{model.status}"
 						selectedIndex="{model.statusIdx}"/>
 		</mx:FormItem>
-		<mx:FormItem width="100%">
+		<mx:FormItem width="100%"
+					 visible="{AdminModel.getInstance().signInUser.role == UserVo.ADMIN}"
+					 includeInLayout="{AdminModel.getInstance().signInUser.role == UserVo.ADMIN}">
 			<s:HGroup width="100%">
 				<s:Button id="okBtn"
 						  label="确定"

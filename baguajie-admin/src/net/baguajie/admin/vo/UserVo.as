@@ -6,6 +6,8 @@ package net.baguajie.admin.vo
 	{
 		public static const VALID:String = "VALID";
 		public static const INVALID:String = "INVALID";
+		public static const USER:String = "USER";
+		public static const ADMIN:String = "ADMIN";
 		
 		public var id:String;
 		public var name:String;

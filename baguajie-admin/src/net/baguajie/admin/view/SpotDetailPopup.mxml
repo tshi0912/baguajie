@@ -12,8 +12,10 @@
 			import mx.events.CloseEvent;
 			import mx.managers.PopUpManager;
 			
+			import net.baguajie.admin.model.AdminModel;
 			import net.baguajie.admin.model.SpotDetailModel;
 			import net.baguajie.admin.vo.SpotVo;
+			import net.baguajie.admin.vo.UserVo;
 
 			[Bindable]
 			private var model:SpotDetailModel=SpotDetailModel.getInstance();
@@ -100,11 +102,14 @@
 					 label="状态">
 			<s:ComboBox id="statusCombo"
 						width="100%"
+					    enabled="{AdminModel.getInstance().signInUser.role == UserVo.ADMIN}"
 						change="statusCombo_changeHandler(event);"
 						dataProvider="{model.status}"
 						selectedIndex="{model.statusIdx}"/>
 		</mx:FormItem>
-		<mx:FormItem width="100%">
+		<mx:FormItem width="100%"
+					 visible="{AdminModel.getInstance().signInUser.role == UserVo.ADMIN}"
+					 includeInLayout="{AdminModel.getInstance().signInUser.role == UserVo.ADMIN}">
 			<s:HGroup width="100%">
 				<s:Button id="okBtn" label="确定" click="okBtn_clickHandler(event);"/>
 			</s:HGroup>
