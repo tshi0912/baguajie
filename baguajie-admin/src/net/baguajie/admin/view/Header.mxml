@@ -7,20 +7,25 @@
 		<!-- Place non-visual elements (e.g., services, value objects) here -->
 	</fx:Declarations>
 	<fx:Script>
-		<![CDATA[
+<![CDATA[
 			import net.baguajie.admin.model.AdminModel;
+			import net.baguajie.admin.model.UserDetailModel;
 			import net.baguajie.admin.viewhelper.ViewHelperDelegator;
 			import net.baguajie.admin.vo.UserVo;
 
 			[Bindable]
 			private var model:AdminModel=AdminModel.getInstance();
 
+			private function showSignInUser():void
+			{
+				UserDetailModel.getInstance().showPopup(AdminModel.getInstance().signInUser, this);
+			}
+
 			private function signOut():void
 			{
 				ViewHelperDelegator.getAdminHelper().toLoginState();
 			}
-		]]>
-	</fx:Script>
+		]]></fx:Script>
 	<mx:HBox width="100%"
 			 paddingLeft="10"
 			 paddingTop="10"
@@ -33,11 +38,11 @@
 				  fontWeight="bold"/>
 		<mx:Spacer width="100%"/>
 		<mx:HBox horizontalGap="0">
-			<mx:Label text="{model.signInUser.name}"
-					  color="#ffffff"/>
-			<mx:Label text="{model.signInUser.role==UserVo.ADMIN?'(管理员)':'(普通用户)'}"
-					  color="#ffffff"/>
-			<mx:Label text="  | "
+			<mx:LinkButton height="21"
+						   label="{model.signInUser.name + (model.signInUser.role == UserVo.ADMIN ? '(管理员)' : '(普通用户)')}"
+						   color="#ffffff"
+						   click="showSignInUser()"/>
+			<mx:Label text=" | "
 					  color="#ffffff"/>
 			<mx:LinkButton height="21"
 						   label="退出登陆"
