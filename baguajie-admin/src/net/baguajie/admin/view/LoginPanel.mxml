@@ -21,9 +21,9 @@
 			import net.baguajie.admin.viewhelper.ViewHelperDelegator;
 			protected function signInBtn_clickHandler(event:MouseEvent):void
 			{
-				if(nameInput.text && pwdInput.text)
+				if(emailInput.text && pwdInput.text)
 				{
-					AdminModel.getInstance().signIn(nameInput.text, pwdInput.text);
+					AdminModel.getInstance().signIn(emailInput.text, pwdInput.text);
 				}
 			}
 
@@ -36,8 +36,8 @@
 	<mx:Form width="100%" 
 			 horizontalGap="10"
 			 verticalGap="10">
-		<mx:FormItem label="账号" width="100%">
-			<s:TextInput id="nameInput" width="100%" />
+		<mx:FormItem label="邮箱" width="100%">
+			<s:TextInput id="emailInput" width="100%" />
 		</mx:FormItem>
 		<mx:FormItem label="密码" width="100%">
 			<s:TextInput id="pwdInput" width="100%" displayAsPassword="true" />

@@ -18,7 +18,7 @@ package net.baguajie.admin.controller
 		private static const SIGN_IN:String = "signIn";
 		private static const GET_COMMENTS:String = "getComments";
 
-		public static function signIn(name:String, pwd:String):SimpleROToken
+		public static function signIn(email:String, pwd:String):SimpleROToken
 		{
 			return newSimpleRO(SIGN_IN, arguments);
 		}

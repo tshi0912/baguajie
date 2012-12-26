@@ -53,9 +53,9 @@ package net.baguajie.admin.model
 		public var pageSizes:ArrayCollection=new ArrayCollection([Constants.PAGE_SIZE_10, Constants.PAGE_SIZE_25, Constants.PAGE_SIZE_50, Constants.PAGE_SIZE_100]);
 		public var signInUser:UserVo;
 
-		public function signIn(name:String, pwd:String):void
+		public function signIn(email:String, pwd:String):void
 		{
-			var token:SimpleROToken=SimpleROInvoker.signIn(name, pwd);
+			var token:SimpleROToken=SimpleROInvoker.signIn(email, pwd);
 			token.resultHandler=signInResultHandler;
 		}
 

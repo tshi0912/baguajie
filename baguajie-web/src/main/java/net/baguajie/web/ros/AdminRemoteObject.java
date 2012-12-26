@@ -42,17 +42,17 @@ public class AdminRemoteObject {
 	private ActivityRepository activityRepository;
 	
 	@RemotingInclude
-	public ROResult signIn(String name, String pwd) {
+	public ROResult signIn(String email, String pwd) {
 		ROResult result = new ROResult();
 		try {
 			User existed = null;
-			if (name != null && pwd != null) {
-				existed = userRepository.getByName(name);
+			if (email != null && pwd != null) {
+				existed = userRepository.getByEmail(email);
 			} else {
-				throw new RuntimeException("用户名或密码不能为空");
+				throw new RuntimeException("登陆邮箱或密码不能为空");
 			}
 			if (existed == null) {
-				throw new RuntimeException("用户\"" + name + "\"不存在");
+				throw new RuntimeException("登陆邮箱\"" + email + "\"不存在");
 			} else if (!pwd.equals(existed.getPassword())) {
 				throw new RuntimeException("登陆密码错误");
 			}
