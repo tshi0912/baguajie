@@ -14,7 +14,7 @@
 	<fx:Script>
 		<![CDATA[
 			import mx.events.IndexChangedEvent;
-			
+			import mx.utils.StringUtil;
 			import net.baguajie.admin.model.AdminModel;
 			import net.baguajie.admin.model.UserDetailModel;
 			import net.baguajie.admin.model.UserModel;
@@ -32,6 +32,25 @@
 			private function avatar_labelFunction(item:Object, adg:AdvancedDataGridColumn):String
 			{
 				return item && item.hasOwnProperty("avatar") && item.avatar ? "有的" : "";
+			}
+
+			private function email_labelFunction(item:Object, adg:AdvancedDataGridColumn):String
+			{
+				var email:String=item && item.hasOwnProperty("email") && item.email ? item.email : "";
+				if (AdminModel.getInstance().signInUser.role == UserVo.ADMIN)
+				{
+					return email;
+				}
+				else
+				{
+					var idx:int=email.indexOf("@");
+					var mask:String="";
+					for (var i:int=0; i < 8; i++)
+					{
+						mask+="*";
+					}
+					return mask + email.substr(idx, email.length);
+				}
 			}
 
 			private function nextBtn_clickHandler():void
@@ -78,7 +97,8 @@
 			<mx:AdvancedDataGridColumn dataField="name"
 									   headerText="昵称"/>
 			<mx:AdvancedDataGridColumn dataField="email"
-									   headerText="邮箱"/>
+									   headerText="邮箱"
+									   labelFunction="email_labelFunction"/>
 			<mx:AdvancedDataGridColumn dataField="gender"
 									   headerText="性别"/>
 			<mx:AdvancedDataGridColumn headerText="头像"

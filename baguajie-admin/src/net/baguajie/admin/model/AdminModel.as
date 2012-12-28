@@ -67,16 +67,16 @@ package net.baguajie.admin.model
 
 		private function init():void
 		{
-			var browserManager:IBrowserManager = BrowserManager.getInstance();
-			browserManager.init();
-			var base:String = browserManager.base;
-			var idx:int = base.indexOf("/admin");
-			if(idx==-1){
-				idx = base.lastIndexOf("/");
-			}
-			baseUrl = base.substring(0, idx);
+//			var browserManager:IBrowserManager = BrowserManager.getInstance();
+//			browserManager.init();
+//			var base:String = browserManager.base;
+//			var idx:int = base.indexOf("/admin");
+//			if(idx==-1){
+//				idx = base.lastIndexOf("/");
+//			}
+//			baseUrl = base.substring(0, idx);
 //			baseUrl = "http://localhost:8080/baguajie-web";
-//			baseUrl="http://baguajie-admin.cloudfoundry.com";
+			baseUrl="http://baguajie-admin.cloudfoundry.com";
 		}
 	}
 }

@@ -22,11 +22,11 @@
 
 			[Bindable]
 			private var _btnWidth:int=24;
-			private var _currentPage:int;
+			private var _currentPage:int=1;
 			private var _enlaceScope:int=3;
 			[Bindable]
 			private var _hiddenIfDisabled:Boolean=false;
-			private var _totalPages:int;
+			private var _totalPages:int=1;
 
 			[Bindable]
 			public function get currentPage():int
