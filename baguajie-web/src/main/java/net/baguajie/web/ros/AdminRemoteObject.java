@@ -174,7 +174,7 @@ public class AdminRemoteObject {
 			{
 				throw new RuntimeException("Could not find the comment with id \""+comment + "\"");
 			}
-			comment.setStatus(status);
+//			comment.setStatus(status);
 			commentRepository.save(comment);
 			result.setResult(comment);
 		} catch (Exception e) {

@@ -45,7 +45,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class SearchSpotsController {
 	private static final Logger logger = 
 			LoggerFactory.getLogger(SearchSpotsController.class);
-	
 	@Autowired
 	private CityMetaRepository cityMetaRepository;
 	@Autowired
@@ -72,22 +71,27 @@ public class SearchSpotsController {
 					ApplicationConfig.pinCmtPageSize, 
 					new Sort(new Order(Direction.DESC, "createdAt")));
 			for(Spot spot : spots){
-				Activity act = activityRepository.getByOwnerAndTargetSpotAndType(
-						spot.getCreatedBy().getId(), spot.getId(), ActivityType.SPOT.name());
-				Page<Comment> cmts = null;
-				if(act!=null){
-					 cmts = commentRepository.findByAct(
-							act.getId(), pageable);
-				}
-				if(spot.getPlace()==null){
-					pins.add(PinVo.from(spot,
-							cityMetaRepository.getByPinyin(StringUtils.hasText(spot.getCity())?
-									spot.getCity():ApplicationConfig.defaultCityPinyin), act, cmts));
-				}else{
-					pins.add(PinVo.from(spot,null, act, cmts));
+				try{
+					Activity act = activityRepository.getByOwnerAndTargetSpotAndType(
+							spot.getCreatedBy().getId(), spot.getId(), ActivityType.SPOT.name());
+					Page<Comment> cmts = null;
+					if(act!=null){
+						 cmts = commentRepository.findByAct(
+								act.getId(), pageable);
+					}
+					if(spot.getPlace()==null){
+						pins.add(PinVo.from(spot,
+								cityMetaRepository.getByPinyin(StringUtils.hasText(spot.getCity())?
+										spot.getCity():ApplicationConfig.defaultCityPinyin), act, cmts));
+					}else{
+						pins.add(PinVo.from(spot,null, act, cmts));
+					}
+				}catch(Exception e){
+					logger.warn(e.getMessage(), e);
 				}
 			}
 		}
+		logger.info("**** Get " + (pins!=null?pins.size():0)+" spots");
 		model.addAttribute("pins", pins);
 		return "spots/list";
 	}
@@ -97,6 +101,10 @@ public class SearchSpotsController {
 		String category = request.getParameter("category");
 		String summaryLike = request.getParameter("keyword");
 		String no = request.getParameter("no");
+		logger.info("city:" + city);
+		logger.info("category:" + category);
+		logger.info("keyword:" + summaryLike);
+		logger.info("no:" + no);
 		int pageNo = 0;
 		try{
 			pageNo = Integer.parseInt(no);

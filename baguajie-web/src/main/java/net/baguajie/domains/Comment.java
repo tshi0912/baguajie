@@ -32,7 +32,7 @@ public class Comment implements Serializable {
 	private User createdBy;
 	@NotNull
 	private Date createdAt;
-	private CommentStatus status;
+//	private CommentStatus status;
 	private int agreeCount;
 	private int disagreeCount;
 	
@@ -66,12 +66,12 @@ public class Comment implements Serializable {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-	public CommentStatus getStatus() {
-		return status;
-	}
-	public void setStatus(CommentStatus status) {
-		this.status = status;
-	}
+//	public CommentStatus getStatus() {
+//		return status;
+//	}
+//	public void setStatus(CommentStatus status) {
+//		this.status = status;
+//	}
 	public int getAgreeCount() {
 		return agreeCount;
 	}
@@ -120,7 +120,7 @@ public class Comment implements Serializable {
 		cmt.setCreatedAt(new Date());
 		cmt.setDisagreeCount(0);
 		cmt.setAgreeCount(0);
-		cmt.setStatus(CommentStatus.VALID);
+//		cmt.setStatus(CommentStatus.VALID);
 		return cmt;
 	}
 	
