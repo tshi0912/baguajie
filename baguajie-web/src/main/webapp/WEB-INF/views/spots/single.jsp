@@ -58,10 +58,9 @@
 				</div>
 			</div>
 			<div class="span4">
-				<jsp:include page="/WEB-INF/views/spots/place.jsp">
-					<jsp:param name="place" value="${spot.place}"/>
-					<jsp:param name="pinyin" value="${spot.city}"/>
-				</jsp:include>
+				<c:if test="${not empty spot.place}">
+					<c:import url="/spots/place/${spot.place.id}"></c:import>
+				</c:if>
 				<c:import url="/categories/thumb">
 					<c:param name="uid" value="${spot.createdBy.id}"/>
 					<c:param name="category" value="${spot.category}"/>

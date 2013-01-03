@@ -11,7 +11,6 @@
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/bootstrap.css" />" />
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/baguajie-base.css" />" />
 	<link rel="stylesheet" type="text/css" href="<c:url value="/resources/css/baguajie-theme.css" />" />
-	<script type="text/javascript" src="<c:url value="/resources/js/ga.js" />" ></script>
 </head>
 <body>
 	<div class="container">
@@ -43,5 +42,6 @@
 			</div>
 		</div>
 	</div>
+<script type="text/javascript" src="<c:url value="/resources/js/ga.js" />" ></script>
 </body>
 </html>

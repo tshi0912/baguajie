@@ -17,15 +17,6 @@
 				</a>
 				<div class="nav-collapse">
 					<ul class="nav">
-						<li id="nav-home" class="dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-								<b>[ ${sessionScope.selectedCityMeta.name} ]</b>
-								<b class="caret"></b>
-							</a>
-							<jsp:include page="/WEB-INF/views/comp/city.picker.jsp">
-								<jsp:param name="domId" value="geo-city-picker"/>
-							</jsp:include>
-						</li>
 						<li id="nav-profiles">
 							<a href="<c:url value="/profiles" />">八哥八姐</a>
 						</li>

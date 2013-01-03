@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://baguajie.net/functions" prefix="f" %>
-<c:if test="${not empty spot.city }">
+<c:if test="${not empty place.city }">
 <div class="p-15 board  mb-20">
 	<div class="mb-10">
-		<h4><a class="full-addr" data-city="${spot.city}" data-lngLat="${spot.lngLat[1]},${spot.lngLat[0]}">${spot.place.fullAddr}</a></h4>
+		<h4><a class="full-addr" data-city="${place.city}" data-lngLat="${place.lngLat[1]},${place.lngLat[0]}">${place.fullAddr}</a></h4>
 	</div>
 	<div class="p-r">
 		<div id="spec_place_map" style="height:200px;"></div>
@@ -23,13 +23,17 @@
 		$.getJSON( '<c:url value="/citymeta/" />' + pinyin, function(data){
 			if(data && data.resultData){
 				cityMeta = data.resultData;
+				var suggestZoom = cityMeta.zoom;
+				if(cityMeta.pinyin != pinyin){
+					suggestZoom = 12;
+				}
 				if(!no_marker){
 					$('#spec_place_map').gmap3({ 
 						action: 'addMarker',
 						latLng: new google.maps.LatLng(lng,lat),
 						map:{
 							center: true,
-							zoom: cityMeta.zoom,
+							zoom: suggestZoom,
 							scrollwheel: true,
 							mapTypeId: google.maps.MapTypeId.ROADMAP,
 							mapTypeControl: false,
@@ -46,7 +50,7 @@
 						action: 'init',
 						options:{
 							center: [cityMeta.lngLat[1], cityMeta.lngLat[0]],
-							zoom: cityMeta.zoom,
+							zoom: suggestZoom,
 							scrollwheel: true,
 							mapTypeId: google.maps.MapTypeId.ROADMAP,
 							mapTypeControl: false,
