@@ -70,6 +70,7 @@
 		adjustWebWidth();
 	</script>
 <script type="text/javascript" src="<c:url value="/resources/js/bootstrap.js" />" ></script>
+<script type="text/javascript" src="<c:url value="/resources/js/bootstrapx-clickover.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.timeago.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery-ui-1.8.18.custom.min.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.scrollTo.js" />" ></script>
