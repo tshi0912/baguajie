@@ -42,7 +42,6 @@
 								style : google.maps.ZoomControlStyle.SMALL
 							},
 							streetViewControl: false
-							}	
 						}
 					});
 				}else{
