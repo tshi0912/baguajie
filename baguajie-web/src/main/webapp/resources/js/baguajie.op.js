@@ -227,6 +227,16 @@ var op = {
 		$dom.find('textarea').focus(function(){
 			$(this).effect('highlight', {}, 1600);
 		});
+		$dom.find('[rel="clickover"]').clickover({
+			width: 250,
+			height: 200,
+			class_name: 'place-map-over',
+			onShown: function(){
+				var pinyin = this.$element.attr('data-city');
+				var lngLat = this.$element.attr('data-lngLat'); 
+				op.show_place_map(lngLat, pinyin, this.$tip);
+			}
+		});
 		var cmt_form = $dom.find('form.act-cmt');
 		cmt_form.ajaxForm({ 
 	        dataType:  'json', 
@@ -253,6 +263,61 @@ var op = {
 	    });
 		$dom.find('form .grid_comment_button').click(function(){
 			$(this).parents('form.act-cmt').submit();
+		});
+	},
+	
+	show_place_map: function(lngLat, pinyin, $tip){
+		var idx = lngLat.indexOf(',');
+		var lng = parseFloat(lngLat.substring(0, idx));
+		var lat = parseFloat(lngLat.substring(idx+1, lngLat.length));
+		var no_marker = false;
+		if(isNaN(lng) || isNaN(lat)){
+			no_marker = true;
+		}
+		$.getJSON( web_context + '/citymeta/' + pinyin, function(data){
+			if(data && data.resultData){
+				cityMeta = data.resultData;
+				var suggestZoom = cityMeta.zoom;
+				if(cityMeta.pinyin != pinyin){
+					suggestZoom = 12;
+				}
+				var holder = $tip.find('.popover-content');
+				if(!no_marker){
+					holder.gmap3({ 
+						action: 'addMarker',
+						latLng: new google.maps.LatLng(lng,lat),
+						map:{
+							center: true,
+							zoom: suggestZoom,
+							scrollwheel: true,
+							mapTypeId: google.maps.MapTypeId.ROADMAP,
+							mapTypeControl: false,
+							zoomControl: true,
+							zoomControlOptions: {
+								style : google.maps.ZoomControlStyle.SMALL
+								,
+							streetViewControl: false
+							}	
+						}
+					});
+				}else{
+					holder.gmap3({ 
+						action: 'init',
+						options:{
+							center: [cityMeta.lngLat[1], cityMeta.lngLat[0]],
+							zoom: suggestZoom,
+							scrollwheel: true,
+							mapTypeId: google.maps.MapTypeId.ROADMAP,
+							mapTypeControl: false,
+							zoomControl: true,
+							zoomControlOptions: {
+								style : google.maps.ZoomControlStyle.SMALL
+							},
+							streetViewControl: false
+						}
+					});
+				}
+			}
 		});
 	},
 	

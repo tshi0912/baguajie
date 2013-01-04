@@ -30,9 +30,11 @@
 		</ul></div>
 	</div>
 	<div class="caption">
-		<h5>${pin.name}</h5>
-		<p><a href="javascript:void(0);" data-id="${pin.placeId}" data-city="${pin.city}">
+		<p><a href="#" rel="clickover" data-id="${pin.placeId}" 
+			data-html="true" data-toggle="clickover" data-original-title="详细地图"
+			data-city="${pin.city}" data-lngLat="${pin.lngLat[1]},${pin.lngLat[0]}">
 			<i class="icon-map-marker"></i>${pin.placeAddr}</a></p>
+		<h5>${pin.name}</h5>
 		<p>${pin.summary}</p>
 	</div>
 	<div class="convo clear">

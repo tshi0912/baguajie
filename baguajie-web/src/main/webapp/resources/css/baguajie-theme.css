@@ -603,3 +603,13 @@ a.qq:hover {
 a.qq:active {
     background-position: -630px -102px;
 }
+
+/*** for popover***********/
+.place-map-over .popover-title{
+	display: none;
+}
+.place-map-over .popover-content{
+	border-radius: 3px;
+	padding: 0px;
+	height: 100%;
+}
