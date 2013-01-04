@@ -78,6 +78,8 @@
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.imagesloaded.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.masonry.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.infinitescroll.js" />" ></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&language=zh_cn"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/gmap3.js" />"></script>
 <script type="text/javascript">
 	$(function(){
 		$(".timeago").timeago();
