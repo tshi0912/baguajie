@@ -295,9 +295,8 @@ var op = {
 							zoomControl: true,
 							zoomControlOptions: {
 								style : google.maps.ZoomControlStyle.SMALL
-								,
+							},
 							streetViewControl: false
-							}	
 						}
 					});
 				}else{
