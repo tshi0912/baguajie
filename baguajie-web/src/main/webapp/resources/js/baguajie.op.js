@@ -227,9 +227,10 @@ var op = {
 		$dom.find('textarea').focus(function(){
 			$(this).effect('highlight', {}, 1600);
 		});
-		$dom.find('[rel="clickover"]').clickover({
+		$dom.find('[data-type="placemap"]').clickover({
 			width: 250,
 			height: 200,
+			auto_close: 10000,
 			class_name: 'place-map-over',
 			onShown: function(){
 				var pinyin = this.$element.attr('data-city');
@@ -237,6 +238,22 @@ var op = {
 				op.show_place_map(lngLat, pinyin, this.$tip);
 			}
 		});
+		$dom.find('[data-type="namecard"]').mouseover(function(){
+			var $this = $(this);
+			var content = $this.attr('data-content');
+			if(!content){
+				var uid = $this.attr('data-id');
+				op.show_name_card(uid, function(html){
+					$this.attr('data-content', html);
+					$this.popover('show');
+				});
+			}else{
+				$this.popover('show');
+			}
+		}).mouseout(function(){
+			$(this).popover('hide');
+		});
+			
 		var cmt_form = $dom.find('form.act-cmt');
 		cmt_form.ajaxForm({ 
 	        dataType:  'json', 
@@ -316,6 +333,14 @@ var op = {
 						}
 					});
 				}
+			}
+		});
+	},
+	
+	show_name_card: function(uid, callback){
+		$.get( web_context + '/profiles/' + uid + '/namecard', function(html){
+			if(html){
+				callback(html);
 			}
 		});
 	},

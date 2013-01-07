@@ -605,10 +605,10 @@ a.qq:active {
 }
 
 /*** for popover***********/
-.place-map-over .popover-title{
+.popover-title{
 	display: none;
 }
-.place-map-over .popover-content{
+.popover-content{
 	border-radius: 3px;
 	padding: 0px;
 	height: 100%;

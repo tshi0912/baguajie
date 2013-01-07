@@ -97,14 +97,32 @@
 .pl-85{
 	padding-left: 85px;
 }
+.pl-10{
+	padding-left: 10px;
+}
 .pl-30{
 	padding-left: 30px;
 }
 .pr-30{
 	padding-right: 30px;
 }
+.pr-10{
+	padding-right: 10px;
+}
+.pt-5{
+	padding-top: 5px;
+}
+.pt-10{
+	padding-top: 10px;
+}
 .pt-20{
 	padding-top: 20px;
+}
+.pb-5{
+	padding-bottom: 5px;
+}
+.pb-10{
+	padding-bottom: 10px;
 }
 .pb-20{
 	padding-bottom: 20px;
@@ -225,6 +243,9 @@
 }
 .c-theme-link{
 	color: #0088CC
+}
+.lh-45{
+	line-height: 40px;
 }
 .lh-40{
 	line-height: 40px;
