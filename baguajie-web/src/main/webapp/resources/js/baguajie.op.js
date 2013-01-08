@@ -227,33 +227,29 @@ var op = {
 		$dom.find('textarea').focus(function(){
 			$(this).effect('highlight', {}, 1600);
 		});
-		$dom.find('[data-type="placemap"]').clickover({
+		$dom.find('[data-type="placemap"]').popoverx({
 			width: 250,
 			height: 200,
 			auto_close: 10000,
-			class_name: 'place-map-over',
 			onShown: function(){
 				var pinyin = this.$element.attr('data-city');
 				var lngLat = this.$element.attr('data-lngLat'); 
 				op.show_place_map(lngLat, pinyin, this.$tip);
 			}
 		});
-		$dom.find('[data-type="namecard"]').mouseover(function(){
-			var $this = $(this);
-			var content = $this.attr('data-content');
-			if(!content){
-				var uid = $this.attr('data-id');
+		$dom.find('[data-type="namecard"]').popoverx({
+			fire_on : 'hover',
+			auto_close: 10000,
+			hover_delay_close: 1000,
+			height: 150,
+			onShown: function(){
+				var $this = this;
+				var uid = this.$element.attr('data-id');
 				op.show_name_card(uid, function(html){
-					$this.attr('data-content', html);
-					$this.popover('show');
+					$this.$tip.find('.popover-content').html(html);
 				});
-			}else{
-				$this.popover('show');
 			}
-		}).mouseout(function(){
-			$(this).popover('hide');
 		});
-			
 		var cmt_form = $dom.find('form.act-cmt');
 		cmt_form.ajaxForm({ 
 	        dataType:  'json', 

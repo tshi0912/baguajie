@@ -30,8 +30,8 @@
 		</ul></div>
 	</div>
 	<div class="caption">
-		<p><a href="#" rel="clickover" data-id="${pin.placeId}" data-type="placemap" 
-			data-html="true" data-toggle="clickover" data-original-title="详细地图"
+		<p><a href="#" data-id="${pin.placeId}" data-type="placemap" 
+			data-html="true" data-toggle="popoverx" data-original-title="详细地图"
 			data-city="${pin.city}" data-lngLat="${pin.lngLat[1]},${pin.lngLat[0]}">
 			<i class="icon-map-marker"></i>${pin.placeAddr}</a></p>
 		<h5>${pin.name}</h5>
@@ -40,8 +40,8 @@
 	<div class="convo clear">
 		<p class="clear mb-0">
 			<a class="img f-l mr-5 mb-5" href="<c:url value="/profiles/${pin.createdById}" />"
-				data-id="${pin.createdById}" data-type="namecard"
-				data-html="true" data-trigger="manual" data-toggle="popover">
+				data-id="${pin.createdById}" data-type="namecard" data-original-title="用户信息"
+				data-html="true" data-trigger="manual" data-toggle="popoverx">
 				<img src="${pin.createdByAvatarUrl}" width=30 height=30 /></a>
 			<a class="" href="<c:url value="/profiles/${pin.createdById}" />" >${pin.createdByName}</a>
 			&nbsp;添加此八卦到&nbsp;
@@ -74,9 +74,9 @@
 			<c:forEach var="cmt" begin="0" end="5" items="${pin.cmts}">
 			<div class="cmt convo row-fluid">
 				<div class="f-l mr-5">
-					<a class="img" title="${cmt.createdBy.name}"
+					<a class="img" title="${cmt.createdBy.name}" data-original-title="用户信息"
 						data-id="${cmt.createdBy.id}" data-type="namecard"
-						data-html="true" data-trigger="manual" data-toggle="popover"
+						data-html="true" data-trigger="manual" data-toggle="popoverx"
 						href="<c:url value="/profiles/${cmt.createdBy.id}" />" >
 						<img src="${f:avatarUrl(cmt.createdBy.avatar, cmt.createdBy.gender)}" width=30 height=30 /></a></div>
 				<div class="f-l lh-16" style="width: 157px;"><a href="<c:url value="/profiles/${pin.createdById}" />" >${cmt.createdBy.name}</a>&nbsp;
