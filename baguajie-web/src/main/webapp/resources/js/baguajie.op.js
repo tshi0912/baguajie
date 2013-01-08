@@ -233,8 +233,24 @@ var op = {
 			auto_close: 10000,
 			onShown: function(){
 				var pinyin = this.$element.attr('data-city');
-				var lngLat = this.$element.attr('data-lngLat'); 
-				op.show_place_map(lngLat, pinyin, this.$tip);
+				var lngLat = this.$element.attr('data-lngLat');
+				var idx = lngLat.indexOf(',');
+				var lng = parseFloat(lngLat.substring(0, idx));
+				var lat = parseFloat(lngLat.substring(idx+1, lngLat.length));
+				var no_marker = false;
+				if(isNaN(lng) || isNaN(lat)){
+					no_marker = true;
+				}
+				var $this = this;
+				var holder = this.$tip.find('.popover-content');
+				if(!this.$element.data('cityMeta')){
+					op.get_city_meta(pinyin, function(cityMeta){
+						$this.$element.data('cityMeta', cityMeta);
+						op.show_place_map(holder, no_marker, lng, lat, cityMeta);
+					});
+				}else{
+					op.show_place_map(holder, no_marker, lng, lat, this.$element.data('cityMeta'));
+				}
 			}
 		});
 		$dom.find('[data-type="namecard"]').popoverx({
@@ -245,9 +261,14 @@ var op = {
 			onShown: function(){
 				var $this = this;
 				var uid = this.$element.attr('data-id');
-				op.show_name_card(uid, function(html){
-					$this.$tip.find('.popover-content').html(html);
-				});
+				if(!this.$element.data('namecard')){
+					op.show_name_card(uid, function(html){
+						$this.$element.data('namecard', html);
+						$this.$tip.find('.popover-content').html(html);
+					});
+				}else{
+					this.$tip.find('.popover-content').html(this.$element.data('namecard'));
+				}
 			}
 		});
 		var cmt_form = $dom.find('form.act-cmt');
@@ -279,58 +300,53 @@ var op = {
 		});
 	},
 	
-	show_place_map: function(lngLat, pinyin, $tip){
-		var idx = lngLat.indexOf(',');
-		var lng = parseFloat(lngLat.substring(0, idx));
-		var lat = parseFloat(lngLat.substring(idx+1, lngLat.length));
-		var no_marker = false;
-		if(isNaN(lng) || isNaN(lat)){
-			no_marker = true;
-		}
+	get_city_meta: function(pinyin, callback){
 		$.getJSON( web_context + '/citymeta/' + pinyin, function(data){
 			if(data && data.resultData){
 				cityMeta = data.resultData;
-				var suggestZoom = cityMeta.zoom;
 				if(cityMeta.pinyin != pinyin){
-					suggestZoom = 12;
+					cityMeta.zoom = 12;
 				}
-				var holder = $tip.find('.popover-content');
-				if(!no_marker){
-					holder.gmap3({ 
-						action: 'addMarker',
-						latLng: new google.maps.LatLng(lng,lat),
-						map:{
-							center: true,
-							zoom: suggestZoom,
-							scrollwheel: true,
-							mapTypeId: google.maps.MapTypeId.ROADMAP,
-							mapTypeControl: false,
-							zoomControl: true,
-							zoomControlOptions: {
-								style : google.maps.ZoomControlStyle.SMALL
-							},
-							streetViewControl: false
-						}
-					});
-				}else{
-					holder.gmap3({ 
-						action: 'init',
-						options:{
-							center: [cityMeta.lngLat[1], cityMeta.lngLat[0]],
-							zoom: suggestZoom,
-							scrollwheel: true,
-							mapTypeId: google.maps.MapTypeId.ROADMAP,
-							mapTypeControl: false,
-							zoomControl: true,
-							zoomControlOptions: {
-								style : google.maps.ZoomControlStyle.SMALL
-							},
-							streetViewControl: false
-						}
-					});
-				}
+				callback(cityMeta);
 			}
 		});
+	},
+	
+	show_place_map: function(holder, no_marker, lng, lat, cityMeta){
+		if(!no_marker){
+			holder.gmap3({ 
+				action: 'addMarker',
+				latLng: new google.maps.LatLng(lng,lat),
+				map:{
+					center: true,
+					zoom: cityMeta.zoom,
+					scrollwheel: true,
+					mapTypeId: google.maps.MapTypeId.ROADMAP,
+					mapTypeControl: false,
+					zoomControl: true,
+					zoomControlOptions: {
+						style : google.maps.ZoomControlStyle.SMALL
+					},
+					streetViewControl: false
+				}
+			});
+		}else{
+			holder.gmap3({ 
+				action: 'init',
+				options:{
+					center: [cityMeta.lngLat[1], cityMeta.lngLat[0]],
+					zoom: cityMeta.zoom,
+					scrollwheel: true,
+					mapTypeId: google.maps.MapTypeId.ROADMAP,
+					mapTypeControl: false,
+					zoomControl: true,
+					zoomControlOptions: {
+						style : google.maps.ZoomControlStyle.SMALL
+					},
+					streetViewControl: false
+				}
+			});
+		}
 	},
 	
 	show_name_card: function(uid, callback){
