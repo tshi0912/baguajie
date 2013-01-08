@@ -36,7 +36,7 @@
 		<a href="<c:url value="/profiles/search?${qStr}no=0" />"></a>
 	</div>
 <script type="text/javascript" src="<c:url value="/resources/js/bootstrap.js" />" ></script>
-<script type="text/javascript" src="<c:url value="/resources/js/bootstrapx-clickover.js" />" ></script>
+<script type="text/javascript" src="<c:url value="/resources/js/bootstrapx-popoverx.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.form.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.pnotify.js" />" ></script>
 <script type="text/javascript" src="<c:url value="/resources/js/jquery.imagesloaded.js" />" ></script>
