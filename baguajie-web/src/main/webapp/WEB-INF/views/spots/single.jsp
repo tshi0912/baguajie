@@ -19,6 +19,7 @@
 	<jsp:include page="/WEB-INF/views/comp/header.jsp">
 		<jsp:param name="tab" value="none"/>
 	</jsp:include>
+	<jsp:include page="/WEB-INF/views/comp/side.nav.jsp" />
 	<div class="main-wrapper mb-30">
 		<div class="main block-h-c content-wrapper row-fluid p-r">
 			<div class="span8 board">

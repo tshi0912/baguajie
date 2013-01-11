@@ -17,6 +17,7 @@
 	<jsp:include page="/WEB-INF/views/comp/header.jsp">
 		<jsp:param name="tab" value="apps"/>
 	</jsp:include>
+	<jsp:include page="/WEB-INF/views/comp/side.nav.jsp" />
 	<div id="water-fall-wrapper" class="main-wrapper">
 		<script type="text/javascript">
 			adjustWebWidth();

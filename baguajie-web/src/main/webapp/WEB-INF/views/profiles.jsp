@@ -21,6 +21,7 @@
 	<jsp:include page="/WEB-INF/views/comp/header.jsp">
 		<jsp:param name="tab" value="profiles"/>
 	</jsp:include>
+	<jsp:include page="/WEB-INF/views/comp/side.nav.jsp" />
 	<div id="water-fall-wrapper" class="main-wrapper">
 		<jsp:include page="/WEB-INF/views/comp/user.filter.bar.jsp" >
 			<jsp:param name="filters" value="${filters}"/>
