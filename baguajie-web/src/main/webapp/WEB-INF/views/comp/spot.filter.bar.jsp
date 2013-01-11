@@ -53,8 +53,8 @@
 	</div>
 	<div class="span2 view-t">
 		<div class="btn-group f-r" data-toggle="buttons-radio">
-			<button class="btn wf <c:if test="${param.viewType eq 'wf'}">active</c:if>" data-href="<c:url value="/" />" ><i class="icon-th"></i></button>
-			<button class="btn mv <c:if test="${param.viewType eq 'mv'}">active</c:if>" data-href="<c:url value="/map" />"><i class="icon-map-marker"></i></button>
+			<button class="btn wf <c:if test="${param.viewType eq 'wf'}">active</c:if>" data-href="<c:url value="/" />" data-original-title="瀑布布局" rel="tooltip" ><i class="icon-th"></i></button>
+			<button class="btn mv <c:if test="${param.viewType eq 'mv'}">active</c:if>" data-href="<c:url value="/map" />" data-original-title="地图布局" rel="tooltip"><i class="icon-map-marker"></i></button>
 		</div>
 	</div>
 </div>
@@ -94,5 +94,6 @@
 			var href = $(this).attr('data-href');
 			window.location.href= href;
 		});
+		$('[rel="tooltip"]').tooltip();
 	});
 </script>
