@@ -735,3 +735,12 @@ ul#side-nav .about a {
 ul#side-nav .search a {
 	background-image: url(../images/search.png);
 }
+
+/*** for back top link *********/
+#back-top{
+	position:fixed; 
+	right:5px; 
+	bottom:10px; 
+	_position:absolute; 
+	_top:expression(eval(documentElement.scrollTop+documentElement.clientHeight-this.clientHeight-30)+'px')
+}

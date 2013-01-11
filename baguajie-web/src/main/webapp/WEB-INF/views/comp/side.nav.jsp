@@ -10,6 +10,10 @@
 		/*$('#side-nav a').stop().animate({
 			'marginLeft' : '-85px'
 		}, 1000);*/
+		$('#side-nav').css('top', Math.max(100, ($(window).height()-$('#side-nav').height())/2));
+		$(window).resize(function(){
+			$('#side-nav').css('top', Math.max(100, ($(window).height()-$('#side-nav').height())/2));
+		});
 		$('#side-nav a').css('marginLeft', '-85px');
 		$('#side-nav').show();
 		$('#side-nav > li').hover(function() {
