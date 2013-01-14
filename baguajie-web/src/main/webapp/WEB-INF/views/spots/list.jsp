@@ -74,7 +74,7 @@
 			<c:forEach var="cmt" begin="0" end="5" items="${pin.cmts}">
 			<div class="cmt convo row-fluid">
 				<div class="f-l mr-5">
-					<a class="img" title="${cmt.createdBy.name}" data-original-title="用户信息"
+					<a class="img dis-b" title="${cmt.createdBy.name}" data-original-title="用户信息"
 						data-id="${cmt.createdBy.id}" data-type="namecard"
 						data-html="true" data-trigger="manual" data-toggle="popoverx"
 						href="<c:url value="/profiles/${cmt.createdBy.id}" />" >
