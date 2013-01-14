@@ -59,6 +59,18 @@
 			op.pin_bind_event($(this));
 		});
 		
+		$('#signInForm').bind('sign-in-success', function(e, pinyin, label){
+			$.get('<c:url value="/signin/writeconvo" />', function(data){
+				$('.pin').each(function(){
+					if($(this).has('.write.convo').length==0){
+						var wc = $(data).clone();
+						wc.find('input[name="actId"]').val($(this).attr('data-act-id'));
+						$(this).find('.caption + .convo').after(wc);
+					}
+				})
+			})
+		});
+		
 		var $wf = $('#water-fall');
 		
 		$wf.masonry({

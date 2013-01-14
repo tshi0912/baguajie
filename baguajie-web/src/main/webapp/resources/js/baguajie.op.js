@@ -20,19 +20,20 @@ var op = {
 	
 	update_signin_ts: function(ts){
 		$('#header-hiddens input[name="signin-ts"]').val(ts);
+		op._signin_ts = parseFloat(ts+'');
 	},
 	
-	check_signin: function(callback, unsigninhandler){
-		if(!this._signin_ts || this._signin_ts == -1){
+	check_signin: function(callback, unsigninhandler, force){
+		if(!force && (!this._signin_ts || this._signin_ts == -1)){
 			unsigninhandler? unsigninhandler() : this.redirect_to_signin();
 		}
-		if(this.calc_utctime(new Date()) - this._signin_ts 
-				< this._signin_timeout){
+		if(!force && (this.calc_utctime(new Date()) - this._signin_ts 
+				< this._signin_timeout)){
 			callback? callback(): null;
 		}else{
 			$.getJSON(web_context+'/checksignin', function(data){
 				if(data && data.resultCode == 'SUCCESS'){
-					this.update_signin_ts(data.resultData);
+					op.update_signin_ts(data.resultData);
 					callback? callback(): null;
 				}else{
 					unsigninhandler? unsigninhandler(): this.redirect_to_signin();
@@ -106,7 +107,9 @@ var op = {
 					op.notify_header('已追踪');
 				}
 			});
-		}, null);
+		}, function(){
+			$('#sign-in-modal').modal('show');
+		});
 	},
 	
 	detrack: function(dom){
@@ -141,7 +144,9 @@ var op = {
 				margin: true
 			  }
 			);
-		}, null);
+		}, function(){
+			$('#sign-in-modal').modal('show');
+		});
 	},
 	
 	show_comment: function(dom){
@@ -158,7 +163,9 @@ var op = {
 				margin: true
 			  }
 			);
-		}, null);
+		}, function(){
+			$('#sign-in-modal').modal('show');
+		});
 	},
 	
 	toggle_cmt_dashboard: function(dom){

@@ -20,7 +20,7 @@
 		</div>
 	</div>
 	<div class="modal-footer">
-		<input type="submit" class="btn btn-primary btn-large" value="登录"></input>
+		<input type="submit" class="btn btn-primary btn-large" value="登录" data-loading-text="登录中..."></input>
 	</div>
 	</form>
 </div>
@@ -46,7 +46,9 @@
 						if(statefulNav){
 							$('.navbar .nav.pull-right').replaceWith(statefulNav);
 						}
-					})
+					});
+					op.check_signin(function(){},function(){},true);
+					form.trigger('sign-in-success');
 				}
 			}
 		});

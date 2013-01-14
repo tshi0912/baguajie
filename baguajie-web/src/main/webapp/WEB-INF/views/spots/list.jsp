@@ -4,7 +4,7 @@
 <%@ taglib uri="http://baguajie.net/functions" prefix="f" %>
 <c:if test="${not empty pins}">
 <c:forEach var="pin" items="${pins}">
-<div class="thumbnail pin wft">
+<div class="thumbnail pin wft" data-act-id="${pin.actId}">
 	<div class="op-view p-r">
 		<c:choose>
 		<c:when test="${pin.imageHeight > 800}">
