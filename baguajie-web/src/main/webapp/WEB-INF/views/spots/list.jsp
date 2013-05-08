@@ -9,12 +9,12 @@
 		<c:choose>
 		<c:when test="${pin.imageHeight > 800}">
 			<a class="img long" href="<c:url value="/spots/${pin.spotId}" />">
-			<img alt="${pin.name}" width=192 height=${pin.imageHeight} src="${pin.imageUrl}">
+			<img alt="<c:out value="${pin.name}"/>" width=192 height=${pin.imageHeight} src="${pin.imageUrl}">
 			<span class="stop"></span></a>
 		</c:when>
 		<c:otherwise>
 			<a class="img" href="<c:url value="/spots/${pin.spotId}" />">
-			<img alt="${pin.name}" width=192 height=${pin.imageHeight} src="${pin.imageUrl}"></a>
+			<img alt="<c:out value="${pin.name}"/>" width=192 height=${pin.imageHeight} src="${pin.imageUrl}"></a>
 		</c:otherwise>
 		</c:choose>
 		<div class="op-list p-a dis-n " style="top:8px; right: 2px"><ul class="ls-n ta-r">
@@ -30,11 +30,11 @@
 		</ul></div>
 	</div>
 	<div class="caption">
-		<p><a href="#" data-id="${pin.placeId}" data-type="placemap" 
+		<p><a href="#" data-id="<c:out value="${pin.placeId}"/>" data-type="placemap" 
 			data-html="true" data-toggle="popoverx" data-original-title="详细地图"
 			data-city="${pin.city}" data-lngLat="${pin.lngLat[1]},${pin.lngLat[0]}">
 			<i class="icon-map-marker"></i>${pin.placeAddr}</a></p>
-		<h5>${pin.name}</h5>
+		<h5><c:out value="${pin.name}"/></h5>
 		<p>${pin.summary}</p>
 	</div>
 	<div class="convo clear">

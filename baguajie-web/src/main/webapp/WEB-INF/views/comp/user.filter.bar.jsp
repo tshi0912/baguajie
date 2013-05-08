@@ -16,7 +16,7 @@
 				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 					<span class="c-666">${filter.typeLabel}:</span>
 					<strong>${filter.label}</strong>
-					<input type="hidden" name="${filter.type}" value="${filter.value}"></input>
+					<input type="hidden" name="<c:out value="${filter.type}"/>" value="${filter.value}"></input>
 					<b class="caret"></b>
 				</a>
 				<jsp:include page="/WEB-INF/views/comp/city.picker.jsp">
@@ -29,7 +29,7 @@
 				<a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
 					<span class="c-666">${filter.typeLabel}:</span>
 					<strong>${filter.label}</strong>
-					<input type="hidden" name="${filter.type}" value="${filter.value}"></input>
+					<input type="hidden" name="<c:out value="${filter.type}"/>" value="${filter.value}"></input>
 					<b class="caret"></b>
 				</a>
 				<ul class="dropdown-menu">

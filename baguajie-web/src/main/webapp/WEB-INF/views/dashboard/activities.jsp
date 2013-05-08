@@ -47,8 +47,8 @@
 						<dd class="arrow bgcolor_arrow">
 							<em>◆</em><span>◆</span></dd>
 						<dt>
-							<a href="/profiles/${activity.targetSpot.createdBy.id}">@${activity.targetSpot.createdBy.name}</a>&nbsp;
-							<a href="/spots/${activity.targetSpot.id}">${activity.targetSpot.name} @ 
+							<a href="/profiles/<c:out value="${activity.targetSpot.createdBy.id}"/>">@${activity.targetSpot.createdBy.name}</a>&nbsp;
+							<a href="/spots/<c:out value="${activity.targetSpot.id}"/>">${activity.targetSpot.name} @ 
 								${activity.targetSpot.place.fullAddr}</a><br/>
 							<span>${activity.targetSpot.summary}</span>
 						</dt>

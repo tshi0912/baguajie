@@ -20,7 +20,7 @@
 	<jsp:include page="/WEB-INF/views/comp/side.nav.jsp" />
 	<div id="water-fall-wrapper" class="main-wrapper">
 		<jsp:include page="/WEB-INF/views/comp/spot.filter.bar.jsp" >
-			<jsp:param name="filters" value="${filters}"/>
+			<jsp:param name="filters" value="<c:out value="${filters}"/>"/>
 			<jsp:param name="viewType" value="mv"/>
 		</jsp:include>
 		<div id="map-view" class="board content-wrapper p-r" style="width: 1140px;">
