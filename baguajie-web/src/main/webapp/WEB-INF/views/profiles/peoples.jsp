@@ -7,7 +7,7 @@
 	<div class="op-view p-r">
 		<a class="img" <c:if test="${pin.avatarUnset}"> title="${f:thirdPerson(pin.gender)}还没有设置头像"</c:if> 
 			href="<c:url value="/profiles/${pin.userId}" />">
-			<img alt="${pin.name}" width=192 height=192 src="${pin.avatarUrl}"></a>
+			<img alt="<c:out value="${pin.name}"/>" width=192 height=192 src="${pin.avatarUrl}"></a>
 		<div class="op-list p-a dis-n " style="top:8px; right: 2px"><ul class="ls-n ta-r">
 			<li><a class="btn mb-5 btn-success follow" href="<c:url value="/ops/follow/${pin.userId}" />"
 				onclick="op.change_follow(event.currentTarget); event.preventDefault();">
@@ -17,7 +17,7 @@
 		</ul></div>
 	</div>
 	<div class="caption">
-		<h3><a href="<c:url value="/profiles/${pin.userId}"/>">${pin.name}</a></h3>
+		<h3><a href="<c:url value="/profiles/${pin.userId}"/>"><c:out value="${pin.name}"/></a></h3>
 		<p>${pin.summary}</p>
 		<p class="fs-13 c-888">
 			<a href="<c:url value="/profiles/${pin.userId}/spot" />">
@@ -25,7 +25,7 @@
 			<a href="<c:url value="/profiles/${pin.userId}/follow" />">
 				<span class="fw-b fs-18">${pin.followCount}</span></a>&nbsp;个关注,
 			<a href="<c:url value="/profiles/${pin.userId}/fan" />">
-				<span id="${pin.userId}-fans-idr" class="fw-b fs-18">${pin.fansCount}</span></a>&nbsp;个粉丝
+				<span id="<c:out value="${pin.userId}-fans-idr"/>" class="fw-b fs-18">${pin.fansCount}</span></a>&nbsp;个粉丝
 		</p>
 	</div>
 	<div class="convo row-fluid">

@@ -46,12 +46,12 @@
 				<div class="pl-30 pr-30 pb-20 p-r">
 					<a class="img" href="#">
 						<img class="block-h-c" width="${spot.image.orgSize[1]}" height="${spot.image.orgSize[0]}" 
-							src="${f:imageUrl(spot.image.resId)}" alt="${spot.name}"/>
+							src="${f:imageUrl(spot.image.resId)}" alt="<c:out value="${spot.name}"/>"/>
 					</a>
 				</div>
 				<div class="pl-30 pr-30 pb-20 p-r">
 					<c:if test="${not empty spot.name}">
-						<p class="fs-16 fw-b">${spot.name}</p>
+						<p class="fs-16 fw-b"><c:out value="${spot.name}"/></p>
 					</c:if>
 					<c:if test="${not empty spot.summary}">
 						<p class="fs-14">${spot.summary}</p>

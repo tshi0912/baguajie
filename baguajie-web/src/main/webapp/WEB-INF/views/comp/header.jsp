@@ -100,7 +100,7 @@
 		</div>
 	</div>
 	<ul id="header-hiddens" class="dis-n">
-		<li><input name="signin-ts" type="hidden" value="${requestScope.signin_ts}"/></li>
+		<li><input name="signin-ts" type="hidden" value="<c:out value="${requestScope.signin_ts}"/>"/></li>
 	</ul>	
 </div>
 <c:import url="/WEB-INF/views/modal/sign.in.jsp"/>

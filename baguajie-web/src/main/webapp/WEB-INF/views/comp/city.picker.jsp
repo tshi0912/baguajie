@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<div id="${param.domId}" class="city-picker dropdown-menu comp-container">
+<div id="<c:out value="${param.domId}"/>"class="city-picker dropdown-menu comp-container">
 	<h4 class="departures_title">从下列城市选择</h4>
 	<h5>热门城市</h5>
 	<a href="javascript:void(0);" title="quanguo">全国</a>
