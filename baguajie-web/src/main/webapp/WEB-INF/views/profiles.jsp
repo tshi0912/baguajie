@@ -25,7 +25,7 @@
 	<jsp:include page="/WEB-INF/views/comp/back.top.jsp" />
 	<div id="water-fall-wrapper" class="main-wrapper">
 		<jsp:include page="/WEB-INF/views/comp/user.filter.bar.jsp" >
-			<jsp:param name="filters" value="<c:out value="${filters}"/>"/>
+			<jsp:param name="filters" value="${filters}" />
 		</jsp:include>
 		<div id="water-fall" class="content-wrapper">
 			<c:import url="/profiles/search?${qStr}no=0"></c:import>
