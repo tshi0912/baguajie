@@ -83,7 +83,7 @@ public class DomainObjectUtil {
 			case SPOT:
 				html.append("&nbsp;添加了新八卦&nbsp;")
 					.append("<a>")
-					.append(activity.getTargetSpot().getName());
+					.append(escapeHtml(activity.getTargetSpot().getName()));
 				if(activity.getTargetSpot().getPlace()!=null){
 					html.append("@")
 						.append(activity.getTargetSpot().getPlace().getFullAddr());
@@ -93,7 +93,7 @@ public class DomainObjectUtil {
 			case TRACK:
 				html.append("&nbsp;追踪了&nbsp;")
 					.append("<a>")
-					.append(activity.getTargetSpot().getName());
+					.append(escapeHtml(activity.getTargetSpot().getName()));
 				if(activity.getTargetSpot().getPlace()!=null){
 					html.append("@")
 						.append(activity.getTargetSpot().getPlace().getFullAddr());
@@ -103,7 +103,7 @@ public class DomainObjectUtil {
 			case FORWARD:
 				html.append("&nbsp;转发了&nbsp;")
 					.append("<a>")
-					.append(activity.getTargetSpot().getName());
+					.append(escapeHtml(activity.getTargetSpot().getName()));
 				if(activity.getTargetSpot().getPlace()!=null){
 					html.append("@")
 						.append(activity.getTargetSpot().getPlace().getFullAddr());
@@ -114,7 +114,7 @@ public class DomainObjectUtil {
 				html.append("&nbsp;评论了&nbsp;");
 				if(activity.getTargetSpot()!=null){
 					html.append("<a>")
-						.append(activity.getTargetSpot().getName());
+						.append(escapeHtml(activity.getTargetSpot().getName()));
 					if(activity.getTargetSpot().getPlace()!=null){
 						html.append("@")
 							.append(activity.getTargetSpot().getPlace().getFullAddr());
@@ -122,7 +122,7 @@ public class DomainObjectUtil {
 					html.append("</a>");
 				}	
 					html.append("&nbsp;\"")
-						.append(activity.getContent())
+						.append(escapeHtml(activity.getContent()))
 						.append("\"");
 				break;
 			case FOLLOW:
@@ -139,6 +139,10 @@ public class DomainObjectUtil {
 				break;
 		}
 		return html.toString();
+	}
+	
+	private static String escapeHtml(String html){
+		return html.replace("<", "&lt;").replace(">", "&gt;");
 	}
 	
 }

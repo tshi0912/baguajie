@@ -13,7 +13,7 @@
 			<c:choose>
 				<c:when test="${activity.targetSpot!=null}">
 				<a class="img f-l w-60 h-60 of-h mr-10 mb-10"
-					title="${activity.targetSpot.name}" 
+					title="<c:out value="${activity.targetSpot.name}"/>" 
 					href="<c:url value="/spots/${activity.targetSpot.id}"/>" >
 					<img width=60 src="${f:imageUrl(activity.targetSpot.image.resId)}" />
 				</a>
