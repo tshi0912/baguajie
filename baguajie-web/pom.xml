@@ -12,10 +12,9 @@
 		<maven.test.failure.ignore>true</maven.test.failure.ignore>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- version properties -->
-		<spring.framework.version>3.1.1.RELEASE</spring.framework.version>
+		<spring.framework.version>3.2.4.RELEASE</spring.framework.version>
 		<spring.data.mongodb.version>1.0.1.RELEASE</spring.data.mongodb.version>
-		<spring.data.jpa.version>1.0.1.RELEASE</spring.data.jpa.version>
-		<cloudfoundry.runtime.version>0.8.1</cloudfoundry.runtime.version>
+		<mongo.java.driver.version>2.11.1</mongo.java.driver.version>
 		<slf4j.verison>1.6.4</slf4j.verison>
 	</properties>
 	<dependencies>
@@ -31,14 +30,49 @@
 			<version>${spring.framework.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.framework.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
 			<version>${spring.data.mongodb.version}</version>
 		</dependency> 
 		<dependency>
-			<groupId>org.cloudfoundry</groupId>
-			<artifactId>cloudfoundry-runtime</artifactId>
-			<version>${cloudfoundry.runtime.version}</version>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>${mongo.java.driver.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>

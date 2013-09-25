@@ -1,5 +1,5 @@
 /* web context variable setup */
-var web_context = '';
+var web_context = '/baguajie-web';
 
 
 /* init for jquery.pnotify */
@@ -14,5 +14,7 @@ $(function(){
 		$.pnotify.defaults.pnotify_sticker = false;
 		$.pnotify.defaults.pnotify_history = false;
 		$.pnotify.defaults.pnotify_addclass = 'baguajie';
+        $.pnotify.defaults.pnotify_min_height = '';
+
 	}
 });
