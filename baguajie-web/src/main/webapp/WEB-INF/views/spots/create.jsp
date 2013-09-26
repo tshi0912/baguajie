@@ -105,7 +105,7 @@
 	    $('#create-spot-form').ajaxForm({ 
 	        dataType:  'json', 
 	        beforeSubmit: function(formData, jqForm, options){
-	        	
+	        	formData.imageUrl = $('#spot-image').attr('src');
 	        },
 	        success:  function(data){
 	        	if(!data || data.resultCode != 'SUCCESS' ) return;

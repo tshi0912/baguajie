@@ -6,15 +6,15 @@ import java.io.Serializable;
 @SuppressWarnings("serial")
 public class ImageReadyVo implements Serializable {
 	
-	private Integer[] OrgSize;
+	private Integer[] orgSize;
 	private String ext;
 	private File file;
 	
 	public Integer[] getOrgSize() {
-		return OrgSize;
+		return orgSize;
 	}
 	public void setOrgSize(Integer[] orgSize) {
-		OrgSize = orgSize;
+		this.orgSize = orgSize;
 	}
 	public File getFile() {
 		return file;
@@ -27,5 +27,12 @@ public class ImageReadyVo implements Serializable {
 	}
 	public void setExt(String ext) {
 		this.ext = ext;
+	}
+	public String toString(){
+		StringBuilder sb = new StringBuilder()
+			.append("path="+(file != null ? file.getPath() : "[empty file]"))
+			.append("ext=" + ext)
+			.append("orgSize=" + orgSize);
+		return sb.toString();
 	}
 }

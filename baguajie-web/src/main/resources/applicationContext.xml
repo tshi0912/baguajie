@@ -14,24 +14,6 @@
 
     <context:property-placeholder location="classpath:/env.bae.properties"/>
 	
-	<!--beans profile="default">
-    	<mongo:mongo host="${mongo.host}" port="${mongo.port}">
-	  		<mongo:options
-			     connections-per-host="${mongo.connectionsPerHost}"
-			     threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"
-			     connect-timeout="${mongo.connectTimeout}"
-			     max-wait-time="${mongo.maxWaitTime}"
-			     auto-connect-retry="${mongo.autoConnectRetry}"
-			     socket-keep-alive="${mongo.socketKeepAlive}"
-			     socket-timeout="${mongo.socketTimeout}"
-			     slave-ok="${mongo.slaveOk}"
-			     write-number="1"
-			     write-timeout="0"
-			     write-fsync="true"/>
-			</mongo:mongo>
-		<mongo:db-factory dbname="baguajie" mongo-ref="mongo"/>
-	</beans -->
-	
 	    <bean id="userCredentials" class="org.springframework.data.authentication.UserCredentials">
     	    <constructor-arg name="username" value="${mongo.username}"/>
     	    <constructor-arg name="password" value="${mongo.password}"/>
@@ -43,6 +25,14 @@
         </bean>
         <bean id="mongoOptions" class="com.mongodb.MongoOptions">
     	    <property name="cursorFinalizerEnabled" value="${mongo.cursorFinalizerEnabled}"/>
+    	    <property name="connectionsPerHost" value="${mongo.connectionsPerHost}" />
+    	    <property name="threadsAllowedToBlockForConnectionMultiplier" value="${mongo.threadsAllowedToBlockForConnectionMultiplier}" />
+    	    <property name="maxWaitTime" value="${mongo.maxWaitTime}" />
+    	    <property name="connectTimeout" value="${mongo.connectTimeout}" />
+    	    <property name="socketTimeout" value="${mongo.socketTimeout}" />
+    	    <property name="autoConnectRetry" value="${mongo.autoConnectRetry}" />
+    	    <property name="maxAutoConnectRetryTime" value="${mongo.maxAutoConnectRetryTime}" />
+    	    <property name="socketKeepAlive" value="${mongo.socketKeepAlive}" />
         </bean>
         <bean id="mongoDbFactory" class="org.springframework.data.mongodb.core.SimpleMongoDbFactory">
         	<constructor-arg name="mongo" ref="mongo"/>
