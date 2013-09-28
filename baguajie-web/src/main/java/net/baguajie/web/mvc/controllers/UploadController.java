@@ -11,15 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.baguajie.constants.AjaxResultCode;
 import net.baguajie.constants.ApplicationConfig;
+import net.baguajie.domains.Resource;
+import net.baguajie.repositories.ResourceRepository;
+import net.baguajie.services.ImageService;
 import net.baguajie.vo.AjaxResult;
-import net.baguajie.web.utils.SessionUtil;
 import net.baguajie.web.utils.WebImageUtil;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -30,15 +30,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-public class UploadController implements ApplicationContextAware {
+public class UploadController {
 
 	private Logger logger = Logger.getLogger(UploadController.class);
 	
-	private ApplicationContext ac;
 	@Autowired
 	private WebImageUtil webImageUtil;
 	@Autowired
-	private SessionUtil sessionUtil;
+	private ResourceRepository resourceRepository;
+	@Autowired
+	private ImageService imageService;
 
 	@ModelAttribute("tempRepositories")
 	public String getImageRepositoriesPath() {
@@ -54,7 +55,6 @@ public class UploadController implements ApplicationContextAware {
 		String orgName = imageFile.getOriginalFilename();
 		String newName = new StringBuilder().append(System.currentTimeMillis())
 				.append(orgName.substring(orgName.lastIndexOf('.'))).toString();
-//		Resource res = ac.getResource(tempRepositories);
 		logger.info("orgName:" + orgName + ",newName:"+newName);
 		File file = webImageUtil.getTempFolder();
 		if(!file.exists()){
@@ -66,9 +66,16 @@ public class UploadController implements ApplicationContextAware {
 			logger.info("create a file " + file.getPath());
 		}
 		imageFile.transferTo(file);
-//		return ApplicationConfig.base + ApplicationConfig.uploadTempRefer + "/"
-//				+ newName;
-		return newName;
+		String resId = imageService.put(file);
+		logger.info("save the file as, get the resId:" + resId);
+		BufferedImage img = ImageIO.read(file);
+		Resource res = new Resource();
+		res.setOrgSize(new Integer[]{img.getHeight(), img.getWidth()});
+		res.setResId(resId);
+		res.setExt(FilenameUtils.getExtension(file.getName()));
+		resourceRepository.save(res);
+		logger.info("save the resource object: " + res);
+		return WebImageUtil.getImageUrl(resId);
 	}
 
 	@RequestMapping(value = "/avatar/upload", method = RequestMethod.POST)
@@ -131,18 +138,19 @@ public class UploadController implements ApplicationContextAware {
 				}
 				ImageIO.write(newImg, ext.substring(1), file);
 			}
-//			result.setResultData(ApplicationConfig.base
-//					+ ApplicationConfig.uploadTempRefer + "/" + newName);
-			result.setResultData(newName);
+			String resId = imageService.put(file);
+			logger.info("save the file as, get the resId:" + resId);
+			BufferedImage img = ImageIO.read(file);
+			Resource res = new Resource();
+			res.setOrgSize(new Integer[]{img.getHeight(), img.getWidth()});
+			res.setResId(resId);
+			res.setExt(FilenameUtils.getExtension(file.getName()));
+			resourceRepository.save(res);
+			logger.info("save the resource object: " + res);
+			result.setResultData(WebImageUtil.getAvatarUrl(resId));
 		}
 		response.setContentType("application/json;charset=UTF-8");
 		response.setHeader("Cache-Control", "no-cache");
 		return result;
-	}
-
-	@Override
-	public void setApplicationContext(ApplicationContext ac)
-			throws BeansException {
-		this.ac = ac;
 	}
 }

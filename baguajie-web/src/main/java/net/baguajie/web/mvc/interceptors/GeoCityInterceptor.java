@@ -32,6 +32,11 @@ public class GeoCityInterceptor extends HandlerInterceptorAdapter {
 				city = ApplicationConfig.defaultCityPinyin;
 			}
 			cityMeta = cityMetaRepository.getByPinyin(city);
+			if(cityMeta != null && cityMeta.getPinyin().equals(ApplicationConfig.defaultCityPinyin) &&
+					(cityMeta.getLngLat()==null || cityMeta.getLngLat().length==0)){
+				Double[] lngLat = new Double[]{118.270087125, 33.504408779};
+				cityMeta.setLngLat(lngLat);
+			}
 			session.setAttribute(ApplicationConstants.SESSION_SELECTED_CITY_META, 
 					cityMeta);
 		}

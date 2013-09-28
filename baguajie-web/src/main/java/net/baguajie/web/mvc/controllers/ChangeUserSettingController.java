@@ -1,16 +1,15 @@
 package net.baguajie.web.mvc.controllers;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import net.baguajie.constants.AjaxResultCode;
-import net.baguajie.constants.ApplicationConfig;
 import net.baguajie.constants.ApplicationConstants;
 import net.baguajie.constants.Gender;
 import net.baguajie.domains.Resource;
@@ -20,7 +19,6 @@ import net.baguajie.repositories.UserRepository;
 import net.baguajie.services.ImageService;
 import net.baguajie.vo.AjaxResult;
 import net.baguajie.vo.BindingErrors;
-import net.baguajie.vo.ImageReadyVo;
 import net.baguajie.vo.ValidationEngineError;
 import net.baguajie.vo.formbean.UserAvatarFormBean;
 import net.baguajie.vo.formbean.UserBasicInfoFormBean;
@@ -28,13 +26,9 @@ import net.baguajie.vo.formbean.UserPwdChangeFormBean;
 import net.baguajie.web.utils.SessionUtil;
 import net.baguajie.web.utils.WebImageUtil;
 
-import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -47,9 +41,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @SessionAttributes(ApplicationConstants.SESSION_SIGNIN_USER)
-public class ChangeUserSettingController implements ApplicationContextAware {
+public class ChangeUserSettingController {
 
-	private ApplicationContext ac;
 	private Logger logger = LoggerFactory
 			.getLogger(ChangeUserSettingController.class);
 	@Autowired
@@ -60,6 +53,8 @@ public class ChangeUserSettingController implements ApplicationContextAware {
 	private ImageService imageService;
 	@Autowired
 	private ResourceRepository resourceRepository;
+	@Autowired
+	private WebImageUtil webImageUtil;
 
 	@RequestMapping(value = "/setting", method = RequestMethod.GET)
 	public String setting(Model model, HttpSession session) {
@@ -168,33 +163,27 @@ public class ChangeUserSettingController implements ApplicationContextAware {
 					BindingErrors.from(result));
 		}
 		try {
-			int idx = formBean.getImageUrl().lastIndexOf("/");
-			org.springframework.core.io.Resource resource = ac
-					.getResource(ApplicationConfig.uploadTempRepository + "/"
-							+ formBean.getImageUrl().substring(idx + 1));
-			File file = resource.getFile();
-			String ext = null;
-			if (file != null && ext == null) {
-				ext = FilenameUtils.getExtension(file.getName());
+			// get image from GridFS
+			String[] tokens = formBean.getImageUrl().split("/");
+			Resource res = resourceRepository.getByResId(tokens[tokens.length-1]);
+			if(res == null){
+				return new AjaxResult(AjaxResultCode.INVALID,
+						"resource " + formBean.getImageUrl() + " is invalid.");
 			}
-			BufferedImage orgImg = ImageIO.read(file);
-			// save original avatar file
-			String resId = imageService.put(file);
-			Resource res = new Resource();
-			res.setOrgSize(new Integer[]{ orgImg.getHeight(), orgImg.getWidth() });
-			res.setResId(resId);
-			res.setExt(ext);
-			resourceRepository.save(res);
+			File org = webImageUtil.getFile((new Date()).getTime()+"."+res.getExt());
+			org.createNewFile();
+			imageService.get(res.getResId(), new FileOutputStream(org));
+			BufferedImage orgImg = ImageIO.read(org);
 			signInUser.setAvatarOrg(res);
 			// save avatar file
 			BufferedImage avatarImg = orgImg.getSubimage(formBean.getX(),
 					formBean.getY(), formBean.getW(), formBean.getH());
-			ImageIO.write(avatarImg, ext, file);
-			resId = imageService.put(file);
+			ImageIO.write(avatarImg, res.getExt(), org);
+			String resId = imageService.put(org);
 			res = new Resource();
 			res.setOrgSize(new Integer[] { avatarImg.getHeight(), avatarImg.getWidth() });
 			res.setResId(resId);
-			res.setExt(ext);
+			res.setExt(res.getExt());
 			resourceRepository.save(res);
 			signInUser.setAvatar(res);
 			userRepository.save(signInUser);
@@ -204,9 +193,4 @@ public class ChangeUserSettingController implements ApplicationContextAware {
 		return new AjaxResult(AjaxResultCode.SUCCESS);
 	}
 
-	@Override
-	public void setApplicationContext(ApplicationContext ac)
-			throws BeansException {
-		this.ac = ac;
-	}
 }
