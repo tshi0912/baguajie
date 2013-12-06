@@ -15,7 +15,6 @@
 		<spring.framework.version>3.1.1.RELEASE</spring.framework.version>
 		<spring.data.mongodb.version>1.0.1.RELEASE</spring.data.mongodb.version>
 		<spring.data.jpa.version>1.0.1.RELEASE</spring.data.jpa.version>
-		<cloudfoundry.runtime.version>0.8.1</cloudfoundry.runtime.version>
 		<slf4j.verison>1.6.4</slf4j.verison>
 	</properties>
 	<dependencies>
@@ -35,11 +34,6 @@
 			<artifactId>spring-data-mongodb</artifactId>
 			<version>${spring.data.mongodb.version}</version>
 		</dependency> 
-		<dependency>
-			<groupId>org.cloudfoundry</groupId>
-			<artifactId>cloudfoundry-runtime</artifactId>
-			<version>${cloudfoundry.runtime.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>

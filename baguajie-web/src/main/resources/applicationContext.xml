@@ -5,7 +5,6 @@
     xmlns:jpa="http://www.springframework.org/schema/data/jpa"
     xmlns:mongo="http://www.springframework.org/schema/data/mongo"
     xmlns:context="http://www.springframework.org/schema/context"
-    xmlns:cloud="http://schema.cloudfoundry.org/spring"
 	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
@@ -14,54 +13,41 @@
         http://www.springframework.org/schema/data/mongo
         http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
         http://www.springframework.org/schema/context 
-        http://www.springframework.org/schema/context/spring-context.xsd
-        http://schema.cloudfoundry.org/spring
-        http://schema.cloudfoundry.org/spring/cloudfoundry-spring.xsd">
+        http://www.springframework.org/schema/context/spring-context.xsd">
 
     <context:property-placeholder location="classpath:/mongo.properties"/>
 	
-	<beans profile="default">
-    	<mongo:mongo host="${mongo.host}" port="${mongo.port}">
-	  		<mongo:options
-			     connections-per-host="${mongo.connectionsPerHost}"
-			     threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"
-			     connect-timeout="${mongo.connectTimeout}"
-			     max-wait-time="${mongo.maxWaitTime}"
-			     auto-connect-retry="${mongo.autoConnectRetry}"
-			     socket-keep-alive="${mongo.socketKeepAlive}"
-			     socket-timeout="${mongo.socketTimeout}"
-			     slave-ok="${mongo.slaveOk}"
-			     write-number="1"
-			     write-timeout="0"
-			     write-fsync="true"/>
-			</mongo:mongo>
-		<mongo:db-factory dbname="baguajie" mongo-ref="mongo"/>
-	</beans>
+   	<mongo:mongo host="${mongo.host}" port="${mongo.port}">
+  		<mongo:options
+		     connections-per-host="${mongo.connectionsPerHost}"
+		     threads-allowed-to-block-for-connection-multiplier="${mongo.threadsAllowedToBlockForConnectionMultiplier}"
+		     connect-timeout="${mongo.connectTimeout}"
+		     max-wait-time="${mongo.maxWaitTime}"
+		     auto-connect-retry="${mongo.autoConnectRetry}"
+		     socket-keep-alive="${mongo.socketKeepAlive}"
+		     socket-timeout="${mongo.socketTimeout}"
+		     slave-ok="${mongo.slaveOk}"
+		     write-number="1"
+		     write-timeout="0"
+		     write-fsync="true"/>
+		</mongo:mongo>
+	<mongo:db-factory dbname="baguajie" mongo-ref="mongo"/>
 	
-	<beans profile="cloud">
-    	<cloud:mongo-db-factory id="mongoDbFactory" write-concern="FSYNC_SAFE">
-    		<cloud:mongo-options connections-per-host="12" max-wait-time="2000" />
-    	</cloud:mongo-db-factory>
-    	<cloud:service-scan />
-    </beans>
-	
-	<beans profile="default, cloud">
-		<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
-		  <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
-		  <property name="writeResultChecking" value="EXCEPTION" />
-		</bean>
-		<mongo:mapping-converter id="converter" db-factory-ref="mongoDbFactory" />
-        <bean class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
-          <constructor-arg ref="mongoDbFactory" />
-		  <constructor-arg ref="converter" />
-        </bean>
-		<context:component-scan base-package="net.baguajie" />
-		<mongo:repositories base-package="net.baguajie.repositories"  
-			factory-class="net.baguajie.repositories.AtomicOperationsRepositoryFactoryBean"/>
-		<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
-		<bean class="org.springframework.data.mongodb.core.mapping.event.LoggingEventListener"/>
-		<!-- import resource="applicationContext-flex.xml" /-->
-		<import resource="applicationContext-mvc.xml" />
-	</beans>
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+	  <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
+	  <property name="writeResultChecking" value="EXCEPTION" />
+	</bean>
+	<mongo:mapping-converter id="converter" db-factory-ref="mongoDbFactory" />
+       <bean class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
+         <constructor-arg ref="mongoDbFactory" />
+	  <constructor-arg ref="converter" />
+       </bean>
+	<context:component-scan base-package="net.baguajie" />
+	<mongo:repositories base-package="net.baguajie.repositories"  
+		factory-class="net.baguajie.repositories.AtomicOperationsRepositoryFactoryBean"/>
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+	<bean class="org.springframework.data.mongodb.core.mapping.event.LoggingEventListener"/>
+	<!-- import resource="applicationContext-flex.xml" /-->
+	<import resource="applicationContext-mvc.xml" />
 	
 </beans>
